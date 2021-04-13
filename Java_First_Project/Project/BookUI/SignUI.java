@@ -45,7 +45,7 @@ public class SignUI extends JDialog{
 	//Method
 	public void init() {		
 		
-		setBounds(100, 100, 500, 651);
+		setBounds(100, 100, 500, 700);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -101,8 +101,9 @@ public class SignUI extends JDialog{
 		sign_panel.add(check_sign_pass_tf);
 		
 		JButton check_id_btn = new JButton("중복확인");
-		check_id_btn.setForeground(SystemColor.textHighlight);
+		check_id_btn.setForeground(Color.PINK);
 		check_id_btn.setBackground(Color.WHITE);
+		check_id_btn.setBorder(BorderFactory.createLineBorder(null));
 		check_id_btn.setBounds(340, 94, 125, 43);
 		sign_panel.add(check_id_btn);
 		
@@ -133,7 +134,9 @@ public class SignUI extends JDialog{
 		adrr_tf.setBounds(63, 523, 265, 43);
 		sign_panel.add(adrr_tf);
 		
-		JButton send_btn_1 = new JButton("New button");
+		JButton send_btn_1 = new JButton("회원가입");
+		send_btn_1.setForeground(Color.WHITE);
+		send_btn_1.setBackground(Color.PINK);
 		//회원가입 전송버튼 액션
 		send_btn_1.addActionListener(new ActionListener() {
 			@Override
@@ -142,7 +145,7 @@ public class SignUI extends JDialog{
 				dispose();
 			}
 		});
-		send_btn_1.setBounds(0, 576, 488, 30);
+		send_btn_1.setBounds(0, 576, 488, 50);
 		sign_panel.add(send_btn_1);
 		
 		/** 폰트 설정 **/
