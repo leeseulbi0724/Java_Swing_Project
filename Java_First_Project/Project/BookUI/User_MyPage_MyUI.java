@@ -21,9 +21,10 @@ import JTableButton.JTableButtonEditor;
 import JTableButton.JTableButtonRenderer;
 
 public class User_MyPage_MyUI implements ActionListener {
+private static final String Clients = null;
 User_MyPageUI main;
 JButton btn_delete;
-Object row[];
+JTable board_table;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
 		this.main = main;
@@ -55,7 +56,7 @@ Object row[];
 				
 		center_panel.add(scrollPane, BorderLayout.CENTER);
 		
-		JTable board_table = new JTable(model);
+		board_table = new JTable(model);
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);		
 		board_pane.setEnabled(false);
@@ -91,8 +92,8 @@ Object row[];
 		
 		JTableHeader head = board_table.getTableHeader();
 		head.setBackground(new Color(255,192,203));
-		head.setForeground(new Color(255,255,255));
-		
+		head.setForeground(new Color(255,255,255));		
+	
 	}
 
 
@@ -100,7 +101,7 @@ Object row[];
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btn_delete)) {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제하시겠습니까? "));
+			
 		}
 		
 		
