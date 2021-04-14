@@ -19,7 +19,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import BookDAO.BookListDAO;
+import BookDAO.DBConn;
 
 public class User_BookListSearchUI {
 
@@ -28,7 +28,7 @@ public class User_BookListSearchUI {
 	JLabel lblNewLabel;
 	JTextField search_tf;
 	User_MainUI main;
-	BookListDAO booklist;
+	DBConn booklist;
 	JPanel tablePanel;
 	JTable table;
 
@@ -41,8 +41,8 @@ public class User_BookListSearchUI {
 
 	
 	public void init() {
-		booklist = new BookListDAO();
-		String[][] data = booklist.getBookList();
+		booklist = new DBConn();
+//		String[][] data = booklist.getBookList();
 		String[] header = new String[] {"ISBN","이름","저자","출판사"};
 		
 		bookViewPanel = new JPanel();
@@ -66,7 +66,7 @@ public class User_BookListSearchUI {
 		tablePanel.setBounds(0, 88, 804, 343);
 		bookViewPanel.add(tablePanel);
 		
-		table = new JTable(data,header);
+//		table = new JTable(data,header);
 		table.setBounds(31, 319, 743, 300);
 		table.setRowHeight(30);
 		table.setPreferredScrollableViewportSize(new Dimension(700,250));

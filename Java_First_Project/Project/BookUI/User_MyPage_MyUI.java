@@ -21,9 +21,8 @@ import JTableButton.JTableButtonEditor;
 import JTableButton.JTableButtonRenderer;
 
 public class User_MyPage_MyUI implements ActionListener {
-private static final String Clients = null;
 User_MyPageUI main;
-JButton btn_delete;
+public JButton btn_delete;
 JTable board_table;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
@@ -65,7 +64,7 @@ JTable board_table;
 		box.setHorizontalAlignment(JLabel.CENTER);
 		
 		JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
-        JTableButtonEditor buttonEditor = new JTableButtonEditor();
+        JTableButtonEditor buttonEditor = new JTableButtonEditor(User_MyPage_MyUI.this);
         board_table.getColumn("Button").setCellRenderer(buttonRenderer);
         board_table.getColumn("Button").setCellEditor(buttonEditor);
 		
