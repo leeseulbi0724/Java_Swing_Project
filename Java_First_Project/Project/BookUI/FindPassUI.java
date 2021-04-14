@@ -99,6 +99,8 @@ public class FindPassUI extends JDialog{
 		find_panel.add(sign_phone_tf);
 		
 		JButton find_btn_1 = new JButton("비밀번호 찾기");
+		find_btn_1.setForeground(Color.WHITE);
+		find_btn_1.setBackground(Color.PINK);
 		find_btn_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -133,7 +135,7 @@ public class FindPassUI extends JDialog{
 		
 		JButton temp_check_btn = new JButton("확인");
 		temp_check_btn.setForeground(Color.WHITE);
-		temp_check_btn.setBackground(SystemColor.textHighlight);
+		temp_check_btn.setBackground(Color.PINK);
 		temp_check_btn.setBounds(131, 312, 220, 45);
 		temp_panel.add(temp_check_btn);
 		//임시비밀번호창 확인 버튼 액션

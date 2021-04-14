@@ -34,6 +34,7 @@ public class User_BookReviewUI extends JDialog{
 		getContentPane().setBackground(Color.WHITE);
 		setLayout(null);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		
 		JLabel book1img = new JLabel();
 		book1img.setBackground(Color.WHITE);
@@ -41,7 +42,7 @@ public class User_BookReviewUI extends JDialog{
 		book1img.setBounds(12, 10, 103, 151);
 		add(book1img);
 		
-		JLabel starLabel = new JLabel("\uBCC4\uC810");
+		JLabel starLabel = new JLabel("별점");
 		starLabel.setBounds(150, 26, 115, 42);
 		add(starLabel);
 		
@@ -51,7 +52,7 @@ public class User_BookReviewUI extends JDialog{
 		add(reviewContent_ta);
 		reviewContent_ta.setEnabled(false);
 		
-		JButton buy_btn = new JButton("\uAD6C\uB9E4\uD558\uAE30");
+		JButton buy_btn = new JButton("구매하기");
 		buy_btn.setForeground(Color.WHITE);
 		buy_btn.setBackground(Color.PINK);
 		buy_btn.setBounds(188, 171, 180, 30);

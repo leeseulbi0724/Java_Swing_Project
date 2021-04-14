@@ -41,35 +41,45 @@ public class User_BookListSearchUI {
 
 	
 	public void init() {
+
 		booklist = new DBConn();
+//		String[][] data = booklist.getBookList();
+
+		main.switching(User_MainUI.BOOKLIST);	
+		
+//		booklist = new BookListDAO();
 //		String[][] data = booklist.getBookList();
 		String[] header = new String[] {"ISBN","이름","저자","출판사"};
 		
 		bookViewPanel = new JPanel();
 		bookViewPanel.setBackground(Color.WHITE);
-		bookViewPanel.setBounds(0, 109, 804, 431);
+		bookViewPanel.setBounds(133, 10, 531, 341);
 		f.getContentPane().add(bookViewPanel);
 		bookViewPanel.setLayout(null);
 		
-		lblNewLabel = new JLabel("\uAC80\uC0C9");
+		lblNewLabel = new JLabel("검색");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(85, 10, 172, 39);
+		lblNewLabel.setBounds(47, 10, 79, 30);
 		bookViewPanel.add(lblNewLabel);
 		
 		search_tf = new JTextField();
 		search_tf.setBackground(Color.WHITE);
-		search_tf.setBounds(269, 10, 347, 39);
+		search_tf.setBounds(161, 10, 232, 30);
 		bookViewPanel.add(search_tf);
 		search_tf.setColumns(10);
 		
 		tablePanel = new JPanel();
-		tablePanel.setBounds(0, 88, 804, 343);
+		tablePanel.setBounds(47, 78, 431, 223);
 		bookViewPanel.add(tablePanel);
 		
+
 //		table = new JTable(data,header);
 		table.setBounds(31, 319, 743, 300);
+
+//		table = new JTable(data,header);
+		table.setBounds(47, 78, 431, 223);
 		table.setRowHeight(30);
-		table.setPreferredScrollableViewportSize(new Dimension(700,250));
+		table.setPreferredScrollableViewportSize(new Dimension(400,400));
 		tablePanel.add(new JScrollPane(table));
 		tablePanel.setOpaque(false);
 		
@@ -87,6 +97,10 @@ public class User_BookListSearchUI {
 				trs.setRowFilter(RowFilter.regexFilter(search));
 			}
 		});
+		
+		bookViewPanel.setVisible(true);
+		main.mainPanel.add(bookViewPanel);
+		
 		
 		}
 }
