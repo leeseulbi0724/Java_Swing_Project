@@ -30,9 +30,6 @@ JTable board_table;
 ArrayList<Object> list = new ArrayList<Object>();
 DefaultTableModel model;
 
-	public User_MyPage_MyUI() {
-		
-	}
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
 		super();		
