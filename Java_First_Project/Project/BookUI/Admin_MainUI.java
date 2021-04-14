@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import BookSystem.BookSystem;
 import Commons.Commons;
 
 public class Admin_MainUI  implements ActionListener {
@@ -27,6 +28,7 @@ public class Admin_MainUI  implements ActionListener {
 	JPanel btn_panel, top_panel, content_panel;
 	JButton btn_delete, btn_insert, btn_user_select, btn_board, btn_logout, btn_home;
 	JScrollPane scrollPane;
+	BookSystem system = new BookSystem();
 	
 	public static final int home = 0;
 	public static final int Insert = 1;
@@ -105,8 +107,7 @@ public class Admin_MainUI  implements ActionListener {
 		
 		content_panel.setVisible(true);
 		frame.getContentPane().add(content_panel);
-		frame.getContentPane().setBackground(new Color(255, 245, 238));
-		
+		frame.getContentPane().setBackground(new Color(255, 245, 238));		
 		
 		/** 버튼 이벤트 처리 **/		
 		btn_delete.addActionListener(this);
@@ -114,8 +115,7 @@ public class Admin_MainUI  implements ActionListener {
 		btn_insert.addActionListener(this);
 		btn_user_select.addActionListener(this);
 		btn_board.addActionListener(this);		
-		btn_home.addActionListener(this);
-		
+		btn_home.addActionListener(this);		
 		
 				
 		/** 폰트 설정 (쓰실때 주석처리하시거나 본인 폰트로 설정하시면 됩니다! )**/

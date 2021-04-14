@@ -9,10 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -22,9 +24,11 @@ public class Admin_InsertUI implements ActionListener {
 	Admin_MainUI main;
 	JButton book_insert, book_reset;
 	JTextField number_tf, name_tf, author_tf, pblsh_tf, date_tf, price_tf;
+	BookSystem system;
 
 
 	public Admin_InsertUI(Admin_MainUI main) {
+		this.system = main.system;
 		this.main = main;
 		this.frame = main.frame;
 		init();
@@ -32,6 +36,7 @@ public class Admin_InsertUI implements ActionListener {
 
 	private void init() {
 		main.switching(Admin_MainUI.Insert);
+		
 		JPanel content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.activeCaption);
 		content_panel.setBounds(192, 98, 535, 331);
@@ -55,8 +60,8 @@ public class Admin_InsertUI implements ActionListener {
 		JLabel price_lb = new JLabel("도서가격");
 		
 		number_lb.setBounds(135, 46, 75, 15);
-		name_lb.setBounds(135, 71, 75, 15);
-		author_lb.setBounds(135, 97, 75, 15);
+		name_lb.setBounds(135, 72, 75, 15);
+		author_lb.setBounds(135, 98, 75, 15);
 		pblsh_lb.setBounds(135, 124, 75, 15);
 		date_lb.setBounds(135, 150, 75, 15);
 		price_lb.setBounds(135, 176, 75, 15);
@@ -68,7 +73,7 @@ public class Admin_InsertUI implements ActionListener {
 		date_tf = new JTextField(15);
 		price_tf = new JTextField(15);
 		
-		number_tf.setBounds(222, 43, 171, 21);
+		number_tf.setBounds(222, 42, 171, 21);
 		name_tf.setBounds(222, 68, 171, 21);
 		author_tf.setBounds(222, 94, 171, 21);
 		pblsh_tf.setBounds(222, 121, 171, 21);
@@ -97,6 +102,7 @@ public class Admin_InsertUI implements ActionListener {
 		book_reset.setBounds(294, 240, 75, 23);
 		center_panel.add(book_reset);				
 		
+		number_tf.requestFocus();
 		
 		/** 버튼 이벤트 처리 **/
 		book_insert.addActionListener(this);
@@ -122,22 +128,63 @@ public class Admin_InsertUI implements ActionListener {
 		
 		
 	}
-
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if (obj.equals(book_insert)) {
+		if (obj == book_insert) {
+			insert_proc();
+		} else if (obj == book_reset) {
+			reset_proc();
+		}
+	}	
+	
+	public void insert_proc() {
+		if (form_check()) {
 			BookVO vo = new BookVO();
-			vo.setBno(number_tf.getText());
+			vo.setBno(Integer.parseInt(number_tf.getText()));
 			vo.setBookname(name_tf.getText());
 			vo.setAuthor(author_tf.getText());
 			vo.setPblsh(pblsh_tf.getText());
 			vo.setPblshdate(date_tf.getText());
-			vo.setPrice(Integer.parseInt(price_tf.getText()));
+			vo.setPrice(Integer.parseInt(price_tf.getText()));			
+			if (system.Admin_Insert(vo)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("등록이 완료되었습니다"));
+				reset_proc();
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("등록이 실패되었습니다"));
+			}	
 		}
-		
-		
+	}
+	
+	public void reset_proc() {
+		number_tf.setText("");
+		name_tf.setText("");
+		author_tf.setText("");
+		pblsh_tf.setText("");
+		date_tf.setText("");
+		price_tf.setText("");
+		number_tf.requestFocus();
+	}
+	
+	public boolean form_check() {
+		boolean result = false;
+		if (number_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("도서번호를 입력해주세요"));
+		} else if (name_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("도서명을 입력해주세요"));
+		} else if (author_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("저자를 입력해주세요"));
+		} else if (pblsh_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("출판사를 입력해주세요"));
+		} else if (date_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("출판일을 입력해주세요"));
+		} else if (price_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("도서가격을 입력해주세요"));
+		} else {
+			result = true;
+		}					
+		return result;
 	}
 
 }

@@ -3,12 +3,14 @@ package BookVO;
 public class BookVO {
 	
 	// 도서번호, 도서명, 저자, 출판사, 가격, 출판일자
-	String bno, bookname, author, pblsh, pblshdate;
-	int price;
-	public String getBno() {
+	String bookname, author, pblsh, pblshdate;
+	int bno, price;
+	
+	
+	public int getBno() {
 		return bno;
 	}
-	public void setBno(String bno) {
+	public void setBno(int bno) {
 		this.bno = bno;
 	}
 	public String getBookname() {
