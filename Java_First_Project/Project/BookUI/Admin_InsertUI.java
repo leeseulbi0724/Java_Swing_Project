@@ -2,8 +2,9 @@ package BookUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,12 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookVO.BookVO;
 import Commons.Commons;
 
-public class Admin_InsertUI {
+public class Admin_InsertUI implements ActionListener {
 
 	JFrame frame;
 	Admin_MainUI main;
+	JButton book_insert, book_reset;
+	JTextField number_tf, name_tf, author_tf, pblsh_tf, date_tf, price_tf;
 
 
 	public Admin_InsertUI(Admin_MainUI main) {
@@ -57,12 +61,12 @@ public class Admin_InsertUI {
 		date_lb.setBounds(135, 150, 75, 15);
 		price_lb.setBounds(135, 176, 75, 15);
 		
-		JTextField number_tf = new JTextField(15);
-		JTextField name_tf = new JTextField(15);
-		JTextField author_tf = new JTextField(15);
-		JTextField pblsh_tf = new JTextField(15);
-		JTextField date_tf = new JTextField(15);
-		JTextField price_tf = new JTextField(15);
+		number_tf = new JTextField(15);
+		name_tf = new JTextField(15);
+		author_tf = new JTextField(15);
+		pblsh_tf = new JTextField(15);
+		date_tf = new JTextField(15);
+		price_tf = new JTextField(15);
 		
 		number_tf.setBounds(222, 43, 171, 21);
 		name_tf.setBounds(222, 68, 171, 21);
@@ -85,13 +89,18 @@ public class Admin_InsertUI {
 		center_panel.add(date_tf);				center_panel.add(date_lb);		
 		center_panel.add(price_tf);			center_panel.add(price_lb);
 		
-		JButton book_insert = new JButton("등록");
+		book_insert = new JButton("등록");
 		book_insert.setBounds(196, 240, 75, 23);
 		center_panel.add(book_insert);
 		
-		JButton book_reset = new JButton("취소");
+		book_reset = new JButton("취소");
 		book_reset.setBounds(294, 240, 75, 23);
 		center_panel.add(book_reset);				
+		
+		
+		/** 버튼 이벤트 처리 **/
+		book_insert.addActionListener(this);
+		book_reset.addActionListener(this);
 		
 		
 		/** 폰트 설정 (쓰실때 주석처리하시거나 본인 폰트로 설정하시면 됩니다! )**/
@@ -110,6 +119,23 @@ public class Admin_InsertUI {
 		book_insert.setFont(Commons.getFont());
 		book_reset.setFont(Commons.getFont());
 		Label.setFont(Commons.getFont());
+		
+		
+	}
+
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if (obj.equals(book_insert)) {
+			BookVO vo = new BookVO();
+			vo.setBno(number_tf.getText());
+			vo.setBookname(name_tf.getText());
+			vo.setAuthor(author_tf.getText());
+			vo.setPblsh(pblsh_tf.getText());
+			vo.setPblshdate(date_tf.getText());
+			vo.setPrice(Integer.parseInt(price_tf.getText()));
+		}
 		
 		
 	}

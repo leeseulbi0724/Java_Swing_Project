@@ -96,8 +96,6 @@ DefaultTableModel model;
 		main.content_panel.add(btn_search);
 		btn_search.setBackground(Color.WHITE);
 		
-//		btn_delete.addActionListener(this);
-		
 		/** 폰트설정 **/
 		board_table.setFont(Commons.getFont());
 		checkbox_board.setFont(Commons.getFont());
@@ -110,11 +108,11 @@ DefaultTableModel model;
 	
 	}
 
+	// 테이블에 버튼넣고 버튼 이벤트처리
 	class ButtonRenderer extends JButton implements TableCellRenderer {
 		 public ButtonRenderer() {
 		  setOpaque(true);
-	}
-		 
+		 }		 
 		 @Override
 		 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
 			int col) {
@@ -122,37 +120,30 @@ DefaultTableModel model;
 			  	return this;
 			 }
 		}
-
 		class ButtonEditor extends DefaultCellEditor { 
-
 		JButton btn_delete;
 		String lbl;
 		 Boolean clicked;
 
 		 public ButtonEditor(JTextField txt) {
-		  super(txt);
-		  btn_delete = new JButton();
-		  btn_delete.setOpaque(true);
-		  btn_delete.addActionListener(new ActionListener() {
-			  @Override
-			  public void actionPerformed(ActionEvent e) {
-			   fireEditingStopped();
-			  }
-		  });
-
+			  super(txt);
+			  btn_delete = new JButton();
+			  btn_delete.setOpaque(true);
+			  btn_delete.addActionListener(new ActionListener() {
+				  @Override
+				  public void actionPerformed(ActionEvent e) {
+				   fireEditingStopped();
+				  }
+			  });
 		 }
-
 		 @Override
 		 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
 			  lbl = (obj == null) ? "" : obj.toString();
 			  btn_delete.setText(lbl);
 			  clicked = true;
 			  return btn_delete;
-
 		 }
-
 		 @Override
-
 		 public Object getCellEditorValue() {
 		  if (clicked) {
 			 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
@@ -163,21 +154,16 @@ DefaultTableModel model;
 		  }
 		  clicked = false;
 		  return new String(lbl);
-
 		 }
-
 		 @Override
 		 public boolean stopCellEditing() {
-		  clicked = false;
-		  return super.stopCellEditing();
+			  clicked = false;
+			  return super.stopCellEditing();
 		 }
-
 		 @Override
 		 public void fireEditingStopped() {
 			 super.fireEditingStopped();
 		 }
 
-		}
-
-
+	}
 }
