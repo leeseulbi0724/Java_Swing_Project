@@ -1,24 +1,25 @@
 package BookUI;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import Commons.Commons;
 
-public class User_WriteUI {
+public class User_WriteUI implements ActionListener {
 
 	User_MainUI main;
 	JPanel content_panel;
-
+	JButton btn_reset, btn_write;
 	
 	public User_WriteUI(User_MainUI main) {
 		this.main = main;
@@ -29,15 +30,14 @@ public class User_WriteUI {
 	public void init() {
 		
 		content_panel = new JPanel();
-		content_panel.setBackground(SystemColor.info);
+		content_panel.setBackground(new Color(211, 211, 211));
 		content_panel.setBounds(133, 10, 531, 341);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		main.mainPanel.setVisible(true);
 		main.mainPanel.add(content_panel);
 		
 		JLabel Label = new JLabel(" 게 시 판 글 쓰 기 ");
-		Label.setBackground(Color.GRAY);
-		Label.setFont(new Font("굴림", Font.BOLD, 20));
+		Label.setForeground(Color.WHITE);
 		Label.setHorizontalAlignment(SwingConstants.CENTER);
 		content_panel.add(Label, BorderLayout.NORTH);
 
@@ -65,13 +65,36 @@ public class User_WriteUI {
 		write_panel.add(label_content);			
 		write_panel.add(content_tf);		
 
-		JButton btn_write = new JButton("글쓰기");
+		btn_write = new JButton("작성");
 		btn_write.setBounds(153, 260, 75, 23);
 		write_panel.add(btn_write);
 		
-		JButton btn_reset = new JButton("취소");
+		btn_reset = new JButton("취소");
 		btn_reset.setBounds(324, 260, 75, 23);
 		write_panel.add(btn_reset);
+		
+		btn_reset.addActionListener(this);
+		
+		/** 폰트설정 **/
+		label_title.setFont(Commons.getFont());
+		label_content.setFont(Commons.getFont());
+		btn_write.setFont(Commons.getFont());
+		btn_reset.setFont(Commons.getFont());
+		title_tf.setFont(Commons.getFont());
+		content_tf.setFont(Commons.getFont());
+		Label.setFont(Commons.getFont(20));
+		
+		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if (obj.equals(btn_reset)) {
+			new User_BoardUI(main);
+		}
+		
 	}
 
 }
