@@ -96,8 +96,8 @@ public class Admin_MainUI  implements ActionListener {
 		content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.activeCaption);
 		content_panel.setBounds(192, 98, 535, 331);
-		String[] colNames = {"도서번호","도서명","저자","출판사","가격","발행일","판매수량"};
-		model = new DefaultTableModel(colNames, 0);
+		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "판매수량"};
+		model = new DefaultTableModel(header, 0);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel name_label = new JLabel("도 서 등 록 현 황");
@@ -204,7 +204,8 @@ public class Admin_MainUI  implements ActionListener {
 	
 	public void table_data() {
 		model.setNumRows(0);
-		row = new Object[7];
+		book_table.removeAll();
+		row = new Object[7];		
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		ArrayList<BookVO> count_list = new ArrayList<BookVO>();
 		list = system.Admin_Select();

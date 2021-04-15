@@ -36,9 +36,8 @@ public class BookDAO extends DBConn {
 	}
 	
 
-	//추천도서 누르면 텍스트필드에서 뜨는 데이터 받아오는 것
-	public String[][] recommendList() {
-		
+	/** 사용자 - 메인 추천도서 텍스트 받아오기 **/
+	public String[][] recommendList() {		
 		try {
 			String sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='정보처리기사'";
 			PreparedStatement st = conn.prepareStatement(sql);
@@ -65,6 +64,7 @@ public class BookDAO extends DBConn {
 			return null;
 		}
 	}
+	
 	
 	/** 관리자 - 메인화면, 삭제화면 (도서목록불러오기) **/
 	public ArrayList<BookVO> getResultSelect() {
@@ -94,6 +94,47 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 관리자 - 도서삭제 **/
+	public boolean getResultDelete(String name) {
+		boolean result = false;		
+		try {
+			String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);			
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return result;
+	}
+	
+	/** 관리자 - 도서조회 **/
+	public ArrayList<BookVO> getResult(String name) {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		try {
+			String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				BookVO vo = new BookVO();
+				vo.setBno(rs.getInt(1));
+				vo.setBookname(rs.getString(2));
+				vo.setAuthor(rs.getString(3));
+				vo.setPblsh(rs.getString(4));
+				vo.setPrice(rs.getInt(5));
+				vo.setPblshdate(rs.getString(6));
+				
+				list.add(vo);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return list;
+	}
+	
 	
 	/** 수량 가져오기 **/
 //	public ArrayList<BookVO> getCount(String name) {

@@ -32,6 +32,16 @@ public class BookSystem {
 				return bdao.getResultSelect();				
 			}
 			
+			/** 관리자 - 도서삭제 **/
+			public boolean Admin_Delete(String name) {
+				return bdao.getResultDelete(name);
+			}
+			
+			/** 관리자 - 도서검색 **/
+			public ArrayList<BookVO> Admin_Search(String name) {
+				return bdao.getResult(name);
+			}
+			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {
 //				System.out.println(bdao.getCount(name));
