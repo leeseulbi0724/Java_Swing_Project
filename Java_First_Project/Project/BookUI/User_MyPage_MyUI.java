@@ -46,7 +46,7 @@ DefaultTableModel model;
 		JScrollPane scrollPane = new JScrollPane();					
 		
 		Object row[];
-		row = new Object[7];
+		row = new Object[5];
 		row[0] = "FAQ";
 		row[1] = "문의 내용좀 확인해주세요";
 		row[2] = "~";
@@ -56,7 +56,7 @@ DefaultTableModel model;
 		model.addRow(row);
 		
 		Object row1[];
-		row1 = new Object[7];
+		row1 = new Object[5];
 		row1[0] = "리뷰";
 		row1[1] = "이 책은 정말 좋아요";
 		row1[2] = "~";

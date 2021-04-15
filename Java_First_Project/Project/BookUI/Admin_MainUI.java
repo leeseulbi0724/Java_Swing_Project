@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import BookSystem.BookSystem;
 import BookVO.BookVO;
@@ -29,7 +30,7 @@ public class Admin_MainUI  implements ActionListener {
 	JFrame frame;
 	JPanel btn_panel, top_panel, content_panel, name_panel;
 	JButton btn_delete, btn_insert, btn_user_select, btn_board, btn_logout, btn_home;
-	JScrollPane scrollPane;
+	JScrollPane scrollPane, book_pane;	
 	DefaultTableModel model;
 	JTable book_table;
 	Object row[];
@@ -109,7 +110,7 @@ public class Admin_MainUI  implements ActionListener {
 				
 		scrollPane = new JScrollPane();
 		book_table = new JTable(model);
-		JScrollPane book_pane = new JScrollPane(book_table);
+		book_pane = new JScrollPane(book_table);
 		scrollPane.setViewportView(book_pane);		
 		content_panel.add(scrollPane, BorderLayout.CENTER);
 		
@@ -136,6 +137,8 @@ public class Admin_MainUI  implements ActionListener {
 		book_table.setFont(Commons.getFont());
 		book_pane.setFont(Commons.getFont());
 		btn_insert.setFont(Commons.getFont());
+		
+		/** 테이블 색 설정 **/
 		
 		
 		/** 테이블에 DB 데이터 넣기 **/

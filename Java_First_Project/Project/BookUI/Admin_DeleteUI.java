@@ -7,6 +7,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -15,10 +16,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import BookUI.User_MyPage_MyUI.ButtonEditor;
 import BookUI.User_MyPage_MyUI.ButtonRenderer;
@@ -32,6 +36,9 @@ public class Admin_DeleteUI implements ActionListener{
 	JPanel bottom_panel;
 	JButton btn_search;
 	JTextField search_tf;
+	DefaultTableModel model;
+	JTable book_table;
+	JComboBox comboBox;
 	ArrayList<Object> delete_list = new ArrayList<Object>();
 
 	public Admin_DeleteUI(Admin_MainUI main) {
@@ -41,6 +48,7 @@ public class Admin_DeleteUI implements ActionListener{
 	}
 	public void init() {	
 		main.switching(Admin_MainUI.Delete);
+		
 		bottom_panel = new JPanel();
 		bottom_panel.setBackground(new Color(176, 196, 222));
 		bottom_panel.setBounds(192, 439, 535, 41);
@@ -50,11 +58,11 @@ public class Admin_DeleteUI implements ActionListener{
 		bottom_label.setHorizontalAlignment(SwingConstants.CENTER);
 		bottom_panel.add(bottom_label, BorderLayout.NORTH);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		bottom_panel.add(comboBox, BorderLayout.WEST);
 		comboBox.addItem("도서명");		comboBox.addItem("저자");
 		
-		JLabel name_label = new JLabel("회 원 삭 제");
+		JLabel name_label = new JLabel("도 서 삭 제");
 		name_label.setHorizontalAlignment(SwingConstants.CENTER);
 		main.content_panel.add(name_label, BorderLayout.NORTH);
 		name_label.setBackground(SystemColor.activeCaption);
@@ -70,6 +78,8 @@ public class Admin_DeleteUI implements ActionListener{
 		main.content_panel.add(BorderLayout.SOUTH, bottom_panel);
 		
 		btn_search.addActionListener(this);
+		
+		search_tf.requestFocus();
 		
 		
 		/** 폰트 설정 (쓰실때 주석처리하시거나 본인 폰트로 설정하시면 됩니다! )**/
@@ -88,30 +98,39 @@ public class Admin_DeleteUI implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btn_search)) {
+				main.content_panel.remove(main.scrollPane);
+				main.content_panel.setVisible(false);
 				data_search();		
-			}
+		}
 	}
 	
 	/** 도서 검색 **/
 	public void data_search() {
-		main.model.setNumRows(0);
-		main.model.addColumn("삭제");
-		Object row[] = new Object[7];
+		main.content_panel.setVisible(true);
+		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
+		model = new DefaultTableModel(header, 0);
+		book_table = new JTable(model);
+		JScrollPane book_pane = new JScrollPane(book_table);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(book_pane);				
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		list = main.system.Admin_Search(search_tf.getText());
 		for (BookVO book : list) {
+			Object row[] = new Object[7];
 			row[0] = book.getBno();
 			row[1] = book.getBookname();
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();
 			row[4] = book.getPrice();
 			row[5] = book.getPblshdate();
-			delete_list.add(row);
-			main.model.addRow(row);			
+			row[6] = "삭제";
+			
+			model.addRow(row);			
 		}
 		
-        main.book_table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
-        main.book_table.getColumn("삭제").setCellEditor(new ButtonEditor(new JTextField()));
+		main.content_panel.add(scrollPane, BorderLayout.CENTER);
+        book_table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
+        book_table.getColumn("삭제").setCellEditor(new ButtonEditor(new JTextField()));
 		
 	}
 	
@@ -140,7 +159,11 @@ public class Admin_DeleteUI implements ActionListener{
 					  btn_delete.addActionListener(new ActionListener() {
 						  @Override
 						  public void actionPerformed(ActionEvent e) {
-						   fireEditingStopped();
+							 try {
+								 fireEditingStopped();								
+							} catch (Exception e2) {
+								
+							}
 						  }
 					  });
 				 }
@@ -148,6 +171,7 @@ public class Admin_DeleteUI implements ActionListener{
 				 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
 					  lbl = (obj == null) ? "" : obj.toString();
 					  btn_delete.setText(lbl);
+					  btn_delete.setFont(Commons.getFont());
 					  clicked = true;
 					  return btn_delete;
 				 }
@@ -158,9 +182,8 @@ public class Admin_DeleteUI implements ActionListener{
 					if (confirm == 0) {						
 						if (main.system.Admin_Delete(search_tf.getText())) {
 							JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
-							delete_list.remove(main.book_table.getSelectedRow());
-							main.model.removeRow(main.book_table.getSelectedRow());		
-							search_tf.setText("");
+							model.removeRow(book_table.getSelectedRow());
+							main.switching(Admin_MainUI.home);
 						};						
 					}
 				  }
@@ -174,7 +197,11 @@ public class Admin_DeleteUI implements ActionListener{
 				 }
 				 @Override
 				 public void fireEditingStopped() {
-					 super.fireEditingStopped();
+					 try {
+						 super.fireEditingStopped();						
+					} catch (Exception e) {
+						
+					}
 				 }
 
 			}
