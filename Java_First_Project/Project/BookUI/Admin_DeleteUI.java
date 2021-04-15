@@ -111,6 +111,7 @@ public class Admin_DeleteUI implements ActionListener{
 		model = new DefaultTableModel(header, 0);
 		book_table = new JTable(model);
 		JScrollPane book_pane = new JScrollPane(book_table);
+		book_pane.setEnabled(false);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(book_pane);				
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
@@ -123,11 +124,11 @@ public class Admin_DeleteUI implements ActionListener{
 			row[3] = book.getPblsh();
 			row[4] = book.getPrice();
 			row[5] = book.getPblshdate();
-			row[6] = "昏力";
-			
+			row[6] = "昏力";			
 			model.addRow(row);			
 		}
 		
+		book_table.setFont(Commons.getFont());
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
         book_table.getColumn("昏力").setCellRenderer(new ButtonRenderer());
         book_table.getColumn("昏力").setCellEditor(new ButtonEditor(new JTextField()));

@@ -15,7 +15,7 @@ public class BookDAO extends DBConn {
 	public boolean getResultInsert(BookVO vo) {
 		boolean result = false;
 		try {
-			String sql = "Insert Into BOOK_DATA values(?,?,?,?,?,?)";
+			String sql = "Insert Into BOOK_DATA values(?,?,?,?,?,?,SYSDATE)";
 			getPreparedStatement(sql);
 			
 			pstmt.setInt(1, vo.getBno());
@@ -71,7 +71,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
 			String sql = " Select BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE"
-					 			+ " from BOOK_DATA";			
+					 			+ " from BOOK_DATA" + " ORDER BY SDATE";			
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -114,7 +114,7 @@ public class BookDAO extends DBConn {
 	public ArrayList<BookVO> getResult(String name) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
-			String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ?";
+			String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, name);			
 			rs = pstmt.executeQuery();

@@ -112,7 +112,8 @@ public class Admin_MainUI  implements ActionListener {
 		book_table = new JTable(model);
 		book_pane = new JScrollPane(book_table);
 		scrollPane.setViewportView(book_pane);		
-		content_panel.add(scrollPane, BorderLayout.CENTER);
+		content_panel.add(scrollPane, BorderLayout.CENTER);		
+		book_pane.setEnabled(false);
 		
 		content_panel.setVisible(true);
 		frame.getContentPane().add(content_panel);
@@ -139,6 +140,9 @@ public class Admin_MainUI  implements ActionListener {
 		btn_insert.setFont(Commons.getFont());
 		
 		/** 테이블 색 설정 **/
+		JTableHeader head = book_table.getTableHeader();
+		head.setBackground(new Color(173, 216, 230));
+		head.setForeground(new Color(255,255,255));		
 		
 		
 		/** 테이블에 DB 데이터 넣기 **/
