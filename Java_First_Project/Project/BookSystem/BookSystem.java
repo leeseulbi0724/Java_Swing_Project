@@ -1,5 +1,7 @@
 package BookSystem;
 
+import java.util.ArrayList;
+
 import BookDAO.BookDAO;
 import BookDAO.MemberDAO;
 import BookVO.BookVO;
@@ -25,4 +27,15 @@ public class BookSystem {
 				return mdao.getModifyResult(vo);
 			}
 			
+			/** 관리자 - 메인화면, 삭제화면 (도서목록가져오기) **/
+			public ArrayList<BookVO> Admin_Select() {
+				return bdao.getResultSelect();				
+			}
+			
+//			/** 주문수량 가져오기 **/
+//			public ArrayList<BookVO> Admin_Count(String name) {
+//				System.out.println(bdao.getCount(name));
+//				System.out.println("22");
+//				return bdao.getCount(name);
+//			}
 }
