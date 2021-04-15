@@ -4,7 +4,7 @@ public class BookVO {
 	
 	// 도서번호, 도서명, 저자, 출판사, 가격, 출판일자
 	String bookname, author, pblsh, pblshdate;
-	int bno, price;
+	int bno, price, count;
 	
 	
 	public int getBno() {
@@ -43,6 +43,14 @@ public class BookVO {
 	public void setPblsh(String pblsh) {
 		this.pblsh = pblsh;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	
 	
 	
 	
