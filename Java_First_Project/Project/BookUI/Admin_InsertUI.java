@@ -147,10 +147,12 @@ public class Admin_InsertUI implements ActionListener {
 			vo.setAuthor(author_tf.getText());
 			vo.setPblsh(pblsh_tf.getText());
 			vo.setPblshdate(date_tf.getText());
-			vo.setPrice(Integer.parseInt(price_tf.getText()));			
+			vo.setPrice(Integer.parseInt(price_tf.getText()));		
+
 			if (system.Admin_Insert(vo)) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("등록이 완료되었습니다"));
 				reset_proc();
+				main.switching(Admin_MainUI.home);
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("등록이 실패되었습니다"));
 			}	

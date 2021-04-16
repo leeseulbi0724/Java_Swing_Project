@@ -49,6 +49,10 @@ public class BookVO {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	
+	
+
 	
 	
 	

@@ -2,7 +2,9 @@ package BookUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,15 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import java.awt.GridLayout;
-import java.awt.SystemColor;
-import java.awt.FlowLayout;
-import javax.swing.ScrollPaneConstants;
+
+import Commons.Commons;
 
 public class User_BoardUI implements ActionListener {
 	JFrame frame;
@@ -52,7 +51,6 @@ public class User_BoardUI implements ActionListener {
 		scrollPane.setViewportView(board_pane);
 		
 		JLabel label_board = new JLabel("게시판");
-		label_board.setFont(new Font("굴림", Font.BOLD, 30));
 		label_board.setHorizontalAlignment(SwingConstants.CENTER);
 		content_panel.add(label_board, BorderLayout.NORTH);
 		content_panel.add(scrollPane, BorderLayout.CENTER);
@@ -74,10 +72,21 @@ public class User_BoardUI implements ActionListener {
 		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
 		main.mainPanel.add(content_panel);
-	
+		
+		label_board.setForeground(new Color(255,255,255));	
+		content_panel.setBackground(new Color(255,192,203));
+		btn_faq.setBackground(Color.WHITE);
+		btn_request.setBackground(Color.WHITE);
+		btn_write.setBackground(Color.WHITE);
+		
+		
+		/** 폰트설정 **/
+		label_board.setFont(Commons.getFont(25));
+		btn_faq.setFont(Commons.getFont());
+		btn_request.setFont(Commons.getFont());
+		btn_write.setFont(Commons.getFont());	
 		
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

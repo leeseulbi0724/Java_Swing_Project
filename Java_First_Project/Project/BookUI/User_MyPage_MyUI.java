@@ -46,7 +46,7 @@ DefaultTableModel model;
 		JScrollPane scrollPane = new JScrollPane();					
 		
 		Object row[];
-		row = new Object[7];
+		row = new Object[5];
 		row[0] = "FAQ";
 		row[1] = "문의 내용좀 확인해주세요";
 		row[2] = "~";
@@ -56,7 +56,7 @@ DefaultTableModel model;
 		model.addRow(row);
 		
 		Object row1[];
-		row1 = new Object[7];
+		row1 = new Object[5];
 		row1[0] = "리뷰";
 		row1[1] = "이 책은 정말 좋아요";
 		row1[2] = "~";
@@ -108,62 +108,63 @@ DefaultTableModel model;
 	
 	}
 
+	/** 삭제 버튼 이벤트 처리 **/
 	// 테이블에 버튼넣고 버튼 이벤트처리
-	class ButtonRenderer extends JButton implements TableCellRenderer {
-		 public ButtonRenderer() {
-		  setOpaque(true);
-		 }		 
-		 @Override
-		 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
-			int col) {
-			 	setText((obj == null) ? "" : obj.toString());
-			  	return this;
-			 }
-		}
-		class ButtonEditor extends DefaultCellEditor { 
-		JButton btn_delete;
-		String lbl;
-		 Boolean clicked;
+			class ButtonRenderer extends JButton implements TableCellRenderer {
+				 public ButtonRenderer() {
+				  setOpaque(true);
+				 }		 
+				 @Override
+				 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
+					int col) {
+					 	setText((obj == null) ? "" : obj.toString());
+					  	return this;
+					 }
+				}
+				class ButtonEditor extends DefaultCellEditor { 
+				JButton btn_delete;
+				String lbl;
+				 Boolean clicked;
 
-		 public ButtonEditor(JTextField txt) {
-			  super(txt);
-			  btn_delete = new JButton();
-			  btn_delete.setOpaque(true);
-			  btn_delete.addActionListener(new ActionListener() {
-				  @Override
-				  public void actionPerformed(ActionEvent e) {
-				   fireEditingStopped();
+				 public ButtonEditor(JTextField txt) {
+					  super(txt);
+					  btn_delete = new JButton();
+					  btn_delete.setOpaque(true);
+					  btn_delete.addActionListener(new ActionListener() {
+						  @Override
+						  public void actionPerformed(ActionEvent e) {
+						   fireEditingStopped();
+						  }
+					  });
+				 }
+				 @Override
+				 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
+					  lbl = (obj == null) ? "" : obj.toString();
+					  btn_delete.setText(lbl);
+					  clicked = true;
+					  return btn_delete;
+				 }
+				 @Override
+				 public Object getCellEditorValue() {
+				  if (clicked) {
+					 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
+					if (confirm == 0) {
+						list.remove(board_table.getSelectedRow());
+						model.removeRow(board_table.getSelectedRow());		
+					}
 				  }
-			  });
-		 }
-		 @Override
-		 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
-			  lbl = (obj == null) ? "" : obj.toString();
-			  btn_delete.setText(lbl);
-			  clicked = true;
-			  return btn_delete;
-		 }
-		 @Override
-		 public Object getCellEditorValue() {
-		  if (clicked) {
-			 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
-			if (confirm == 0) {
-				list.remove(board_table.getSelectedRow());
-				model.removeRow(board_table.getSelectedRow());
-			}
-		  }
-		  clicked = false;
-		  return new String(lbl);
-		 }
-		 @Override
-		 public boolean stopCellEditing() {
-			  clicked = false;
-			  return super.stopCellEditing();
-		 }
-		 @Override
-		 public void fireEditingStopped() {
-			 super.fireEditingStopped();
-		 }
+				  clicked = false;
+				  return new String(lbl);
+				 }
+				 @Override
+				 public boolean stopCellEditing() {
+					  clicked = false;
+					  return super.stopCellEditing();
+				 }
+				 @Override
+				 public void fireEditingStopped() {
+					 super.fireEditingStopped();
+				 }
 
-	}
+			}
 }

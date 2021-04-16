@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import Commons.Commons;
 
@@ -73,5 +74,10 @@ public class Admin_BoardUI {
 		btn_request.setFont(Commons.getFont());
 		board_table.setFont(Commons.getFont());
 		label.setFont(Commons.getFont());
+		
+		/** 테이블 색 설정 **/
+		JTableHeader head = board_table.getTableHeader();
+		head.setBackground(new Color(173, 216, 230));
+		head.setForeground(new Color(255,255,255));		
 	}
 }

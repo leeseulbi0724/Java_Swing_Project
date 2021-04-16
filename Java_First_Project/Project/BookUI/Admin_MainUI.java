@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,17 +18,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import BookSystem.BookSystem;
+import BookVO.BookVO;
 import Commons.Commons;
 
 public class Admin_MainUI  implements ActionListener {
 
 	LoginUI main;
 	JFrame frame;
-	JPanel btn_panel, top_panel, content_panel;
+	JPanel btn_panel, top_panel, content_panel, name_panel;
 	JButton btn_delete, btn_insert, btn_user_select, btn_board, btn_logout, btn_home;
-	JScrollPane scrollPane;
+	JScrollPane scrollPane, book_pane;	
+	DefaultTableModel model;
+	JTable book_table;
+	Object row[];
+	ArrayList<Object> bookname_list = new ArrayList<Object>();
 	BookSystem system = new BookSystem();
 	
 	public static final int home = 0;
@@ -90,20 +97,23 @@ public class Admin_MainUI  implements ActionListener {
 		content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.activeCaption);
 		content_panel.setBounds(192, 98, 535, 331);
-		String[] colNames = {"도서번호","도서명","저자","출판사","가격","발행일","판매수량"};
-		DefaultTableModel model = new DefaultTableModel(colNames, 0);
+		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "판매수량"};
+		model = new DefaultTableModel(header, 0);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel name_label = new JLabel("도 서 등 록 현 황");
 		name_label.setHorizontalAlignment(SwingConstants.CENTER);
-		content_panel.add(name_label, BorderLayout.NORTH);
-		name_label.setBackground(SystemColor.activeCaption);
+		name_panel = new JPanel();
+		name_panel.setBackground(SystemColor.activeCaption);
+		name_panel.add(name_label);
+		content_panel.add(name_panel, BorderLayout.NORTH);
 				
 		scrollPane = new JScrollPane();
-		JTable book_table = new JTable(model);
-		JScrollPane book_pane = new JScrollPane(book_table);
+		book_table = new JTable(model);
+		book_pane = new JScrollPane(book_table);
 		scrollPane.setViewportView(book_pane);		
-		content_panel.add(scrollPane, BorderLayout.CENTER);
+		content_panel.add(scrollPane, BorderLayout.CENTER);		
+		book_pane.setEnabled(false);
 		
 		content_panel.setVisible(true);
 		frame.getContentPane().add(content_panel);
@@ -125,9 +135,18 @@ public class Admin_MainUI  implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		btn_logout.setFont(Commons.getFont());
 		name_label.setFont(Commons.getFont());
-		book_table.setFont(Commons.getFont(7));
-		book_pane.setFont(Commons.getFont(7));
+		book_table.setFont(Commons.getFont());
+		book_pane.setFont(Commons.getFont());
 		btn_insert.setFont(Commons.getFont());
+		
+		/** 테이블 색 설정 **/
+		JTableHeader head = book_table.getTableHeader();
+		head.setBackground(new Color(173, 216, 230));
+		head.setForeground(new Color(255,255,255));		
+		
+		
+		/** 테이블에 DB 데이터 넣기 **/
+		table_data();		
 	}
 	
 	/** 스위칭 **/
@@ -141,7 +160,9 @@ public class Admin_MainUI  implements ActionListener {
 			switch(num) {
 				case home :
 					content_panel.setVisible(true);
+					content_panel.add(name_panel, BorderLayout.NORTH);
 					content_panel.add(BorderLayout.CENTER, scrollPane);
+					table_data();
 					break;
 				case Insert :
 					content_panel.setVisible(true);
@@ -186,6 +207,25 @@ public class Admin_MainUI  implements ActionListener {
 					}
 			}
 		
+	}
+	
+	public void table_data() {
+		model.setNumRows(0);
+		book_table.removeAll();
+		row = new Object[7];		
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		ArrayList<BookVO> count_list = new ArrayList<BookVO>();
+		list = system.Admin_Select();
+		for (BookVO book : list) {
+			row[0] = book.getBno();
+			row[1] = book.getBookname();
+			row[2] = book.getAuthor();
+			row[3] = book.getPblsh();
+			row[4] = book.getPrice();
+			row[5] = book.getPblshdate();
+			model.addRow(row);
+		}				
+		model.fireTableDataChanged();
 	}
 	
 }

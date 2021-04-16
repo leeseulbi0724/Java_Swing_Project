@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookSystem.BookSystem;
 import Commons.Commons;
 
 public class User_MyPageUI implements ActionListener {
@@ -20,7 +21,7 @@ public class User_MyPageUI implements ActionListener {
 	JPanel content_panel, main_panel, btn_panel;
 	JFrame frame;
 	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass;
-
+	BookSystem system = new BookSystem();
 	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;

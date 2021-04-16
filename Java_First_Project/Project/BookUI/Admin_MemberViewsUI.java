@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import BookSystem.BookSystem;
 import Commons.Commons;
@@ -90,6 +91,11 @@ public class Admin_MemberViewsUI {
 		comboBox.setFont(Commons.getFont());
 		btn_search.setFont(Commons.getFont());
 		search_tf.setFont(Commons.getFont());
+		
+		/** 테이블 색 설정 **/
+		JTableHeader head = member_table.getTableHeader();
+		head.setBackground(new Color(173, 216, 230));
+		head.setForeground(new Color(255,255,255));		
 		
 		
 	}

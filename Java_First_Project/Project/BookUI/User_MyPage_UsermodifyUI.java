@@ -3,16 +3,29 @@ package BookUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+import BookSystem.BookSystem;
+import BookVO.MemberVO;
 import Commons.Commons;
 
 public class User_MyPage_UsermodifyUI implements ActionListener {
 	User_MyPageUI main;
 	JButton btn_modify_check;
+	JTextField id_text, birthday_text, password_tf, hp_text, addr_text;
+	BookSystem system;
 	
 	public User_MyPage_UsermodifyUI(User_MyPageUI main) {
 		this.main = main;
+		this.system = main.system;
+		init();
+	}
+	
+	public User_MyPage_UsermodifyUI() {
 		init();
 	}
 	
@@ -32,7 +45,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		id_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		id_label.setBounds(163, 105, 39, 15);
 		main.content_panel.add(id_label);		
-		JTextField id_text = new JTextField();
+		id_text = new JTextField();
 		id_text.setColumns(10);
 		id_text.setBounds(210, 103, 153, 21);
 		main.content_panel.add(id_text);
@@ -42,7 +55,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		birthday_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		birthday_label.setBounds(145, 135, 57, 15);
 		main.content_panel.add(birthday_label);		
-		JTextField birthday_text = new JTextField();
+		birthday_text = new JTextField();
 		birthday_text.setColumns(10);
 		birthday_text.setBounds(210, 133, 153, 21);
 		main.content_panel.add(birthday_text);
@@ -52,7 +65,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		password_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		password_label.setBounds(145, 165, 57, 15);
 		main.content_panel.add(password_label);		
-		JTextField password_tf = new JTextField();
+		password_tf = new JTextField();
 		password_tf.setColumns(10);
 		password_tf.setBounds(210, 163, 153, 21);
 		main.content_panel.add(password_tf);
@@ -62,7 +75,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		hp_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		hp_label.setBounds(134, 193, 68, 15);
 		main.content_panel.add(hp_label);		
-		JTextField hp_text = new JTextField();
+		hp_text = new JTextField();
 		hp_text.setColumns(10);
 		hp_text.setBounds(210, 193, 153, 21);
 		main.content_panel.add(hp_text);
@@ -72,7 +85,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		addr_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		addr_label.setBounds(163, 223, 39, 15);
 		main.content_panel.add(addr_label);		
-		JTextField addr_text = new JTextField();
+		addr_text = new JTextField();
 		addr_text.setColumns(10);
 		addr_text.setBounds(210, 223, 153, 21);
 		main.content_panel.add(addr_text);
@@ -106,16 +119,56 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		btn_modify_check.setFont(Commons.getFont());
 		
-	}
+	} //init
 	
 	@Override
+	/** [수정하기] 버튼 누르면 행해지는 액션이벤트 **/
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		String str = e.getActionCommand();
 		if(obj.equals(btn_modify_check)) {
 			int result = JOptionPane.showConfirmDialog(null, "수정을 완료하시겠습니까?");
-			
+			if(result == 0) {
+				modify_proc();
+			}else {
+				new User_MyPage_UsermodifyUI();
+			}
 		}
 	}
+	
+	/** 수정완료 시 **/
+	public void modify_proc() {
+		if(form_check()) {
+			MemberVO vo = new MemberVO();
+			vo.setPass(password_tf.getText());
+			vo.setHp(hp_text.getText());
+			vo.setAddr(addr_text.getText());
+			if(system.User_MyPage_Modify(vo)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 완료되었습니다"));
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("수정에 실패하였습니다"));
+			}
+		}
+	}
+	
 
-}
+	
+	/** 수정하는 tf(비밀번호, 핸드폰, 주소) 중 비어있는 칸 알림 **/
+	public boolean form_check() {
+		boolean result = false;
+		if(password_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("수정할 비밀번호를 입력해주세요"));
+			password_tf.requestFocus();
+		} else if (hp_text.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("수정할 핸드폰번호를 입력해주세요"));
+			hp_text.requestFocus();
+		} else if (addr_text.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("수정할 주소를 입력해주세요"));
+			addr_text.requestFocus();
+		} else {
+			result = true;
+		}
+		return result;
+	}
+	
+	
+} //class
