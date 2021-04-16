@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +22,12 @@ import java.awt.SystemColor;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import com.sun.tools.javac.Main;
+
+import BookSystem.BookSystem;
 import Commons.Commons;
 
-public class LoginUI {
+public class LoginUI implements ActionListener {
 
 	//Field
 	 JFrame frame;
@@ -32,9 +36,12 @@ public class LoginUI {
 	 JLabel id_label;
 	 JLabel password_label;
 	 JPasswordField password_tf;
+	 JButton login_btn;
 	
 	 JLabel lblNewLabel;
 	 JPanel main_panel;
+	 BookSystem system = new BookSystem();
+	
 	
 	
 	//Constructor
@@ -71,28 +78,15 @@ public class LoginUI {
 		password_label.setBounds(47, 263, 144, 37);
 		login_panel.add(password_label);
 		
-		JButton login_btn = new JButton("");
+		login_btn = new JButton("");
 		login_btn.setBorderPainted(false);
 		login_btn.setIcon(new ImageIcon("images/kakao_login_btn_img.png"));
 		login_btn.setBackground(Color.WHITE);
 		login_btn.setBounds(100, 377, 125, 51);
 		login_panel.add(login_btn);
-		//로그인 버튼
-		login_btn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ( id_tf.getText().equals("admin") && password_tf.getText().equals("1234")) {
-					JOptionPane.showMessageDialog(null, Commons.getMsg("관리자 로그인에 성공하셨습니다."));
-					id_tf.setText(""); password_tf.setText("");
-					new Admin_MainUI(LoginUI.this);
-					login_panel.setVisible(false);
-				} else {
-					JOptionPane.showMessageDialog(null, Commons.getMsg("사용자 로그인에 성공하셨습니다."));
-					new User_MainUI(LoginUI.this);				
-					login_panel.setVisible(false);
-				}				
-			}
-		});//로그인 버튼 액션
+		login_btn.addActionListener(this);
+		
+		
 		
 		JButton sign_btn = new JButton("회원가입");
 		sign_btn.setBackground(Color.WHITE);
@@ -135,6 +129,47 @@ public class LoginUI {
 		sign_btn.setFont(Commons.getFont());
 		findPassword_btn.setFont(Commons.getFont());
 	}
+	
+	//로그인 버튼
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object Obj = e.getSource();
+		
+		if(Obj == login_btn) {
+			login_proc();
+		}
+		
+	}
+	
+	//로그인 유효성 체크
+	public void login_proc() {
+		if (id_tf.getText().equals("admin") && password_tf.getText().equals("1234")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("관리자 로그인에 성공하셨습니다."));
+			id_tf.setText(""); password_tf.setText("");
+			new Admin_MainUI(LoginUI.this);
+			login_panel.setVisible(false);
+		}else if(id_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("아이디를 입력해주세요"));
+			id_tf.requestFocus();
+		}else if(password_tf.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("패스워드를 입력해주세요"));
+			password_tf.requestFocus();
+		}else {
+			//로그인 체크 : system.loginCheck(아이디, 패스워드);
+			boolean result = system.loginCheck(id_tf.getText(), password_tf.getText());
+			if(result) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("사용자 로그인에 성공하셨습니다."));
+				new User_MainUI(LoginUI.this);	
+				id_tf.setText(""); password_tf.setText("");
+				login_panel.setVisible(false);
+				
+			}else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("사용자 로그인에 실패하셨습니다."));
+			}
+			
+		}			
+	}
+			
 	
 	
 }//LoginUI

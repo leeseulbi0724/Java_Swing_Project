@@ -2,7 +2,7 @@ package BookVO;
 
 public class MemberVO {
 	// 아이디, 패스워드, 이름, 생년월일, 휴대폰번호, 주소
-	String id, pass, name, birthday, hp, addr;
+	String id, pass, cpass, name, birthday, hp, addr;
 
 	public String getId() {
 		return id;
@@ -18,6 +18,14 @@ public class MemberVO {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+	
+	public String getCpass() {
+		return cpass;
+	}
+
+	public void setCpass(String cpass) {
+		this.cpass = cpass;
 	}
 
 	public String getName() {
