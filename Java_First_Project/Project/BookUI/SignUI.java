@@ -57,7 +57,6 @@ public class SignUI extends JDialog implements ActionListener {
 	
 	
 	
-	
 	//Method
 	public void init() {		
 		

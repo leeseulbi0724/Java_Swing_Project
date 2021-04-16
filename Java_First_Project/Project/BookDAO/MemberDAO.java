@@ -86,7 +86,6 @@ public class MemberDAO extends DBConn {
 		return result;
 	}
 	
-	
 	public void close() {
 		try {
 			if(rs != null) rs.close();

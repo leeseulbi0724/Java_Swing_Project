@@ -30,4 +30,5 @@ public class BookSystem {
 		public boolean join(MemberVO member) {
 				return mdao.getJoinResult(member);
 		}
+
 }

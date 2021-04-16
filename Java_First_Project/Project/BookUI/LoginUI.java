@@ -30,6 +30,7 @@ import Commons.Commons;
 public class LoginUI implements ActionListener {
 
 	//Field
+	
 	 JFrame frame;
 	 ImagePanel login_panel;
 	 JTextField id_tf;
