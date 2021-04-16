@@ -66,12 +66,12 @@ public class BookDAO extends DBConn {
 	}
 	
 	
-	/** 관리자 - 메인화면, 삭제화면 (도서목록불러오기) **/
+	/** 관리자, 사용자 - 메인화면, 삭제화면 (도서목록불러오기) **/
 	public ArrayList<BookVO> getResultSelect() {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
 			String sql = " Select BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE"
-					 			+ " from BOOK_DATA" + " ORDER BY SDATE";			
+					 			+ " from BOOK_DATA" + " ORDER BY SDATE DESC";			
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

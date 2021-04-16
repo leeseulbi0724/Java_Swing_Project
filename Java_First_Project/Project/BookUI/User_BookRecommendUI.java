@@ -3,8 +3,6 @@ package BookUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import BookDAO.BookDAO;
-import BookDAO.DBConn;
+import Commons.Commons;
 
 public class User_BookRecommendUI implements ActionListener {
 	
@@ -137,7 +135,21 @@ public class User_BookRecommendUI implements ActionListener {
 			bookPanel.setVisible(true);
 			main.mainPanel.add(bookPanel);
 			
-			
+			/** 폰트 설정 **/
+			bookNumberLabel.setFont(Commons.getFont());
+			bookNameLabel.setFont(Commons.getFont());
+			bookAuthorLabel.setFont(Commons.getFont());
+			publisherLabel.setFont(Commons.getFont());
+			priceLabel.setFont(Commons.getFont());
+			issueDayLabel.setFont(Commons.getFont());
+			lookReview_btn.setFont(Commons.getFont());
+			putIn_btn.setFont(Commons.getFont());
+			bookNumber_tf.setFont(Commons.getFont());
+			bookName_tf.setFont(Commons.getFont());
+			bookAuthor_tf.setFont(Commons.getFont());
+			publisher_tf.setFont(Commons.getFont());
+			price_tf.setFont(Commons.getFont());
+			issueDay_tf.setFont(Commons.getFont());
 		}
 	
 	
