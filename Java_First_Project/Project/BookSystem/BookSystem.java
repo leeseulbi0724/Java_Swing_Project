@@ -42,6 +42,11 @@ public class BookSystem {
 				return bdao.getResult(name);
 			}
 			
+			/** 사용자 - 마이페이지 - 장바구니 **/
+			public ArrayList<BookVO> getBookList() {
+				return bdao.getResultBasket();
+			}
+			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {
 //				System.out.println(bdao.getCount(name));

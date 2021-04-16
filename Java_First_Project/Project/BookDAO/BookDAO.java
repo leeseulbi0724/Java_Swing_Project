@@ -136,6 +136,31 @@ public class BookDAO extends DBConn {
 	}
 	
 	
+	/** 사용자 - 마이페이지 - 장바구니조회 **/
+	public ArrayList<BookVO> getResultBasket() {
+		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
+		
+		try {
+			String sql = " select bookname, author, price from BOOK_USER_BASKET "; //나중에 로그인DB연결되면 id 추가하기
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BookVO book = new BookVO();
+				book.setBookname(rs.getString(1));
+				book.setAuthor(rs.getString(2));
+				book.setPrice(rs.getInt(3));
+				
+				booklist.add(book);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return booklist;
+	}
+	
+	
 	/** 수량 가져오기 **/
 //	public ArrayList<BookVO> getCount(String name) {
 //		ArrayList<BookVO> list = new ArrayList<BookVO>();

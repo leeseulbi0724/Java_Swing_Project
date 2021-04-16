@@ -17,7 +17,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
+import BookSystem.BookSystem;
+import BookVO.BookVO;
 import Commons.Commons;
 
 public class User_MyPage_BasketUI {
@@ -25,12 +28,18 @@ public class User_MyPage_BasketUI {
 	JFrame frame;
 	User_MyPageUI main;
 	JPanel content_panel, btn_panel;
-	private JTextField textField;
+	JTextField textField;
+	String[] colName = {"도서명", "도서가격", "수량냠냠"};
+	DefaultTableModel model = new DefaultTableModel(colName, 0);
+	Object[] row = new Object[3];
+	JTable board_table = new JTable(model);
+	BookSystem system;
 
 	
 	public User_MyPage_BasketUI(User_MyPageUI main) {
 		this.main = main;
 		this.frame = main.frame;
+		this.system = main.system;
 		init();
 	}
 
@@ -44,12 +53,16 @@ public class User_MyPage_BasketUI {
 		content_panel.setBounds(0, 0, 531, 301);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
-		String[] colName = {"도서명", "도서가격", "수량"};
-		DefaultTableModel model = new DefaultTableModel(colName, 0);
+		//table에 row data 추가
+		basketData();
+		model.setColumnIdentifiers(colName);
+		board_table.setModel(model);
+		board_table.setRowHeight(20);
+
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JTable board_table = new JTable(model);
+		
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);
 		
@@ -80,8 +93,21 @@ public class User_MyPage_BasketUI {
 		scrollPane.setFont(Commons.getFont());
 		btn_order.setFont(Commons.getFont());
 		
-		
+	} //init
+
+	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PRICE) 생성
+	public void basketData() {
+		model.setNumRows(0);
+		for(BookVO book : main.system.getBookList()) {
+			row[0] = book.getBookname();
+			row[1] = book.getAuthor();
+			row[2] = book.getPrice();
+			
+			model.addRow(row);
+		}
+		model.fireTableDataChanged();
 		
 	}
-
-}
+	
+	
+}//class
