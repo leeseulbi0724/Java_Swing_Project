@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import BookDAO.BookDAO;
+import BookVO.BookVO;
 import Commons.Commons;
 
 public class User_BookRecommendUI implements ActionListener {
@@ -24,6 +25,7 @@ public class User_BookRecommendUI implements ActionListener {
 		JButton lookReview_btn, putIn_btn;
 		JTextField bookNumber_tf,bookName_tf,bookAuthor_tf,publisher_tf,issueDay_tf,price_tf;	
 		BookDAO dao;
+		BookVO book;
 		 
 		
 		//Constructor
@@ -135,6 +137,10 @@ public class User_BookRecommendUI implements ActionListener {
 			bookPanel.setVisible(true);
 			main.mainPanel.add(bookPanel);
 			
+			book = new BookVO();
+			book.setBookname(bookName_tf.getText());
+			book.setPrice(Integer.parseInt(price_tf.getText()));
+			
 			/** 폰트 설정 **/
 			bookNumberLabel.setFont(Commons.getFont());
 			bookNameLabel.setFont(Commons.getFont());
@@ -157,10 +163,10 @@ public class User_BookRecommendUI implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Object obj = e.getSource();
 			if(obj==lookReview_btn) { //리뷰버튼
-				User_BookReviewUI review = new User_BookReviewUI(f);
+				User_BookReviewUI review = new User_BookReviewUI(f);		
 				review.setVisible(true);
-			}else if(obj==putIn_btn) { //장바구니버튼
-				User_BookBasketUI basket1 = new User_BookBasketUI(f);
+			} else if(obj==putIn_btn) { //장바구니버튼
+				User_BookBasketUI basket1 = new User_BookBasketUI(f, book);
 				basket1.setVisible(true);
 			}
 		}

@@ -9,35 +9,7 @@ import java.sql.ResultSet;
 import BookVO.MemberVO;
 
 public class MemberDAO extends DBConn {
-	String url = "jdbc:oracle:thin:@127.0.0.1:1521";
-	String user = "scott";
-	String pass = "tiger";
-	Connection conn;
-	PreparedStatement pstmt;
-	ResultSet rs;
-	
-	public MemberDAO() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			System.out.println("11------------>>");
-			
-			conn = DriverManager.getConnection(url, user, pass);
-			System.out.println("22------------>>");
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void getPreparedStatement(String sql) {
-		try {
-			pstmt = conn.prepareStatement(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+		
 	/** 로그인 처리 **/
 	public boolean getLoginResult(String id, String pass) {
 		boolean result = false;
@@ -86,17 +58,6 @@ public class MemberDAO extends DBConn {
 		
 		return result;
 	}
-	
-	public void close() {
-		try {
-			if(rs != null) rs.close();
-			if(pstmt !=  null) pstmt.close();
-			if(conn != null)	conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/
 	public boolean getModifyResult(MemberVO member) {
@@ -121,5 +82,16 @@ public class MemberDAO extends DBConn {
 		
 		return result;
 		
+	}
+	
+	
+	public void close() {
+		try {
+			if(rs != null) rs.close();
+			if(pstmt !=  null) pstmt.close();
+			if(conn != null)	conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

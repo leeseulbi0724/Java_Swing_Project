@@ -13,8 +13,7 @@ public class BookSystem {
 		BookDAO bdao = new BookDAO();
 		
 		//Constructor
-		public BookSystem() {
-			
+		public BookSystem() {			
 
 		}
 		
@@ -33,8 +32,6 @@ public class BookSystem {
 		public boolean join(MemberVO member) {
 				return mdao.getJoinResult(member);
 		}
-
-
 			
 		/** 사용자 - 마이페이지 - 정보수정 **/
 		public boolean User_MyPage_Modify(MemberVO vo) {
