@@ -16,7 +16,6 @@ public class BookSystem {
 		}
 		
 		//Method
-		
 		/** 관리자 - 도서등록 **/
 		public boolean Admin_Insert(BookVO vo) {				
 			return bdao.getResultInsert(vo);
