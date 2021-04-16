@@ -1,6 +1,7 @@
 package BookUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -17,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import BookSystem.BookSystem;
@@ -29,13 +31,12 @@ public class User_MyPage_BasketUI {
 	User_MyPageUI main;
 	JPanel content_panel, btn_panel;
 	JTextField textField;
-	String[] colName = {"도서명", "도서가격", "가격", "수량"};
+	String[] colName = {"도서명", "도서가격", "수량"};
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
-	Object[] row = new Object[4];
+	Object[] row = new Object[3];
 	JTable board_table = new JTable(model);
 	BookSystem system;
 
-	
 	public User_MyPage_BasketUI(User_MyPageUI main) {
 		this.main = main;
 		this.frame = main.frame;
@@ -45,8 +46,7 @@ public class User_MyPage_BasketUI {
 
 	
 	public void init() {
-		main.switching(User_MyPageUI.Basket);
-		
+		main.switching(User_MyPageUI.Basket);		
 		
 		content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.info);
@@ -58,14 +58,10 @@ public class User_MyPage_BasketUI {
 		model.setColumnIdentifiers(colName);
 		board_table.setModel(model);
 		board_table.setRowHeight(20);
-
 		
-		JScrollPane scrollPane = new JScrollPane();
-		
-		
+		JScrollPane scrollPane = new JScrollPane();		
 		JScrollPane board_pane = new JScrollPane(board_table);
-		scrollPane.setViewportView(board_pane);
-		
+		scrollPane.setViewportView(board_pane);		
 		
 		JPanel button_panel = new JPanel();
 		button_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -93,16 +89,20 @@ public class User_MyPage_BasketUI {
 		scrollPane.setFont(Commons.getFont());
 		btn_order.setFont(Commons.getFont());
 		
+		/** 테이블 헤더 설정 **/
+		JTableHeader head = board_table.getTableHeader();
+		head.setBackground(new Color(255,192,203));
+		head.setForeground(new Color(255,255,255));		
+		
 	} //init
 
 	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PRICE) 생성
 	public void basketData() {
 		model.setNumRows(0);
-		for(BookVO book : main.system.getBookList()) {
+		for(BookVO book : main.system.getBookList(main.main.name)) {
 			row[0] = book.getBookname();
-			row[1] = book.getAuthor();
-			row[2] = book.getPrice();
-			row[3] = book.getCount();
+			row[1] = book.getPrice();
+			row[2] = book.getCount();
 			
 			model.addRow(row);
 		}

@@ -20,8 +20,7 @@ import Commons.Commons;
 
 public class User_MainUI implements ActionListener{
 
-	//Field
-	
+	//Field	
 	LoginUI main;
 	JFrame f;
 	JPanel mainPanel,topPanel;	
@@ -30,9 +29,8 @@ public class User_MainUI implements ActionListener{
 	//메인패널 버튼
 	JButton book1_btn,book2_btn,bookList_btn;	
 	//홈 화면 눌렀을 때 초기화되었기 때문에 다시 넣어줘야함
-	JLabel recommendIconLabel;
-	
-	
+	JLabel recommendIconLabel;	
+	String name;	
 	
 	public static final int HOME = 0;
 	public static final int BOOK = 1;
@@ -42,10 +40,14 @@ public class User_MainUI implements ActionListener{
 	
 	
 	//Constructor	
-	public User_MainUI(LoginUI main) {
+	public User_MainUI(LoginUI main, String name) {
 		this.main = main;
 		this.f = main.frame;
+		this.name = name;
 		init();
+	}
+	public User_MainUI() {
+		
 	}
 
 	
@@ -61,6 +63,13 @@ public class User_MainUI implements ActionListener{
 		f.getContentPane().add(topPanel);
 		topPanel.setLayout(null);
 		
+		JLabel id_label = new JLabel();
+		id_label.setBounds(280, 10, 105, 36);
+		id_label.setText(name+"님 환영합니다");
+		id_label.setForeground(Color.pink);
+		id_label.setBackground(Color.WHITE);
+		topPanel.add(id_label);
+		
 		board_btn = new JButton("게시판");
 		board_btn.setBackground(Color.WHITE);
 		board_btn.setForeground(Color.PINK);
@@ -72,7 +81,7 @@ public class User_MainUI implements ActionListener{
 		myPage_btn.setForeground(Color.PINK);
 		myPage_btn.setBackground(Color.WHITE);
 		myPage_btn.setBorder(null);
-		myPage_btn.setBounds(547, 10, 113, 36);
+		myPage_btn.setBounds(547, 10, 105, 36);
 		topPanel.add(myPage_btn);
 		
 		logout_btn = new JButton("로그아웃");
@@ -142,6 +151,7 @@ public class User_MainUI implements ActionListener{
 		logout_btn.setFont(Commons.getFont());
 		board_btn.setFont(Commons.getFont());
 		bookList_btn.setFont(Commons.getFont());
+		id_label.setFont(Commons.getFont());
 		
 	}//init
 

@@ -142,20 +142,19 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 사용자 - 마이페이지 - 장바구니조회 **/
-	public ArrayList<BookVO> getResultBasket() {
+	public ArrayList<BookVO> getResultBasket(String name) {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, price, count from BOOK_USER_BASKET "; //나중에 로그인DB연결되면 id 추가하기
+			String sql = " select bookname, price, count from BOOK_USER_BASKET where id = ? ";
 			getPreparedStatement(sql);
-			
+			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookVO book = new BookVO();
 				book.setBookname(rs.getString(1));
-				book.setAuthor(rs.getString(2));
-				book.setPrice(rs.getInt(3));
-				book.setCount(rs.getInt(4));
+				book.setPrice(rs.getInt(2));
+				book.setCount(rs.getInt(3));
 				
 				booklist.add(book);
 			}
@@ -164,6 +163,31 @@ public class BookDAO extends DBConn {
 			e.printStackTrace();
 		}
 		return booklist;
+	}
+	
+	
+	/** 사용자 - 장바구니 담기 **/
+	public boolean getResult(BookVO vo, String name) {
+		boolean result = false;
+		
+		try {
+			String sql = "INSERT INTO BOOK_USER_BASKET VALUES (?,?,?,?) ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, vo.getBookname());
+			pstmt.setInt(3, vo.getPrice());
+			pstmt.setInt(4, vo.getCount());
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
 	}
 	
 	

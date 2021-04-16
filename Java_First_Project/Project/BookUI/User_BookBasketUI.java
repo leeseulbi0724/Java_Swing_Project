@@ -9,11 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -26,14 +28,21 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	JTextField bsBookPrice_tf;
 	JButton buyCancel_btn, buyIt_btn;
 	BookVO book;
+	JComboBox count_box;
+	String name;
+	
+	BookSystem system = new BookSystem();
 	
 	//Constructor
-	public User_BookBasketUI(Window parent, BookVO book) {
+	public User_BookBasketUI(Window parent, BookVO book, String name) {
 		super(parent,"장바구니",ModalityType.APPLICATION_MODAL);
+		this.name = name;
 		this.book = book;
 		init();
-		login = new LoginUI();
+		login = new LoginUI();	
+		
 	}
+	
 	
 	
 	//Method
@@ -52,7 +61,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		basketPanel.add(separator_1);
 		
 		String[] count = new String[] {"1","2","3","4","5"};
-		JComboBox count_box = new JComboBox(count);
+		count_box = new JComboBox(count);
 		count_box.setBounds(347, 152, 125, 35);
 		basketPanel.add(count_box);
 		
@@ -104,6 +113,22 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		Object obj = e.getSource();
 		if (obj.equals(buyCancel_btn)) {
 			dispose();
+		} else if (obj.equals(buyIt_btn)) {
+			Basket_proc();
+		}		
+	}
+	
+	public void Basket_proc() {
+		BookVO vo = new BookVO();
+		vo.setBookname(bsBookName_tf.getText());
+		vo.setPrice(Integer.parseInt(bsBookPrice_tf.getText()));
+		vo.setCount(Integer.parseInt(count_box.getSelectedItem().toString()));
+		
+		if (system.User_Basket(vo, name)) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("선택하신 도서를 장바구니에 담았습니다."));
+			dispose();
+		} else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("장바구니에 담지 못했습니다. 다시 시도해주세요."));
 		}
 		
 	}

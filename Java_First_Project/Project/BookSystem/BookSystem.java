@@ -53,9 +53,14 @@ public class BookSystem {
 			return bdao.getResult(text, name);
 		}
 		
-		/** 사용자 - 마이페이지 - 장바구니 **/
-		public ArrayList<BookVO> getBookList() {
-			return bdao.getResultBasket();
+		/** 사용자 - 마이페이지 - 장바구니 내역 불러오기**/
+		public ArrayList<BookVO> getBookList(String name) {
+			return bdao.getResultBasket(name);
+		}
+		
+		/** 사용자 - 장바구니 담기 **/
+		public boolean User_Basket(BookVO vo, String name) {
+			return bdao.getResult(vo, name);
 		}
 			
 //			/** 주문수량 가져오기 **/

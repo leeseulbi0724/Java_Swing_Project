@@ -159,7 +159,7 @@ public class LoginUI implements ActionListener {
 			boolean result = system.loginCheck(id_tf.getText(), password_tf.getText());
 			if(result) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("사용자 로그인에 성공하셨습니다."));
-				new User_MainUI(LoginUI.this);	
+				new User_MainUI(LoginUI.this, id_tf.getText());	
 				id_tf.setText(""); password_tf.setText("");
 				login_panel.setVisible(false);
 				

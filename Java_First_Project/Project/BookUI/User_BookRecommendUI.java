@@ -26,11 +26,12 @@ public class User_BookRecommendUI implements ActionListener {
 		JTextField bookNumber_tf,bookName_tf,bookAuthor_tf,publisher_tf,issueDay_tf,price_tf;	
 		BookDAO dao;
 		BookVO book;
-		 
+		String name;
 		
 		//Constructor
 		
 		public User_BookRecommendUI(User_MainUI main){
+			this.name = main.name;
 			this.main = main;
 			this.f= main.f;
 			init();
@@ -166,7 +167,7 @@ public class User_BookRecommendUI implements ActionListener {
 				User_BookReviewUI review = new User_BookReviewUI(f);		
 				review.setVisible(true);
 			} else if(obj==putIn_btn) { //장바구니버튼
-				User_BookBasketUI basket1 = new User_BookBasketUI(f, book);
+				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name);
 				basket1.setVisible(true);
 			}
 		}

@@ -43,9 +43,11 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 	JTable table;
 	JButton btn_basket, btn_review;
 	BookVO vo;
+	String name;
 	BookSystem system = new BookSystem();
 	
 	public User_BookListSearchUI(User_MainUI main) {
+		this.name = main.name;
 		this.main = main;
 		this.f=main.f;
 		init();
@@ -161,13 +163,15 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		Object obj = e.getSource();
 		if (obj.equals(btn_basket)) {
 			if (vo != null ) {
-				User_BookBasketUI basket = new User_BookBasketUI(f, vo);
+				User_BookBasketUI basket = new User_BookBasketUI(f, vo, name);
 				basket.setVisible(true);
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));
-			}
-			
-		} 		
+			}			
+		} else if (obj.equals(btn_review)) {
+			User_BookReviewUI review = new User_BookReviewUI(f);
+			review.setVisible(true);
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -175,7 +179,6 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		  int row = table.getSelectedRow();		  
 		  //테이블의 모델객체 얻어오기
 		  TableModel data = table.getModel();		  
-		  //선택한 테이블의 row의 모든 값을 이용하여 MemberDTO객체 생성하기
 		  String name = (String)data.getValueAt(row,1);
 		  int price = (int) data.getValueAt(row,4);			  
 		  vo = new BookVO();
