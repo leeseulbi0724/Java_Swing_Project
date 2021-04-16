@@ -29,9 +29,9 @@ public class User_MyPage_BasketUI {
 	User_MyPageUI main;
 	JPanel content_panel, btn_panel;
 	JTextField textField;
-	String[] colName = {"도서명", "도서가격", "수량냠냠"};
+	String[] colName = {"도서명", "도서가격", "가격", "수량"};
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
-	Object[] row = new Object[3];
+	Object[] row = new Object[4];
 	JTable board_table = new JTable(model);
 	BookSystem system;
 
@@ -102,6 +102,7 @@ public class User_MyPage_BasketUI {
 			row[0] = book.getBookname();
 			row[1] = book.getAuthor();
 			row[2] = book.getPrice();
+			row[3] = book.getCount();
 			
 			model.addRow(row);
 		}

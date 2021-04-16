@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -39,7 +40,7 @@ public class Admin_DeleteUI implements ActionListener{
 	DefaultTableModel model;
 	JTable book_table;
 	JComboBox comboBox;
-	ArrayList<Object> delete_list = new ArrayList<Object>();
+	ArrayList<BookVO> list;
 
 	public Admin_DeleteUI(Admin_MainUI main) {
 		this.main = main;
@@ -60,7 +61,7 @@ public class Admin_DeleteUI implements ActionListener{
 		
 		comboBox = new JComboBox();
 		bottom_panel.add(comboBox, BorderLayout.WEST);
-		comboBox.addItem("도서명");		comboBox.addItem("저자");
+		comboBox.addItem("도서번호");		comboBox.addItem("도서명");
 		
 		JLabel name_label = new JLabel("도 서 삭 제");
 		name_label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,8 +88,7 @@ public class Admin_DeleteUI implements ActionListener{
 		comboBox.setFont(Commons.getFont());
 		btn_search.setFont(Commons.getFont());
 		search_tf.setFont(Commons.getFont());
-		name_label.setFont(Commons.getFont());
-		
+		name_label.setFont(Commons.getFont());	
 		
 	}
 	
@@ -100,12 +100,16 @@ public class Admin_DeleteUI implements ActionListener{
 		if (obj.equals(btn_search)) {
 				main.content_panel.remove(main.scrollPane);
 				main.content_panel.setVisible(false);
-				data_search();		
+				String boxname = comboBox.getSelectedItem().toString();
+				data_search(boxname);		
 		}
 	}
 	
+	
 	/** 도서 검색 **/
-	public void data_search() {
+	public void data_search(String name) {
+		list = new ArrayList<BookVO>();
+		list = main.system.Admin_Search(search_tf.getText(), name);		
 		main.content_panel.setVisible(true);
 		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
 		model = new DefaultTableModel(header, 0);
@@ -113,10 +117,9 @@ public class Admin_DeleteUI implements ActionListener{
 		JScrollPane book_pane = new JScrollPane(book_table);
 		book_pane.setEnabled(false);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportView(book_pane);				
-		ArrayList<BookVO> list = new ArrayList<BookVO>();
-		list = main.system.Admin_Search(search_tf.getText());
-		for (BookVO book : list) {
+		scrollPane.setViewportView(book_pane);					
+		for (BookVO book : list) {			
+			model.setNumRows(0);
 			Object row[] = new Object[7];
 			row[0] = book.getBno();
 			row[1] = book.getBookname();
@@ -125,13 +128,19 @@ public class Admin_DeleteUI implements ActionListener{
 			row[4] = book.getPrice();
 			row[5] = book.getPblshdate();
 			row[6] = "삭제";			
-			model.addRow(row);			
+			model.addRow(row);		
+			
 		}
-		
+		model.fireTableDataChanged();
 		book_table.setFont(Commons.getFont());
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
         book_table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
         book_table.getColumn("삭제").setCellEditor(new ButtonEditor(new JTextField()));
+        
+        /** 테이블 색 설정 **/
+		JTableHeader head = book_table.getTableHeader();
+		head.setBackground(new Color(173, 216, 230));
+		head.setForeground(new Color(255,255,255));		
 		
 	}
 	

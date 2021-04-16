@@ -38,8 +38,8 @@ public class BookSystem {
 			}
 			
 			/** 관리자 - 도서검색 **/
-			public ArrayList<BookVO> Admin_Search(String name) {
-				return bdao.getResult(name);
+			public ArrayList<BookVO> Admin_Search(String text, String name) {
+				return bdao.getResult(text, name);
 			}
 			
 			/** 사용자 - 마이페이지 - 장바구니 **/

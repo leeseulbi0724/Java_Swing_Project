@@ -111,12 +111,18 @@ public class BookDAO extends DBConn {
 	}
 	
 	/** 관리자 - 도서조회 **/
-	public ArrayList<BookVO> getResult(String name) {
+	public ArrayList<BookVO> getResult(String text, String name) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		String sql;
 		try {
-			String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";
+			if (name == "도서명") {
+				sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";
+			} else {
+				sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BNO = ? ";
+			}			
 			getPreparedStatement(sql);
-			pstmt.setString(1, name);			
+			System.out.println(name);
+			pstmt.setString(1, text);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				BookVO vo = new BookVO();
@@ -125,8 +131,7 @@ public class BookDAO extends DBConn {
 				vo.setAuthor(rs.getString(3));
 				vo.setPblsh(rs.getString(4));
 				vo.setPrice(rs.getInt(5));
-				vo.setPblshdate(rs.getString(6));
-				
+				vo.setPblshdate(rs.getString(6));				
 				list.add(vo);				
 			}
 		} catch (Exception e) {
@@ -141,7 +146,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, price from BOOK_USER_BASKET "; //나중에 로그인DB연결되면 id 추가하기
+			String sql = " select bookname, author, price, count from BOOK_USER_BASKET "; //나중에 로그인DB연결되면 id 추가하기
 			getPreparedStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -150,6 +155,7 @@ public class BookDAO extends DBConn {
 				book.setBookname(rs.getString(1));
 				book.setAuthor(rs.getString(2));
 				book.setPrice(rs.getInt(3));
+				book.setCount(rs.getInt(4));
 				
 				booklist.add(book);
 			}
