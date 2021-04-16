@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import BookSystem.BookSystem;
 import Commons.Commons;
 
 public class Admin_MemberViewsUI {
@@ -29,6 +30,7 @@ public class Admin_MemberViewsUI {
 	JButton btn_member;
 	
 	public Admin_MemberViewsUI(Admin_MainUI main) {
+		
 		this.main = main;
 		this.frame = main.frame;
 		init();
