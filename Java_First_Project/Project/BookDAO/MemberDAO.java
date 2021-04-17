@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import BookVO.MemberVO;
 
@@ -57,6 +58,33 @@ public class MemberDAO extends DBConn {
 		}
 		
 		return result;
+	}
+	
+	/** 관리자 회원조회 - 회원목록 가져오기 **/
+	public ArrayList<MemberVO> getResultSelect(){
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+			
+		try {
+			String sql = " select id,pass,name,birthday,hp,addr from book_users ";
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setId(rs.getString(1));
+				member.setPass(rs.getString(2));
+				member.setName(rs.getString(3));
+				member.setBirthday(rs.getString(4));
+				member.setHp(rs.getString(5));
+				member.setAddr(rs.getString(6));
+				list.add(member);
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		return list;
 	}
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/

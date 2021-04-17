@@ -38,6 +38,12 @@ public class BookSystem {
 			return mdao.getModifyResult(vo);
 		}
 		
+		/** 관리자 - 회원조회 (회원목록 가져오기) **/
+		public ArrayList<MemberVO> Admin_MemberSelect(){
+				return mdao.getResultSelect();
+		}
+		
+		
 		/** 관리자 - 메인화면, 삭제화면 (도서목록가져오기) **/
 		public ArrayList<BookVO> Admin_Select() {
 			return bdao.getResultSelect();				
