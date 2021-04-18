@@ -22,6 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookDAO.MemberDAO;
 import BookSystem.BookSystem;
 import BookVO.MemberVO;
 import Commons.Commons;
@@ -42,7 +43,8 @@ public class SignUI extends JDialog implements ActionListener {
 	JTextField sign_birthday_tf;
 	ArrayList<Object> list = new ArrayList<Object>();
 	Admin_MainUI main;
-	
+	JButton check_id_btn;
+	MemberDAO dao = new MemberDAO();
 	
 	//Constructor
 	public SignUI(LoginUI ui) {
@@ -117,10 +119,12 @@ public class SignUI extends JDialog implements ActionListener {
 		sign_panel.add(check_sign_pass_tf);
 		list.add(check_sign_pass_tf);
 		
-		JButton check_id_btn = new JButton("중복확인");
-		check_id_btn.setForeground(Color.PINK);
-		check_id_btn.setBackground(Color.WHITE);
+		//중복확인
+		check_id_btn = new JButton("중복확인");
+		check_id_btn.setForeground(Color.BLACK);
+		check_id_btn.setBackground(Color.PINK);
 		check_id_btn.setBorder(BorderFactory.createLineBorder(null));
+		check_id_btn.addActionListener(this);
 		check_id_btn.setBounds(340, 74, 125, 43);
 		sign_panel.add(check_id_btn);
 		
@@ -227,7 +231,16 @@ public class SignUI extends JDialog implements ActionListener {
 					JOptionPane.showMessageDialog(null, Commons.getMsg("회원가입에 실패하셨습니다."));
 				}
 			}
-		}else {
+		}else if(obj == check_id_btn) {
+			//중복확인 버튼 액션
+			if(dao.CheckID(sign_id_tf.getText())) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("사용중인 ID입니다."));
+				sign_id_tf.setText("");
+			}else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("사용가능한 ID입니다."));
+			}
+		}
+		else {
 			for(Object obj2 : list) {
 				JTextField tf = (JTextField)obj2;
 				tf.setText("");
@@ -236,6 +249,8 @@ public class SignUI extends JDialog implements ActionListener {
 		
 		
 	};
+	
+	
 	
 	
 	/** 폼 체크 **/
