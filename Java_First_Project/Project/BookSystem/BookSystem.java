@@ -50,8 +50,8 @@ public class BookSystem {
 		}
 		
 		/** 관리자 - 도서삭제 **/
-		public boolean Admin_Delete(String name) {
-			return bdao.getResultDelete(name);
+		public boolean Admin_Delete(String name, String boxname) {
+			return bdao.getResultDelete(name, boxname);
 		}
 		
 		/** 관리자 - 도서검색 **/
