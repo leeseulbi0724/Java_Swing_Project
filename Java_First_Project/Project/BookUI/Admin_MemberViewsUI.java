@@ -128,7 +128,5 @@ public class Admin_MemberViewsUI {
 		model.fireTableDataChanged();
 		
 	}
-
-
-
+	
 }

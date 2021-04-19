@@ -2,6 +2,7 @@ package BookUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,12 +13,16 @@ import javax.swing.SwingConstants;
 import BookSystem.BookSystem;
 import BookVO.MemberVO;
 import Commons.Commons;
+import oracle.sql.ARRAY;
 
 public class User_MyPage_UsermodifyUI implements ActionListener {
 	User_MyPageUI main;
 	JButton btn_modify_check;
-	JTextField id_text, birthday_text, password_tf, hp_text, addr_text;
+	JTextField name_text,id_text, birthday_text, password_tf, hp_text, addr_text;
 	BookSystem system;
+	ArrayList<MemberVO> list;
+	String[] data;
+	
 	
 	public User_MyPage_UsermodifyUI(User_MyPageUI main) {
 		this.main = main;
@@ -32,11 +37,25 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	public void init() {
 		main.switching(User_MyPageUI.Usermodify);
 		
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+		list = system.Admin_MemberSelect();
+	
+		for(MemberVO member : list) {
+			data = new String[3];
+			data[0]= member.getName();
+			data[1]= member.getId();
+			data[2]= member.getBirthday();
+		}
+		
+		name_text = new JTextField(data[0]);
+		id_text = new JTextField(data[1]);
+		birthday_text = new JTextField(data[2]);
+		
 		JLabel name_label = new JLabel("이름");
 		name_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		name_label.setBounds(163, 75, 39, 15);
-		main.content_panel.add(name_label);		
-		JTextField name_text = new JTextField();
+		main.content_panel.add(name_label);	
+		
 		name_text.setBounds(210, 73, 153, 21);
 		main.content_panel.add(name_text);
 		name_text.setEditable(false);
@@ -44,8 +63,8 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		JLabel id_label = new JLabel("아이디");
 		id_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		id_label.setBounds(163, 105, 39, 15);
-		main.content_panel.add(id_label);		
-		id_text = new JTextField();
+		main.content_panel.add(id_label);	
+		
 		id_text.setColumns(10);
 		id_text.setBounds(210, 103, 153, 21);
 		main.content_panel.add(id_text);
@@ -55,7 +74,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		birthday_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		birthday_label.setBounds(145, 135, 57, 15);
 		main.content_panel.add(birthday_label);		
-		birthday_text = new JTextField();
+		
 		birthday_text.setColumns(10);
 		birthday_text.setBounds(210, 133, 153, 21);
 		main.content_panel.add(birthday_text);
@@ -74,7 +93,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		JLabel hp_label = new JLabel("휴대폰번호");
 		hp_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		hp_label.setBounds(134, 193, 68, 15);
-		main.content_panel.add(hp_label);		
+		main.content_panel.add(hp_label);	
 		hp_text = new JTextField();
 		hp_text.setColumns(10);
 		hp_text.setBounds(210, 193, 153, 21);
@@ -85,6 +104,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		addr_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		addr_label.setBounds(163, 223, 39, 15);
 		main.content_panel.add(addr_label);		
+		
 		addr_text = new JTextField();
 		addr_text.setColumns(10);
 		addr_text.setBounds(210, 223, 153, 21);

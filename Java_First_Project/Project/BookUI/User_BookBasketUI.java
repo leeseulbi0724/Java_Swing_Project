@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import BookSystem.BookSystem;
 import BookVO.BookVO;
+import BookVO.MemberVO;
 import Commons.Commons;
 
 public class User_BookBasketUI extends JDialog implements ActionListener{
@@ -30,6 +32,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	BookVO book;
 	JComboBox count_box;
 	String name;
+	ArrayList<MemberVO> list;
 	
 	BookSystem system = new BookSystem();
 	
@@ -47,6 +50,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	
 	//Method
 	public void init() {
+		
 		JPanel basketPanel = new JPanel();
 		setBounds(100, 100, 530, 540);
 		getContentPane().setLayout(null);
