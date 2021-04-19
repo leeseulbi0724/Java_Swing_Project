@@ -70,8 +70,7 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		button_panel.setBackground(Color.WHITE);
 		
 		btn_write = new JButton("±Û¾²±â");		
-		button_panel.add(btn_write);
-		
+		button_panel.add(btn_write);		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
 		main.mainPanel.add(content_panel);
 		
