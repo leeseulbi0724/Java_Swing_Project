@@ -288,6 +288,56 @@ public class BookDAO extends DBConn {
 	}
 	
 	
+	/** 사용자 - 마이페이지 - 주문 데이터 넘기기 **/
+	public ArrayList<BookVO> getResultOrder(String name) {
+		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
+		
+		try {
+			String sql = " select bookname, author, pblsh, price from BOOK_USER_ORDER where id = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BookVO book = new BookVO();
+				book.setBookname(rs.getString(1));
+				book.setAuthor(rs.getString(2));
+				book.setPblsh(rs.getString(3));
+				book.setPrice(rs.getInt(4));
+				
+				booklist.add(book);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return booklist;
+	}
+	
+	public boolean getOrder(BookVO vo, String name) {
+		boolean result = false;
+		
+		try {
+			String sql = " insert into BOOK_USER_ORDER values(?,?,?,?,?, sysdate) "; 
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, name);		//id받아서 넣기
+			pstmt.setString(2, vo.getBookname());
+			pstmt.setString(3, vo.getAuthor());
+			pstmt.setString(4, vo.getPblsh());
+			pstmt.setInt(5, vo.getPrice());
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0) result = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
 	/** 수량 가져오기 **/
 //	public ArrayList<BookVO> getCount(String name) {
 //		ArrayList<BookVO> list = new ArrayList<BookVO>();

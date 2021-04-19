@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class DBConn {
 	//Field
-	String url = "jdbc:oracle:thin:@127.0.0.1:1521";
+	String url = "jdbc:oracle:thin:@127.0.0.1:1522";
 	String user = "scott";
 	String pass = "tiger";
 	Connection conn;

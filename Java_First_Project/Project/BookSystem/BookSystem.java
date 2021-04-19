@@ -88,6 +88,16 @@ public class BookSystem {
 		public ArrayList<BookVO> Book_Equals() {
 			return bdao.getBookEquals();
 		}
+		
+		/** 사용자 - 마이페이지 - 주문조회 (select) **/
+		public ArrayList<BookVO> getOrderList(String name) {
+			return bdao.getResultOrder(name);
+		}
+		
+		/** 사용자 - 마이페아지 - 주문데이터 넘기기 (insert) **/
+		public boolean User_Order(BookVO vo, String name) {
+			return bdao.getOrder(vo, name);
+		}
 			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {
