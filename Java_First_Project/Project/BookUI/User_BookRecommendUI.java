@@ -22,13 +22,16 @@ public class User_BookRecommendUI implements ActionListener {
 		JPanel bookPanel;
 		User_MainUI main;
 		JFrame f;
-		JButton lookReview_btn,putIn_btn;
+		JButton lookReview_btn,putIn_btn,lookReview_btn2;
 		JTextField bookNumber_tf,bookName_tf,bookAuthor_tf,publisher_tf,issueDay_tf,price_tf;	
 		JLabel bookNumberLabel,bookNameLabel,bookAuthorLabel,publisherLabel,priceLabel,issueDayLabel,bookimgLabel;
 		BookDAO dao;
 		BookVO book;
 		String name;
+		//book1, book2 구별
 		public boolean flag;
+		//User_BookReviewUI에서 book1, book2 구별
+		static boolean tag;
 		
 		
 		
@@ -50,7 +53,7 @@ public class User_BookRecommendUI implements ActionListener {
 		//Method
 	
 		public void init(){
-		
+			
 			//패널 콘텐츠 생성
 			book();
 			
@@ -76,9 +79,15 @@ public class User_BookRecommendUI implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Object obj = e.getSource();
 			if(obj==lookReview_btn) { //리뷰버튼
-				User_BookReviewUI review = new User_BookReviewUI(f);		
+				flag = false;
+				User_BookReviewUI review = new User_BookReviewUI(f,User_BookRecommendUI.this);		
 				review.setVisible(true);
-			} else if(obj==putIn_btn) { //장바구니버튼
+			}else if(obj==lookReview_btn2) {
+				flag = true;
+				User_BookReviewUI review = new User_BookReviewUI(f,User_BookRecommendUI.this);
+				review.setVisible(true);
+			}
+			else if(obj==putIn_btn) { //장바구니버튼
 				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name);
 				basket1.setVisible(true);
 			}
@@ -102,9 +111,11 @@ public class User_BookRecommendUI implements ActionListener {
 			bookimgLabel = new JLabel();
 			
 			if(main.flag==false) {
-			bookimgLabel.setIcon(new ImageIcon("images/small_book1.jpg"));
-			}else if(main.flag==true){
 			bookimgLabel.setIcon(new ImageIcon("images/small_book2.jpg"));
+			tag = false;
+			}else if(main.flag==true){
+			bookimgLabel.setIcon(new ImageIcon("images/small_book1.jpg"));
+			tag = true;
 			}
 			
 			bookimgLabel.setBounds(0, -10, 111, 155);
@@ -134,12 +145,19 @@ public class User_BookRecommendUI implements ActionListener {
 			issueDayLabel.setBounds(180, 210, 69, 30);
 			bookPanel.add(issueDayLabel);
 			
+			if(main.flag==false) {
 			lookReview_btn = new JButton("리뷰보기");
 			lookReview_btn.setForeground(Color.WHITE);
 			lookReview_btn.setBackground(Color.PINK);
 			lookReview_btn.setBounds(276, 268, 95, 47);
 			bookPanel.add(lookReview_btn);
-			
+			}else if(main.flag==true) {
+			lookReview_btn = new JButton("리뷰보기");
+			lookReview_btn.setForeground(Color.WHITE);
+			lookReview_btn.setBackground(Color.PINK);
+			lookReview_btn.setBounds(276, 268, 95, 47);
+			bookPanel.add(lookReview_btn);
+			}
 			putIn_btn = new JButton("장바구니");
 			putIn_btn.setForeground(Color.WHITE);
 			putIn_btn.setBackground(Color.PINK);
