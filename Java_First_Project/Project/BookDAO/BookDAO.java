@@ -2,9 +2,12 @@ package BookDAO;
 
 
 import java.util.ArrayList;
-
 import BookUI.User_MainUI;
+import javax.swing.JOptionPane;
+
+
 import BookVO.BookVO;
+import Commons.Commons;
 
 public class BookDAO extends DBConn {
 	
@@ -97,18 +100,24 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 관리자 - 도서삭제 **/
-	public boolean getResultDelete(String name) {
+	public boolean getResultDelete(String name, String boxname) {
 		boolean result = false;		
 		try {
-			String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";
-			getPreparedStatement(sql);
-			pstmt.setString(1, name);			
+			if (boxname == "도서명") {
+				String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";				
+				getPreparedStatement(sql);
+				pstmt.setString(1, name);			
+			} else {
+				String sql = " DELETE FROM BOOK_DATA WHERE BNO = ?";			
+				getPreparedStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(name));
+			}
 			int val = pstmt.executeUpdate();
 			if (val != 0) {
 				result = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제하실 수 없는 도서입니다."));
 		}		
 		return result;
 	}

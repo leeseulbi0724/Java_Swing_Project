@@ -41,6 +41,7 @@ public class Admin_DeleteUI implements ActionListener{
 	JTable book_table;
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
+	String boxname;
 
 	public Admin_DeleteUI(Admin_MainUI main) {
 		this.main = main;
@@ -100,7 +101,7 @@ public class Admin_DeleteUI implements ActionListener{
 		if (obj.equals(btn_search)) {
 				main.content_panel.remove(main.scrollPane);
 				main.content_panel.setVisible(false);
-				String boxname = comboBox.getSelectedItem().toString();
+				boxname = comboBox.getSelectedItem().toString();
 				data_search(boxname);		
 		}
 	}
@@ -190,7 +191,7 @@ public class Admin_DeleteUI implements ActionListener{
 				  if (clicked) {
 					 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
 					if (confirm == 0) {						
-						if (main.system.Admin_Delete(search_tf.getText())) {
+						if (main.system.Admin_Delete(search_tf.getText(), boxname)) {
 							JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
 							model.removeRow(book_table.getSelectedRow());
 							main.switching(Admin_MainUI.home);

@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import BookUI.Admin_MainUI;
+import BookUI.Admin_MemberViewsUI;
 import BookVO.MemberVO;
 
 public class MemberDAO extends DBConn {
@@ -85,6 +87,49 @@ public class MemberDAO extends DBConn {
 		}
 			
 		return list;
+	}
+	
+	/** 관리자 - 회원삭제 **/
+	public boolean getResultDelete(String id) {
+		boolean result = false;		
+		try {
+			String sql = " DELETE FROM BOOK_USERS WHERE ID = ?  ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+					
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return result;
+	}
+	
+	/** 회원가입 - ID 중복체크 **/
+	public boolean CheckID(String id) {
+		
+		try {
+			String sql = " select count(*) cnt from book_users where id = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				int cnt = rs.getInt("cnt");
+				if(cnt>0) {
+					return true;
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/
