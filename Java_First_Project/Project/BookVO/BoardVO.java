@@ -2,7 +2,7 @@ package BookVO;
 
 public class BoardVO {
 	String category, title, content, id, date;
-	int rownum;
+	int rownum, score;
 
 	public String getCategory() {
 		return category;
@@ -39,6 +39,12 @@ public class BoardVO {
 	}
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	

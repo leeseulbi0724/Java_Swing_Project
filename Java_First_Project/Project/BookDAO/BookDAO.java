@@ -337,6 +337,56 @@ public class BookDAO extends DBConn {
 		return result;
 	}
 	
+	/** 사용자 - 리뷰 등록 DB저장 **/
+	public boolean getReviewResult(BoardVO vo) {
+		boolean result = false;
+		try {
+			String sql = " INSERT INTO BOOK_REVIEW VALUES(?,?,?,?,SYSDATE)";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getId());
+			pstmt.setInt(4, vo.getScore());
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+			
+		} catch (Exception e) {
+			
+		}
+		return result;
+	}
+	
+	/** 사용자 - 리뷰 작성 전 이미 작성된 리뷰가 있는지 체크 **/
+	public boolean getReviewCheck(String bookname, String username) {
+		boolean result = true;
+			try {
+				String sql = " SELECT BOOKNAME FROM BOOK_REVIEW WHERE BOOKNAME = ? AND ID = ?";
+				getPreparedStatement(sql);
+				
+				pstmt.setString(1, bookname);
+				pstmt.setString(2, username);
+				
+				rs = pstmt.executeQuery();		
+				while (rs.next()) {
+					BoardVO vo = new BoardVO();
+					vo.setTitle(rs.getString(1));
+					if (vo != null) {
+						result = false;
+					}
+				}
+				
+			} catch (Exception e) {
+				
+			}
+			
+			return result;
+			
+	}
+ 	
 	
 	/** 수량 가져오기 **/
 //	public ArrayList<BookVO> getCount(String name) {

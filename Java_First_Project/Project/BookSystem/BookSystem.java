@@ -98,6 +98,16 @@ public class BookSystem {
 		public boolean User_Order(BookVO vo, String name) {
 			return bdao.getOrder(vo, name);
 		}
+		
+		/** 사용자 - 리뷰작성 DB 저장 **/
+		public boolean User_ReviewResult(BoardVO vo) {
+			return bdao.getReviewResult(vo);
+		}
+		
+		/** 사용자 -- 리뷰 작성 전 이미 작성된 리뷰가 있는지 체크 **/
+		public boolean ReviewCheck(String bookname, String username) {
+			return bdao.getReviewCheck(bookname, username);
+		}
 			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {

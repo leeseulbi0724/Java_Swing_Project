@@ -22,10 +22,12 @@ public class User_MyPageUI implements ActionListener {
 	JFrame frame;
 	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass;
 	BookSystem system = new BookSystem();
+	String user_name;
 	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;
 		this.main = main;
+		this.user_name = main.name;
 		init();
 	}
 	
