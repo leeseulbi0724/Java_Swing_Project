@@ -16,15 +16,27 @@ public class User_BookReviewUI extends JDialog{
 	
 	//Field
 	User_BookRecommendUI main;
+	User_BookListSearchUI mainB;
 	LoginUI login;
 	
 
 	//Constructor
 	public User_BookReviewUI(Window parent,User_BookRecommendUI main) {
+		
 		super(parent, "책 리뷰", ModalityType.APPLICATION_MODAL);
 		init();
 		login = new LoginUI();
 		this.main=main;
+	}
+	public User_BookReviewUI() {
+		
+	}
+	//사용자 도서리스트 리뷰 버튼 하기위해서
+	public User_BookReviewUI(Window parent, User_BookListSearchUI e) {
+		super(parent, "책 리뷰", ModalityType.APPLICATION_MODAL);
+		init();
+		login = new LoginUI();
+		this.mainB = e;
 	}
 	
 	//Method

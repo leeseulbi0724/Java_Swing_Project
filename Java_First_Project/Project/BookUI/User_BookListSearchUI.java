@@ -3,6 +3,8 @@ package BookUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Window;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -38,6 +40,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 	JLabel lblNewLabel;
 	JTextField search_tf;
 	User_MainUI main;
+	
 	DBConn booklist;
 	JPanel tablePanel;
 	JTable table;
@@ -52,6 +55,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		this.f=main.f;
 		init();
 	}
+	
 
 	
 	public void init() {
@@ -169,7 +173,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));
 			}			
 		} else if (obj.equals(btn_review)) {
-			User_BookReviewUI review = new User_BookReviewUI(f);
+			User_BookReviewUI review = new User_BookReviewUI(f,User_BookListSearchUI.this);
 			review.setVisible(true);
 		}
 	}
