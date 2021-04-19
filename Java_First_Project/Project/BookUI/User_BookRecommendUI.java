@@ -22,27 +22,74 @@ public class User_BookRecommendUI implements ActionListener {
 		JPanel bookPanel;
 		User_MainUI main;
 		JFrame f;
-		JButton lookReview_btn, putIn_btn;
+		JButton lookReview_btn,putIn_btn;
 		JTextField bookNumber_tf,bookName_tf,bookAuthor_tf,publisher_tf,issueDay_tf,price_tf;	
+		JLabel bookNumberLabel,bookNameLabel,bookAuthorLabel,publisherLabel,priceLabel,issueDayLabel,bookimgLabel;
 		BookDAO dao;
 		BookVO book;
 		String name;
+		public boolean flag;
+		
+		
 		
 		//Constructor
 		
-		public User_BookRecommendUI(User_MainUI main){
+		public User_BookRecommendUI(User_MainUI main,boolean flag){
 			this.name = main.name;
 			this.main = main;
 			this.f= main.f;
+			this.flag=flag;
 			init();
 		}	
+		
+		public User_BookRecommendUI() {
+			
+		}
+		
+	
 		//Method
 	
 		public void init(){
 		
+			//패널 콘텐츠 생성
+			book();
+			
+			/** 폰트 설정 **/
+			bookNumberLabel.setFont(Commons.getFont());
+			bookNameLabel.setFont(Commons.getFont());
+			bookAuthorLabel.setFont(Commons.getFont());
+			publisherLabel.setFont(Commons.getFont());
+			priceLabel.setFont(Commons.getFont());
+			issueDayLabel.setFont(Commons.getFont());
+			lookReview_btn.setFont(Commons.getFont());
+			putIn_btn.setFont(Commons.getFont());
+			bookNumber_tf.setFont(Commons.getFont());
+			bookName_tf.setFont(Commons.getFont());
+			bookAuthor_tf.setFont(Commons.getFont());
+			publisher_tf.setFont(Commons.getFont());
+			price_tf.setFont(Commons.getFont());
+			issueDay_tf.setFont(Commons.getFont());
+		}
+	
+	
+		//버튼 액션
+		public void actionPerformed(ActionEvent e) {
+			Object obj = e.getSource();
+			if(obj==lookReview_btn) { //리뷰버튼
+				User_BookReviewUI review = new User_BookReviewUI(f);		
+				review.setVisible(true);
+			} else if(obj==putIn_btn) { //장바구니버튼
+				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name);
+				basket1.setVisible(true);
+			}
+		}
+		
+	
+		public JPanel book() {
+		
 			dao = new BookDAO();
 			//BookDAO에 있는 메소드로 추천도서 db 데이터 받아오는 것
-			String[][] bookInfo = dao.recommendList();
+			String[][] bookInfo = dao.recommendList(flag);
 			
 			main.switching(User_MainUI.BOOK);		
 			
@@ -51,36 +98,39 @@ public class User_BookRecommendUI implements ActionListener {
 			bookPanel.setBounds(133, 10, 531, 341);
 			bookPanel.setVisible(false);
 			bookPanel.setLayout(null);
+		
+			bookimgLabel = new JLabel();
 			
-			JLabel book1imgLabel = new JLabel("");
-			book1imgLabel.setIcon(new ImageIcon("images/book1.jfif"));
+			if(main.flag==false) {
+			bookimgLabel.setIcon(new ImageIcon("images/small_book1.jpg"));
+			}else if(main.flag==true){
+			bookimgLabel.setIcon(new ImageIcon("images/small_book2.jpg"));
+			}
 			
+			bookimgLabel.setBounds(0, -10, 111, 155);
+			bookPanel.add(bookimgLabel);
 			
-			book1imgLabel.setIcon(new ImageIcon("images/book1.jfif"));
-			book1imgLabel.setBounds(0, -10, 111, 155);
-			bookPanel.add(book1imgLabel);
-			
-			JLabel bookNumberLabel = new JLabel("도서번호");
+			bookNumberLabel = new JLabel("도서번호");
 			bookNumberLabel.setBounds(180, 10, 69, 30);
 			bookPanel.add(bookNumberLabel);
 			
-			JLabel bookNameLabel = new JLabel("도서명");
+			bookNameLabel = new JLabel("도서명");
 			bookNameLabel.setBounds(180, 50, 69, 30);
 			bookPanel.add(bookNameLabel);
 			
-			JLabel bookAuthorLabel = new JLabel("저자");
+			bookAuthorLabel = new JLabel("저자");
 			bookAuthorLabel.setBounds(180, 90, 69, 30);
 			bookPanel.add(bookAuthorLabel);
 			
-			JLabel publisherLabel = new JLabel("출판사");
+			publisherLabel = new JLabel("출판사");
 			publisherLabel.setBounds(180, 130, 69, 30);
 			bookPanel.add(publisherLabel);
 			
-			JLabel priceLabel = new JLabel("가격");
+			priceLabel = new JLabel("가격");
 			priceLabel.setBounds(180, 170, 69, 30);
 			bookPanel.add(priceLabel);
 			
-			JLabel issueDayLabel = new JLabel("발행일");
+			issueDayLabel = new JLabel("발행일");
 			issueDayLabel.setBounds(180, 210, 69, 30);
 			bookPanel.add(issueDayLabel);
 			
@@ -101,7 +151,7 @@ public class User_BookRecommendUI implements ActionListener {
 			bookPanel.add(bookNumber_tf);
 			bookNumber_tf.setColumns(10);
 			bookNumber_tf.setEnabled(false);
-			
+				
 			bookName_tf = new JTextField(bookInfo[0][1]);
 			bookName_tf.setColumns(10);
 			bookName_tf.setBounds(276, 50, 192, 30);
@@ -142,35 +192,9 @@ public class User_BookRecommendUI implements ActionListener {
 			book.setBookname(bookName_tf.getText());
 			book.setPrice(Integer.parseInt(price_tf.getText()));
 			
-			/** 폰트 설정 **/
-			bookNumberLabel.setFont(Commons.getFont());
-			bookNameLabel.setFont(Commons.getFont());
-			bookAuthorLabel.setFont(Commons.getFont());
-			publisherLabel.setFont(Commons.getFont());
-			priceLabel.setFont(Commons.getFont());
-			issueDayLabel.setFont(Commons.getFont());
-			lookReview_btn.setFont(Commons.getFont());
-			putIn_btn.setFont(Commons.getFont());
-			bookNumber_tf.setFont(Commons.getFont());
-			bookName_tf.setFont(Commons.getFont());
-			bookAuthor_tf.setFont(Commons.getFont());
-			publisher_tf.setFont(Commons.getFont());
-			price_tf.setFont(Commons.getFont());
-			issueDay_tf.setFont(Commons.getFont());
+			return bookPanel;
 		}
-	
-	
-		//버튼 액션
-		public void actionPerformed(ActionEvent e) {
-			Object obj = e.getSource();
-			if(obj==lookReview_btn) { //리뷰버튼
-				User_BookReviewUI review = new User_BookReviewUI(f);		
-				review.setVisible(true);
-			} else if(obj==putIn_btn) { //장바구니버튼
-				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name);
-				basket1.setVisible(true);
-			}
-		}
-	
-	
+			
+		
+		
 }

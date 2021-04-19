@@ -59,6 +59,7 @@ public class LoginUI implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		
+		
 		login_panel = new ImagePanel(new ImageIcon("images/books_img.jpg").getImage());
 		login_panel.setBounds(0, 0, 800, 513);
 		frame.getContentPane().add(login_panel);
@@ -184,6 +185,8 @@ public class LoginUI implements ActionListener {
 		public ImagePanel(Image img) {
 			this.img=img;
 			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null)));
+			setSize(new Dimension(img.getWidth(null),img.getHeight(null)));
+			setLayout(null);
 		}
 		
 		public int getWidth() {

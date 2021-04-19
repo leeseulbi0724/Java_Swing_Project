@@ -23,14 +23,16 @@ public class User_MainUI implements ActionListener{
 	//Field	
 	LoginUI main;
 	JFrame f;
-	JPanel mainPanel,topPanel;	
+	JPanel mainPanel,topPanel;
 	//탑패널 버튼
 	JButton logout_btn,myPage_btn,board_btn,home_btn;	
 	//메인패널 버튼
 	JButton book1_btn,book2_btn,bookList_btn;	
 	//홈 화면 눌렀을 때 초기화되었기 때문에 다시 넣어줘야함
-	JLabel recommendIconLabel;	
+	JLabel recommendIconLabel,lineLabel;	
 	String name;	
+	// book1,book2 구별
+	public boolean flag;
 	
 	public static final int HOME = 0;
 	public static final int BOOK = 1;
@@ -38,16 +40,17 @@ public class User_MainUI implements ActionListener{
 	public static final int BOARD = 4;
 	public static final int MYPAGE = 5;	
 	
-	
 	//Constructor	
 	public User_MainUI(LoginUI main, String name) {
 		this.main = main;
 		this.f = main.frame;
 		this.name = name;
 		init();
-	}
-	public User_MainUI() {
 		
+	}
+	
+	public User_MainUI() {
+	
 	}
 
 	
@@ -109,31 +112,33 @@ public class User_MainUI implements ActionListener{
 		f.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 				
-		recommendIconLabel = new JLabel("");
-		recommendIconLabel.setIcon(new ImageIcon("images/recommendIcon.PNG"));
-		recommendIconLabel.setBounds(282, 10, 209, 59);
+		recommendIconLabel = new JLabel();
+		recommendIconLabel.setIcon(new ImageIcon("images/bestseller.PNG"));
+		recommendIconLabel.setBounds(375, 0, 80, 80);
 		mainPanel.add(recommendIconLabel);		
 		
-		book1_btn = new JButton("");
+		
+		book1_btn = new JButton();
 		book1_btn.setBackground(Color.WHITE);
-		book1_btn.setIcon(new ImageIcon("images/book1.jfif"));
-		book1_btn.setBounds(214, 92, 114, 150);
+		book1_btn.setIcon(new ImageIcon("images/boobook.jpg"));
+		book1_btn.setBounds(200, 92, 180, 230);
 		mainPanel.add(book1_btn);
 		
-		book2_btn = new JButton("");
-		book2_btn.setIcon(new ImageIcon("images/javaimg.jfif"));
+		book2_btn = new JButton();
 		book2_btn.setBackground(Color.WHITE);
-		book2_btn.setBounds(443, 92, 114, 150);
+		book2_btn.setIcon(new ImageIcon("images/boobook2.jpg"));
+		book2_btn.setBounds(420, 92, 180, 230);
 		mainPanel.add(book2_btn);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(170, 304, 434, 2);
-		mainPanel.add(separator);
+		lineLabel = new JLabel();
+		lineLabel.setIcon(new ImageIcon("images/pink2.png"));
+		lineLabel.setBounds(0, 0, 800, 350);
+		mainPanel.add(lineLabel);
 		
 		bookList_btn = new JButton("도서조회");
 		bookList_btn.setForeground(Color.WHITE);
 		bookList_btn.setBackground(Color.PINK);
-		bookList_btn.setBounds(257, 337, 263, 47);
+		bookList_btn.setBounds(267, 360, 263, 30);
 		mainPanel.add(bookList_btn);
 		
 		/* 버튼 */
@@ -182,10 +187,13 @@ public class User_MainUI implements ActionListener{
 			if(obj.equals(home_btn)) {		//홈 버튼
 				switching(HOME);
 			}else if(obj==book1_btn) {		// BOOK1 클릭시
-				new User_BookRecommendUI(User_MainUI.this);
-			}else if(obj==book2_btn) {		// BOOK2 클릭시
-				new User_BookRecommendUI(User_MainUI.this);
-			}else if(obj==bookList_btn) {	// 도서목록 버튼
+				flag = false;
+				new User_BookRecommendUI(User_MainUI.this,flag);
+			}else if(obj==book2_btn) {
+				flag = true;
+				new User_BookRecommendUI(User_MainUI.this,flag);
+			}
+			else if(obj==bookList_btn) {	// 도서목록 버튼
 				new User_BookListSearchUI(User_MainUI.this);
 			}else if(obj.equals(board_btn)) {	//게시판 버튼 (O)
 				new User_BoardUI(User_MainUI.this);			
@@ -204,13 +212,15 @@ public class User_MainUI implements ActionListener{
 		
 		//스위치에서 홈버튼 누르면 버튼 새로 생성해야하는거 좀 지저분해서 여따 옮겨봤어요 다시 옮기셔도 돼요 ^^
 		public void createContent() {
-			recommendIconLabel.setBounds(282, 10, 209, 59);
+			recommendIconLabel.setBounds(375, 0, 80, 80);
 			mainPanel.add(recommendIconLabel);		
-			book1_btn.setBounds(214, 92, 114, 150);
+			book1_btn.setBounds(200, 92, 180, 230);
 			mainPanel.add(book1_btn);
-			book2_btn.setBounds(443, 92, 114, 150);
+			book2_btn.setBounds(420, 92, 180, 230);
 			mainPanel.add(book2_btn);
-			bookList_btn.setBounds(257, 337, 263, 47);
+			lineLabel.setBounds(0, 0, 800, 350);
+			mainPanel.add(lineLabel);
+			bookList_btn.setBounds(267, 360, 263, 30);
 			mainPanel.add(bookList_btn);
 		}
 	

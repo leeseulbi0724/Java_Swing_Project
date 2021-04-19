@@ -1,15 +1,13 @@
 package BookDAO;
 
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-
 import java.util.ArrayList;
 
+import BookUI.User_MainUI;
 import BookVO.BookVO;
 
 public class BookDAO extends DBConn {
+	
 	
 	/** 관리자 - 도서 등록 **/
 	public boolean getResultInsert(BookVO vo) {
@@ -37,22 +35,27 @@ public class BookDAO extends DBConn {
 	
 
 	/** 사용자 - 메인 추천도서 텍스트 받아오기 **/
-	public String[][] recommendList() {		
+	public String[][] recommendList(boolean flag) {		
+		
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		String sql;
+		
 		try {
-			String sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='정보처리기사'";
-			PreparedStatement st = conn.prepareStatement(sql);
-			ResultSet result = st.executeQuery();
+			if(flag==false) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='정보처리기사'";	
+			else if(flag==true) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='언어의온도'";	
+			else sql = null;
 			
-			ArrayList<String[]> list = new ArrayList<String[]>();
+			getPreparedStatement(sql);
+			rs = pstmt.executeQuery();
 			
-			while(result.next()) {
+			while(rs.next()) {
 				list.add(new String[] {
-				String.valueOf(result.getInt("BNO")),
-				result.getString("BOOKNAME"),
-				result.getString("AUTHOR"),
-				result.getString("PBLSH"),
-				String.valueOf(result.getInt("PRICE")),
-				result.getString("PBLSHDATE")
+				String.valueOf(rs.getInt("BNO")),
+				rs.getString("BOOKNAME"),
+				rs.getString("AUTHOR"),
+				rs.getString("PBLSH"),
+				String.valueOf(rs.getInt("PRICE")),
+				rs.getString("PBLSHDATE")
 				});
 			}
 			
