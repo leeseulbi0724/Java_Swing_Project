@@ -2,10 +2,10 @@ package BookDAO;
 
 
 import java.util.ArrayList;
-import BookUI.User_MainUI;
+
 import javax.swing.JOptionPane;
 
-
+import BookVO.BoardVO;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -199,6 +199,82 @@ public class BookDAO extends DBConn {
 		}
 		
 		return result;
+		
+	}
+	
+	/** 사용자 - 게시판 DB저장 **/
+	public boolean getBoardInsert(BoardVO vo) {
+		boolean result = false;
+		
+		try {
+			String sql = " INSERT INTO BOOK_BOARD VALUES (?,?,?,?,SYSDATE)";
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getCategory());
+			pstmt.setString(2, vo.getTitle());
+			pstmt.setString(3, vo.getContent());
+			pstmt.setString(4, vo.getId());
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0 ) {
+				result = true;
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
+	/** 사용자, 관리자 - 게시판 목록 불러오기 **/
+	public ArrayList<BoardVO> getBoardSelect() {
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		
+		try {
+		String sql = " SELECT ROWNUM, CATEGORY, TITLE, CONTENT, ID, WDATE FROM"
+				+ " (SELECT CATEGORY, TITLE, CONTENT, ID, WDATE FROM BOOK_BOARD ORDER BY WDATE)"
+				+ " ORDER BY ROWNUM DESC";
+		getPreparedStatement(sql);		
+		rs = pstmt.executeQuery();
+		while (rs.next()) {
+			BoardVO vo = new BoardVO();
+			vo.setRownum(rs.getInt(1));
+			vo.setCategory(rs.getString(2));
+			vo.setTitle(rs.getString(3));
+			vo.setContent(rs.getString(4));
+			vo.setId(rs.getString(5));
+			vo.setDate(rs.getString(6));
+			
+			list.add(vo);
+		}
+		
+		} catch (Exception e) {
+			
+		}
+		return list;
+	}
+	
+	/** 사용자 - 게시판 클릭 시 해당 게시판 내용 가져오기 **/
+	public BoardVO getBoardResult(String content) {
+		BoardVO vo = null;
+		
+		try {
+			String sql = "SELECT TITLE, CONTENT FROM BOOK_BOARD WHERE CONTENT = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, content);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new BoardVO();
+				vo.setTitle(rs.getString(1));
+				vo.setContent(rs.getString(2));		
+				
+			}
+			
+		} catch (Exception e) {
+			
+		}			
+		return vo;
 		
 	}
 	

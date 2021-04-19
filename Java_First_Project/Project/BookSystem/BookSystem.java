@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import BookDAO.BookDAO;
 import BookDAO.MemberDAO;
+import BookVO.BoardVO;
 import BookVO.BookVO;
 import BookVO.MemberVO;
 
@@ -41,8 +42,7 @@ public class BookSystem {
 		/** 관리자 - 회원조회 (회원목록 가져오기) **/
 		public ArrayList<MemberVO> Admin_MemberSelect(){
 				return mdao.getResultSelect();
-		}
-		
+		}		
 		
 		/** 관리자 - 메인화면, 삭제화면 (도서목록가져오기) **/
 		public ArrayList<BookVO> Admin_Select() {
@@ -67,6 +67,22 @@ public class BookSystem {
 		/** 사용자 - 장바구니 담기 **/
 		public boolean User_Basket(BookVO vo, String name) {
 			return bdao.getResult(vo, name);
+		}
+		
+		/** 사용자 - 게시판 내용 저장 **/
+		public boolean User_Board(BoardVO vo) {
+			return bdao.getBoardInsert(vo);
+		}
+		
+		/** 사용자, 관리자 - 게시판 목록 불러오기 **/
+		public ArrayList<BoardVO> board_data() {
+			return bdao.getBoardSelect();
+		}
+		
+		/** 사용자 - 게시판 클릭 시 해당 값 가져오기 **/
+		public BoardVO board_result(String content) {			
+			return bdao.getBoardResult(content);
+			
 		}
 			
 //			/** 주문수량 가져오기 **/

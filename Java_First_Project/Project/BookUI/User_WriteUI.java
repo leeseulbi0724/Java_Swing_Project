@@ -2,17 +2,21 @@ package BookUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookSystem.BookSystem;
+import BookVO.BoardVO;
 import Commons.Commons;
 
 public class User_WriteUI implements ActionListener {
@@ -20,13 +24,18 @@ public class User_WriteUI implements ActionListener {
 	User_MainUI main;
 	JPanel content_panel;
 	JButton btn_reset, btn_write;
+	JComboBox comboBox;
+	JTextField title_tf;
+	JTextArea content_ta;
+	String name, boxname;
+	BookSystem system = new BookSystem();
 	
 	public User_WriteUI(User_MainUI main) {
 		this.main = main;
+		this.name = main.name;
 		init();
 	}
-
-
+	
 	public void init() {
 		
 		content_panel = new JPanel();
@@ -46,16 +55,25 @@ public class User_WriteUI implements ActionListener {
 		write_panel.setLayout(null);
 		
 		JLabel label_title = new JLabel("제목");
-		JLabel label_content = new JLabel("내용");
+		JLabel label_content = new JLabel("내용");		
+		JLabel label_gory = new JLabel("분야");
+
+		JPanel box_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		box_panel.setBounds(87, 5, 388, 32);
+		write_panel.add(box_panel);
 		
-		label_title.setBounds(12, 21, 75, 15);
-		label_content.setBounds(12, 52, 75, 15);
+		label_title.setBounds(12, 40, 75, 15);
+		label_content.setBounds(12, 70, 75, 15);
 		
-		JTextField title_tf = new JTextField(50);
-		JTextField content_tf = new JTextField(200);
+		comboBox = new JComboBox();
+		comboBox.addItem("선택");	 comboBox.addItem("질문FAQ");		comboBox.addItem("도서요청");
+		box_panel.add(comboBox);		
 		
-		title_tf.setBounds(91, 18, 388, 21);
-		content_tf.setBounds(91, 49, 388, 181);	
+		title_tf = new JTextField(50);
+		content_ta = new JTextArea();
+		
+		title_tf.setBounds(91, 40, 388, 25);
+		content_ta.setBounds(91, 75, 388, 186);	
 		
 		label_title.setHorizontalAlignment(SwingConstants.CENTER);
 		label_content.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,17 +81,15 @@ public class User_WriteUI implements ActionListener {
 		write_panel.add(label_title);		
 		write_panel.add(title_tf);
 		write_panel.add(label_content);			
-		write_panel.add(content_tf);		
+		write_panel.add(content_ta);		
 
 		btn_write = new JButton("작성");
-		btn_write.setBounds(153, 260, 75, 23);
+		btn_write.setBounds(153, 280, 75, 23);
 		write_panel.add(btn_write);
 		
 		btn_reset = new JButton("취소");
-		btn_reset.setBounds(324, 260, 75, 23);
-		write_panel.add(btn_reset);
-		
-		btn_reset.addActionListener(this);
+		btn_reset.setBounds(324, 280, 75, 23);
+		write_panel.add(btn_reset);		
 		
 		/** 폰트설정 **/
 		label_title.setFont(Commons.getFont());
@@ -81,20 +97,57 @@ public class User_WriteUI implements ActionListener {
 		btn_write.setFont(Commons.getFont());
 		btn_reset.setFont(Commons.getFont());
 		title_tf.setFont(Commons.getFont());
-		content_tf.setFont(Commons.getFont());
+		content_ta.setFont(Commons.getFont());
 		Label.setFont(Commons.getFont(20));
+		comboBox.setFont(Commons.getFont());		
 		
+		/** 이벤트 처리 **/
+		comboBox.addActionListener(this);		
+		btn_reset.addActionListener(this);
+		btn_write.addActionListener(this);
 		
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btn_reset)) {
 			new User_BoardUI(main);
+		} else if (obj.equals(comboBox)) {
+			comboBox_form();
+		} else if (obj.equals(btn_write)) {
+			write_proc();
 		}
-		
+	}
+	
+	/** 글쓰기 양식 **/
+	public void comboBox_form() {
+		boxname = comboBox.getSelectedItem().toString();
+		if (boxname.equals("질문FAQ")) {
+			title_tf.setText("질문합니다!");
+			content_ta.setText("");
+		} else if (boxname.equals("도서요청")) {
+			title_tf.setText("도서 신청합니다!");
+			content_ta.setText(" 도서명 : \n 저자 : \n 가격 : ");
+		} else if (boxname.equals("선택")) {
+			title_tf.setText("");
+			content_ta.setText("");
+		}
+	}
+	
+	/** 내용 DB 저장 **/
+	public void write_proc() {
+		BoardVO board = new BoardVO();
+		board.setCategory(boxname);
+		board.setTitle(title_tf.getText());
+		board.setContent(content_ta.getText());
+		board.setId(name);
+		if (system.User_Board(board)) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 완료되었습니다."));
+			new User_BoardUI(main);
+		} else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 실패되었습니다."));
+		}
 	}
 
 }
