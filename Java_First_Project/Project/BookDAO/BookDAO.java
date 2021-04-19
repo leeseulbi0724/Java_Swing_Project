@@ -100,18 +100,12 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 관리자 - 도서삭제 **/
-	public boolean getResultDelete(String name, String boxname) {
+	public boolean getResultDelete(String name) {
 		boolean result = false;		
-		try {
-			if (boxname == "도서명") {
-				String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";				
-				getPreparedStatement(sql);
-				pstmt.setString(1, name);			
-			} else {
-				String sql = " DELETE FROM BOOK_DATA WHERE BNO = ?";			
-				getPreparedStatement(sql);
-				pstmt.setInt(1, Integer.parseInt(name));
-			}
+		try {			
+			String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";				
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);						
 			int val = pstmt.executeUpdate();
 			if (val != 0) {
 				result = true;
@@ -122,18 +116,33 @@ public class BookDAO extends DBConn {
 		return result;
 	}
 	
+	public ArrayList<BookVO> getBookEquals() {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		try {
+			String sql = "SELECT BOOKNAME FROM BOOK_DATA";
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BookVO vo = new BookVO();
+				vo.setBookname(rs.getString(1));
+				
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			
+		}
+		return list;
+		
+	}
+	
 	/** 관리자 - 도서조회 **/
-	public ArrayList<BookVO> getResult(String text, String name) {
+	public ArrayList<BookVO> getResult(String text) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		String sql;
-		try {
-			if (name == "도서명") {
-				sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";
-			} else {
-				sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BNO = ? ";
-			}			
+		try {		
+			sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";			
 			getPreparedStatement(sql);
-			System.out.println(name);
 			pstmt.setString(1, text);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {

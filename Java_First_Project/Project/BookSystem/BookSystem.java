@@ -50,13 +50,13 @@ public class BookSystem {
 		}
 		
 		/** 관리자 - 도서삭제 **/
-		public boolean Admin_Delete(String name, String boxname) {
-			return bdao.getResultDelete(name, boxname);
+		public boolean Admin_Delete(String name) {
+			return bdao.getResultDelete(name);
 		}
 		
 		/** 관리자 - 도서검색 **/
-		public ArrayList<BookVO> Admin_Search(String text, String name) {
-			return bdao.getResult(text, name);
+		public ArrayList<BookVO> Admin_Search(String text) {
+			return bdao.getResult(text);
 		}
 		
 		/** 사용자 - 마이페이지 - 장바구니 내역 불러오기**/
@@ -81,8 +81,12 @@ public class BookSystem {
 		
 		/** 사용자 - 게시판 클릭 시 해당 값 가져오기 **/
 		public BoardVO board_result(String content) {			
-			return bdao.getBoardResult(content);
-			
+			return bdao.getBoardResult(content);			
+		}
+		
+		/** 관리자 - 도서삭제 시 DB에 있는 도서명인지 체크하기 **/
+		public ArrayList<BookVO> Book_Equals() {
+			return bdao.getBookEquals();
 		}
 			
 //			/** 주문수량 가져오기 **/

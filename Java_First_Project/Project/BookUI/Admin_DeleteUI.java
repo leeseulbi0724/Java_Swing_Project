@@ -36,12 +36,17 @@ public class Admin_DeleteUI implements ActionListener{
 	JFrame frame;
 	JPanel bottom_panel;
 	JButton btn_search;
-	JTextField search_tf;
-	DefaultTableModel model;
-	JTable book_table;
+	JTextField search_tf;	
+//	JTable book_table;
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
 	String boxname;
+	
+	Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
+	DefaultTableModel model = new DefaultTableModel(header, 0);
+	JTable book_table = new JTable(model);
+	JScrollPane book_pane = new JScrollPane(book_table);	
+	JScrollPane scrollPane = new JScrollPane();		
 
 	public Admin_DeleteUI(Admin_MainUI main) {
 		this.main = main;
@@ -62,7 +67,7 @@ public class Admin_DeleteUI implements ActionListener{
 		
 		comboBox = new JComboBox();
 		bottom_panel.add(comboBox, BorderLayout.WEST);
-		comboBox.addItem("도서번호");		comboBox.addItem("도서명");
+		comboBox.addItem("도서명");
 		
 		JLabel name_label = new JLabel("도 서 삭 제");
 		name_label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -80,6 +85,7 @@ public class Admin_DeleteUI implements ActionListener{
 		main.content_panel.add(BorderLayout.SOUTH, bottom_panel);
 		
 		btn_search.addActionListener(this);
+		search_tf.addActionListener(this);
 		
 		search_tf.requestFocus();
 		
@@ -98,27 +104,28 @@ public class Admin_DeleteUI implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if (obj.equals(btn_search)) {
-				main.content_panel.remove(main.scrollPane);
-				main.content_panel.setVisible(false);
-				boxname = comboBox.getSelectedItem().toString();
-				data_search(boxname);		
+		int i = 0;
+		if (obj.equals(search_tf) || obj.equals(btn_search)) {
+			ArrayList<BookVO> list = main.system.Book_Equals();
+			for (i = 0; i<list.size(); i++) {
+				if (search_tf.getText().equals(list.get(i).getBookname())) {
+					main.content_panel.remove(main.scrollPane);
+					main.content_panel.setVisible(false);
+					data_search();
+				} 
+			}
+			if (i == list.size()+1) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("존재하지 않는 도서입니다. 다시 입력해주세요"));
+			}
 		}
 	}
 	
 	
 	/** 도서 검색 **/
-	public void data_search(String name) {
+	public void data_search() {
 		list = new ArrayList<BookVO>();
-		list = main.system.Admin_Search(search_tf.getText(), name);		
-		main.content_panel.setVisible(true);
-		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
-		model = new DefaultTableModel(header, 0);
-		book_table = new JTable(model);
-		JScrollPane book_pane = new JScrollPane(book_table);
-		book_pane.setEnabled(false);
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportView(book_pane);					
+		list = main.system.Admin_Search(search_tf.getText());		
+		main.content_panel.setVisible(true);		
 		for (BookVO book : list) {			
 			model.setNumRows(0);
 			Object row[] = new Object[7];
@@ -129,11 +136,12 @@ public class Admin_DeleteUI implements ActionListener{
 			row[4] = book.getPrice();
 			row[5] = book.getPblshdate();
 			row[6] = "삭제";			
-			model.addRow(row);		
-			
+			model.addRow(row);			
 		}
 		model.fireTableDataChanged();
 		book_table.setFont(Commons.getFont());
+		book_pane.setEnabled(false);
+		scrollPane.setViewportView(book_pane);	
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
         book_table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
         book_table.getColumn("삭제").setCellEditor(new ButtonEditor(new JTextField()));
@@ -191,7 +199,7 @@ public class Admin_DeleteUI implements ActionListener{
 				  if (clicked) {
 					 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
 					if (confirm == 0) {						
-						if (main.system.Admin_Delete(search_tf.getText(), boxname)) {
+						if (main.system.Admin_Delete(search_tf.getText())) {
 							JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
 							model.removeRow(book_table.getSelectedRow());
 							main.switching(Admin_MainUI.home);
