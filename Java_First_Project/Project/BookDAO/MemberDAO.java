@@ -131,6 +131,57 @@ public class MemberDAO extends DBConn {
 		
 		return false;
 	}
+	
+	/** 비밀번호 찾기 정보 인증 **/
+	public boolean CheckInfo(String name, String birthday, String id) {
+		boolean result = false;
+		
+		try {
+			String sql = " select count(*) cnt from book_users where name = ? and birthday = ? and id = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, birthday);
+			pstmt.setString(3, id);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int cnt = rs.getInt(1);
+				System.out.println(cnt);
+				if(cnt>0) {
+					result =  true;
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
+	/** 비밀번호 찾이 임시비밀번호로 변경 **/
+	public boolean getUpdatePassResult(String pass, String name, String birthday, String id) {
+		boolean result = false;
+		
+		try {
+			String sql = " update book_users set pass = ? where name = ? and birthday = ? and id = ? ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, pass);
+			pstmt.setString(2, name);
+			pstmt.setString(3, birthday);
+			pstmt.setString(4, id);
+			
+			int val = pstmt.executeUpdate();
+			if(val != 0 ) result = true;
+			System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/
 	public boolean getModifyResult(MemberVO member) {

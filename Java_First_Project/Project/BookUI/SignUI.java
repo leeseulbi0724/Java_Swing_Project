@@ -238,6 +238,7 @@ public class SignUI extends JDialog implements ActionListener {
 				sign_id_tf.setText("");
 			}else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("사용가능한 ID입니다."));
+				check_id_btn.setEnabled(false);
 			}
 		}
 		else {
