@@ -80,11 +80,11 @@ public class User_BookRecommendUI implements ActionListener {
 			Object obj = e.getSource();
 			if(obj==lookReview_btn) { //리뷰버튼
 				flag = false;
-				User_BookReviewUI review = new User_BookReviewUI(f,User_BookRecommendUI.this);		
+				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText());		
 				review.setVisible(true);
 			}else if(obj==lookReview_btn2) {
 				flag = true;
-				User_BookReviewUI review = new User_BookReviewUI(f,User_BookRecommendUI.this);
+				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText());
 				review.setVisible(true);
 			}
 			else if(obj==putIn_btn) { //장바구니버튼

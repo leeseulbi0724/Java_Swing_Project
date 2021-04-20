@@ -173,8 +173,12 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));
 			}			
 		} else if (obj.equals(btn_review)) {
-			User_BookReviewUI review = new User_BookReviewUI(f,User_BookListSearchUI.this);
-			review.setVisible(true);
+			if (vo != null) {
+				User_BookReviewUI review = new User_BookReviewUI(f, vo.getBookname());
+				review.setVisible(true);				
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));
+			}	
 		}
 	}
 
@@ -187,7 +191,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		  int price = (int) data.getValueAt(row,4);			  
 		  vo = new BookVO();
 		  vo.setBookname(name);
-		  vo.setPrice(price);		  
+		  vo.setPrice(price);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

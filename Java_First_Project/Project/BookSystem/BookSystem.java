@@ -108,6 +108,11 @@ public class BookSystem {
 		public boolean ReviewCheck(String bookname, String username) {
 			return bdao.getReviewCheck(bookname, username);
 		}
+		
+		/** 사용자 - 모든 리뷰정보 가져오기 **/
+		public ArrayList<BoardVO> All_Review(String bookname) {
+			return bdao.getAllReview(bookname);
+		}
 			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {

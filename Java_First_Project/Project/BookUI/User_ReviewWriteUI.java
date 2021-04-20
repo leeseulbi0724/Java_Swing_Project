@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -61,7 +63,10 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		JLabel label_score = new JLabel("별점");
 		
 		comboBox = new JComboBox();
-		comboBox.addItem("1");	comboBox.addItem("2");  comboBox.addItem("3");  comboBox.addItem("4");  comboBox.addItem("5");
+		comboBox.addItem("☆☆☆☆☆");			comboBox.addItem("★☆☆☆☆");  
+		comboBox.addItem("★★☆☆☆");    		comboBox.addItem("★★★☆☆");  
+		comboBox.addItem("★★★★☆");   		comboBox.addItem("★★★★★");
+		comboBox.setForeground(Color.YELLOW);
 		comboBox.setBounds(91, 15, 388, 20);
 		
 		label_score.setBounds(12 ,15, 75, 20);
@@ -102,7 +107,7 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		btn_write.setFont(Commons.getFont());
 		btn_cancle.setFont(Commons.getFont());
 		comboBox.setFont(Commons.getFont());
-		comboBox.setBackground(Color.WHITE);
+		comboBox.setBackground(Color.GRAY);
 		title_tf.setBackground(Color.LIGHT_GRAY);
 		title_tf.setEditable(false);
 		
@@ -123,10 +128,24 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 	
 	public void review_write() {
 		BoardVO vo = new BoardVO();
+		int score = 0;
 		vo.setId(username);
 		vo.setTitle(bookname);
 		vo.setContent(content_ta.getText());
-		vo.setScore(Integer.parseInt(comboBox.getSelectedItem().toString()));		
+		if (comboBox.getSelectedItem().toString().equals("☆☆☆☆☆")) {
+			score = 0;
+		} else if (comboBox.getSelectedItem().toString().equals("★☆☆☆☆")){
+			score = 1;
+		} else if (comboBox.getSelectedItem().toString().equals("★★☆☆☆")){
+			score = 2;
+		} else if (comboBox.getSelectedItem().toString().equals("★★★☆☆")){
+			score = 3;
+		} else if (comboBox.getSelectedItem().toString().equals("★★★★☆")){
+			score = 4;
+		} else if (comboBox.getSelectedItem().toString().equals("★★★★★")){
+			score = 5;
+		}
+		vo.setScore(score);		
 		if (system.User_ReviewResult(vo)) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 작성이 완료되었습니다."));
 			dispose();

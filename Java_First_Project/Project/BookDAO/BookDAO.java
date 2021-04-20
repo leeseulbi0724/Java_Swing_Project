@@ -386,6 +386,32 @@ public class BookDAO extends DBConn {
 			return result;
 			
 	}
+	
+	/** 사용자 - 모든 리뷰 가져오기 **/
+	public ArrayList<BoardVO> getAllReview(String bookname) {
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " SELECT ID, SCORE, CONTENT FROM BOOK_REVIEW WHERE BOOKNAME = ?";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, bookname);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setId(rs.getString(1));
+				vo.setScore(rs.getInt(2));
+				vo.setContent(rs.getString(3));
+				
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		return list;
+	}
  	
 	
 	/** 수량 가져오기 **/
