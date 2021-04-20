@@ -208,6 +208,31 @@ public class MemberDAO extends DBConn {
 		
 	}
 	
+	/** 사용자 - 마이페이지 메인 비밀번호 비교 **/
+	public boolean getPassCheck(String name, String pass) {
+		boolean result = false;
+		try {
+			String sql = " SELECT PASS FROM BOOK_USERS WHERE ID = ? AND PASS = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, pass);
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setPass(rs.getString(1));
+				if (vo != null) {
+					result = true;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return result;
+		
+	}
+	
 	
 	public void close() {
 		try {

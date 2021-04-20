@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -23,6 +25,7 @@ public class User_MyPageUI implements ActionListener {
 	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass;
 	BookSystem system = new BookSystem();
 	String user_name;
+	JPasswordField pass_textField;
 	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;
@@ -67,10 +70,10 @@ public class User_MyPageUI implements ActionListener {
 		title_label.setBounds(175, 106, 224, 15);
 		content_panel.add(title_label);
 		
-		JTextField textField = new JTextField();
-		textField.setBounds(199, 131, 153, 21);
-		content_panel.add(textField);
-		textField.setColumns(10);
+		pass_textField = new JPasswordField();
+		pass_textField.setBounds(199, 131, 153, 21);
+		content_panel.add(pass_textField);
+		pass_textField.setColumns(10);
 		
 		main_panel.add(BorderLayout.CENTER, content_panel);
 		
@@ -98,7 +101,6 @@ public class User_MyPageUI implements ActionListener {
 		btn_order.setFont(Commons.getFont());
 		btn_my.setFont(Commons.getFont());
 		title_label.setFont(Commons.getFont());
-		textField.setFont(Commons.getFont());
 		btn_pass.setFont(Commons.getFont());
 		
 		
@@ -138,18 +140,42 @@ public class User_MyPageUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if (obj.equals(btn_usermodify)) {
-			new User_MyPage_UsermodifyUI(User_MyPageUI.this);
-		} else if (obj.equals(btn_basket)) {
-			new User_MyPage_BasketUI(User_MyPageUI.this);
-		} else if (obj.equals(btn_order)) {
-			new User_MyPage_OrderUI(User_MyPageUI.this);
-		} else if (obj.equals(btn_my)) {
-			new User_MyPage_MyUI(User_MyPageUI.this);
-		} else if (obj.equals(btn_pass)) {
-			switching(Information);
-		}
-		
+		boolean pass_result = false;
+			if (obj.equals(btn_usermodify)) { 
+				if (pass_result) {
+					new User_MyPage_UsermodifyUI(User_MyPageUI.this);					
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
+				}
+			} else if (obj.equals(btn_basket)) {
+				if (pass_result) {
+					new User_MyPage_BasketUI(User_MyPageUI.this);				
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
+				}				
+			} else if (obj.equals(btn_order)) {
+				if (pass_result) {
+					new User_MyPage_OrderUI(User_MyPageUI.this);			
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
+				}						
+			} else if (obj.equals(btn_my)) {
+				if (pass_result) {
+					new User_MyPage_MyUI(User_MyPageUI.this);	
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
+				}		
+			}
+		if (obj.equals(btn_pass)) {
+			if (system.PassCheck(user_name, pass_textField.getText())) {
+				switching(Information);				
+				pass_result = true;
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호가 틀렸습니다. 다시 입력해주세요"));
+				pass_textField.setText("");
+				pass_textField.requestFocus();
+			}
+		}		
 	}
 	
 	public void User_information() {

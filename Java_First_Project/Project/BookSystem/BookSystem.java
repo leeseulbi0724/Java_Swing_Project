@@ -113,6 +113,11 @@ public class BookSystem {
 		public ArrayList<BoardVO> All_Review(String bookname) {
 			return bdao.getAllReview(bookname);
 		}
+		
+		/** 사용자 - 마이페이지 메인화면 비밀번호 확인 후 화면 전환할때 비밀번호 가져오기 **/
+		public boolean PassCheck(String name, String pass) {
+			return mdao.getPassCheck(name, pass);
+		}
 			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {
