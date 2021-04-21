@@ -185,7 +185,7 @@ public class MemberDAO extends DBConn {
 	
 
 	/** 마이페이지 - 비밀번호 확인 **/
-	public boolean CheckPass(String pass, String id) {
+	public boolean CheckPass(String pass,String id) {
 		
 		try {
 			String sql = " select count(*) cnt from book_users where pass = ? and id = ? ";

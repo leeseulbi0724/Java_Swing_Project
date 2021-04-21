@@ -174,7 +174,7 @@ public class User_MyPageUI implements ActionListener {
 				}		
 			}
 		if (obj.equals(btn_pass)) {
-			if (mdao.CheckPass(pass_textField.getText(), main.name)) {
+			if (mdao.CheckPass(pass_textField.getText(),main.name)) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("회원인증이 완료되었습니다."));
 				switching(Information);		
 				pass_result = true;
