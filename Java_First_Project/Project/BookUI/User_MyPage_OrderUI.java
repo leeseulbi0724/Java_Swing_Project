@@ -24,9 +24,9 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 	
 	User_MyPageUI main;
 	JPanel content_panel;
-	String[] colName = {"주문번호", "도서명", "저자", "출판사", "가격", "주문일자"};
+	String[] colName = {"주문번호", "도서명", "저자", "출판사", "가격", "주문수량", "주문일자"};
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
-	Object[] row = new Object[6];
+	Object[] row = new Object[7];
 	JTable board_table = new JTable(model);
 	BookSystem system = new BookSystem();
 	JButton btn_review;
@@ -88,7 +88,8 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();
 			row[4] = book.getPrice();
-			row[5] = book.getPblshdate();
+			row[5] = book.getCount();
+			row[6] = book.getPblshdate();
 			model.addRow(row);
 			
 		}

@@ -325,7 +325,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, pblsh, price, orderdate "
+			String sql = " select bookname, author, pblsh, price, count, orderdate "
 					+ " from BOOK_USER_ORDER  where id = ? ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, name);
@@ -338,7 +338,8 @@ public class BookDAO extends DBConn {
 				book.setAuthor(rs.getString(2));
 				book.setPblsh(rs.getString(3));
 				book.setPrice(rs.getInt(4));
-				book.setPblshdate(rs.getString(5));
+				book.setCount(rs.getInt(5));
+				book.setPblshdate(rs.getString(6));
 				
 				booklist.add(book);
 			}
