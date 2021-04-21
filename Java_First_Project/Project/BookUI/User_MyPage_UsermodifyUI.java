@@ -46,6 +46,12 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		id_text.setText(mdao.MemberInfo(main.user_name).getId());
 		birthday_text.setText(mdao.MemberInfo(main.user_name).getBirthday());
 		
+		
+		
+		
+		
+		
+		
 		JLabel name_label = new JLabel("이름");
 		name_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		name_label.setBounds(163, 75, 39, 15);
@@ -144,8 +150,6 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 			int result = JOptionPane.showConfirmDialog(null, "수정을 완료하시겠습니까?");
 			if(result == 0) {
 				modify_proc();
-			}else {
-				new User_MyPage_UsermodifyUI();
 			}
 		}
 	}
@@ -157,12 +161,21 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 			vo.setPass(password_tf.getText());
 			vo.setHp(hp_text.getText());
 			vo.setAddr(addr_text.getText());
-			if(system.User_MyPage_Modify(vo)) {
+			int result = main.system.User_MyPage_Modify(vo,password_tf.getText());
+			
+			if(result == 0) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 완료되었습니다"));
+				resetTf_proc();
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("수정에 실패하였습니다"));
 			}
 		}
+	}
+	
+	public void resetTf_proc() {
+		password_tf.setText("");
+		hp_text.setText("");
+		addr_text.setText("");
 	}
 	
 
