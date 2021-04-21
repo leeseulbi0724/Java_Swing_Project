@@ -59,6 +59,10 @@ public class MemberVO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
+
+
+	
+	
 	
 	
 }

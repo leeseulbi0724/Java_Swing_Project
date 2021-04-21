@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import BookUI.Admin_MemberViewsUI;
+
 public class DBConn {
 	//Field
 	String url = "jdbc:oracle:thin:@127.0.0.1:1521";

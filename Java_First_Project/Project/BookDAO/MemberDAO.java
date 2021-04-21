@@ -182,6 +182,57 @@ public class MemberDAO extends DBConn {
 		
 		return result;
 	}
+	
+
+	/** 마이페이지 - 비밀번호 확인 **/
+	public boolean CheckPass(String pass) {
+		
+		try {
+			String sql = " select count(*) cnt from book_users where pass = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, pass);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				int cnt = rs.getInt("cnt");
+				if(cnt>0) {
+					return true;
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/** 마이페이지 - 회원정보 가져오기 **/
+	public MemberVO MemberInfo(String pass) {
+		MemberVO member = new MemberVO();
+		try {
+			String sql = " select name, id, birthday, hp, addr from book_users where pass = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, pass);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				member.setName(rs.getString(1));
+				member.setId(rs.getString(2));
+				member.setBirthday(rs.getString(3));
+				member.setHp(rs.getString(4));
+				member.setAddr(rs.getString(5));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return member;
+		
+		
+	}
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/
 	public boolean getModifyResult(MemberVO member) {
@@ -207,33 +258,7 @@ public class MemberDAO extends DBConn {
 		return result;
 		
 	}
-	
-	/** 사용자 - 마이페이지 메인 비밀번호 비교 **/
-	public boolean getPassCheck(String name, String pass) {
-		boolean result = false;
-		try {
-			String sql = " SELECT PASS FROM BOOK_USERS WHERE ID = ? AND PASS = ?";
-			getPreparedStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, pass);
-			
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MemberVO vo = new MemberVO();
-				vo.setPass(rs.getString(1));
-				if (vo != null) {
-					result = true;
-				}
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 		
-		return result;
-		
-	}
-	
-	
 	public void close() {
 		try {
 			if(rs != null) rs.close();
