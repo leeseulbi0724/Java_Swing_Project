@@ -29,7 +29,7 @@ import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
-public class User_MyPage_BasketUI implements MouseListener{
+public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 
 	JFrame frame;
 	User_MyPageUI main;
@@ -42,8 +42,11 @@ public class User_MyPage_BasketUI implements MouseListener{
 	BookSystem system = new BookSystem();
 	BookVO vo;
 	String bookname, userid;
+	JButton btn_order, btn_all_order;
 	int count;
 	int all_price = 0;
+	
+	ArrayList<BookVO> list = new ArrayList<BookVO>();
 
 	public User_MyPage_BasketUI(User_MyPageUI main) {
 		this.main = main;
@@ -85,23 +88,18 @@ public class User_MyPage_BasketUI implements MouseListener{
 		
 		button_panel = new JPanel(new GridLayout(2,1));
 		
-		JButton btn_order = new JButton("주문하기");
-		btn_order.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Object obj = e.getSource();
-				if(obj.equals(btn_order)) {
-					Order_proc();
-				}
-			}
-		});
+		btn_order = new JButton("주문하기");	
+		btn_all_order = new JButton("전체 주문");
+		
+		JPanel btn_p = new JPanel();
+		btn_p.add(btn_order); 		btn_p.add( btn_all_order);
 				
 		/** 총합계 버튼 패널에 추가 **/
 		JLabel price_lb = new JLabel();
 		price_lb.setText(" 총 주문금액 : " + all_price+ "원");
 		price_lb.setHorizontalAlignment(JLabel.CENTER);
 		button_panel.add(price_lb);
-		
-		button_panel.add(btn_order);
+		button_panel.add(btn_p);
 		main.content_panel.setBackground(Color.WHITE);
 		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
@@ -122,7 +120,9 @@ public class User_MyPage_BasketUI implements MouseListener{
 		head.setBackground(new Color(255,192,203));
 		head.setForeground(new Color(255,255,255));		
 		
-		/** 테이블 값 클릭 이벤트 **/
+		/** 이벤트 처리 **/
+		btn_all_order.addActionListener(this);
+		btn_order.addActionListener(this);
 		board_table.addMouseListener(this);
 		
 		
@@ -130,20 +130,50 @@ public class User_MyPage_BasketUI implements MouseListener{
 
 	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PRICE) 생성
 	public void basketData() {
+		
 		model.setNumRows(0);
 		for(BookVO book : main.system.getBookList(main.main.name)) {
 			row[0] = book.getBookname();
 			row[1] = book.getPrice();
 			row[2] = book.getCount();			
-			model.addRow(row);
-			
+			model.addRow(row);			
 			all_price = all_price + (book.getPrice()*book.getCount());
 
 		}
 		model.fireTableDataChanged();
 		
+	}	
+	
+	/** 개별 주문 **/
+	public void Order_proc() {
+		System.out.println(bookname);
+		if (bookname != null) {
+			vo = new BookVO();		
+			ArrayList<BookVO> booklist = new ArrayList<BookVO>();
+			booklist = system.getBookinfo(bookname);		
+			vo.setBookname(bookname);
+			for(BookVO book : booklist) {
+				vo.setAuthor(book.getAuthor());
+				vo.setPblsh(book.getPblsh());
+				vo.setPrice(book.getPrice());
+				vo.setCount(book.getCount());
+			}	
+			if(system.User_Order(userid, vo)) {	
+				
+					JOptionPane.showMessageDialog(null, Commons.getMsg("도서주문이 완료되었습니다."));					
+			
+			}else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("도서 주문에 실패하였습니다."));
+			}					
+		} else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("개별 주문 하실 도서를 선택해주세요."));
+		}
+	}	
+	
+	/** 전체 주문 **/
+	public void Order_all_proc() {
+		
 	}
-
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -153,36 +183,9 @@ public class User_MyPage_BasketUI implements MouseListener{
 		  TableModel data = board_table.getModel();		  
 		  //0번째 도서명을 받아 setBookname으로 넘겨줌
 		  bookname = (String)data.getValueAt(row,0);
-		  count = (int) data.getValueAt(row, 2);
 		  vo = new BookVO();
-//		  vo.setBookname(bookname);	
-//		  vo.setCount(count);
-		  
-	}
-	
-	
-	public void Order_proc() {
-		vo = new BookVO();
-		
-		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
-		booklist = system.getBookinfo(bookname);
-		
-		vo.setBookname(bookname);
-		for(BookVO book : booklist) {
-			vo.setAuthor(book.getAuthor());
-			vo.setPblsh(book.getPblsh());
-			vo.setPrice(book.getPrice());
-		}
-		vo.setCount(count);
-	
-		if(system.User_Order(userid, vo)) {	//insert
-			JOptionPane.showMessageDialog(null, Commons.getMsg("도서를 주문하였습니다."));
-		}else {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("도서 주문에 실패하였습니다."));
-		}
-		
-	}
-	
+		  vo.setBookname(bookname);			  
+	}	
 	public void mousePressed(MouseEvent e) {
 	}
 	public void mouseReleased(MouseEvent e) {	
@@ -191,6 +194,18 @@ public class User_MyPage_BasketUI implements MouseListener{
 	}
 	public void mouseExited(MouseEvent e) {
 	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if (obj.equals(btn_all_order)) {
+			Order_all_proc();
+		} else if (obj.equals(btn_order)) {
+			Order_proc();
+		}
+		
+	}			
 	
 	
 }//class
