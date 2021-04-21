@@ -324,17 +324,20 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, pblsh, price from BOOK_USER_ORDER where id = ? ";
+			String sql = " select bookname, author, pblsh, price, orderdate "
+					+ " from BOOK_USER_ORDER  where id = ? ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				BookVO book = new BookVO();
+				
 				book.setBookname(rs.getString(1));
 				book.setAuthor(rs.getString(2));
 				book.setPblsh(rs.getString(3));
 				book.setPrice(rs.getInt(4));
+				book.setPblshdate(rs.getString(5));
 				
 				booklist.add(book);
 			}
@@ -375,7 +378,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, pblsh, price, sysdate from book_data where bookname = ? ";
+			String sql = " select bookname, author, pblsh, price from book_data where bookname = ? ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, bookname);
 			

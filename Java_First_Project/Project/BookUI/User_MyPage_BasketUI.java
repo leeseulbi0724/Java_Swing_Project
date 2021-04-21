@@ -42,6 +42,7 @@ public class User_MyPage_BasketUI implements MouseListener{
 	BookSystem system = new BookSystem();
 	BookVO vo;
 	String bookname, userid;
+	int count;
 	int all_price = 0;
 
 	public User_MyPage_BasketUI(User_MyPageUI main) {
@@ -152,8 +153,10 @@ public class User_MyPage_BasketUI implements MouseListener{
 		  TableModel data = board_table.getModel();		  
 		  //0번째 도서명을 받아 setBookname으로 넘겨줌
 		  bookname = (String)data.getValueAt(row,0);
+		  count = (int) data.getValueAt(row, 2);
 		  vo = new BookVO();
-		  vo.setBookname(bookname);	
+//		  vo.setBookname(bookname);	
+//		  vo.setCount(count);
 		  
 	}
 	
@@ -169,8 +172,8 @@ public class User_MyPage_BasketUI implements MouseListener{
 			vo.setAuthor(book.getAuthor());
 			vo.setPblsh(book.getPblsh());
 			vo.setPrice(book.getPrice());
-			vo.setCount(book.getCount());
 		}
+		vo.setCount(count);
 	
 		if(system.User_Order(userid, vo)) {	//insert
 			JOptionPane.showMessageDialog(null, Commons.getMsg("도서를 주문하였습니다."));
