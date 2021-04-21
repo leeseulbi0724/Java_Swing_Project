@@ -26,6 +26,7 @@ public class User_MyPageUI implements ActionListener {
 	BookSystem system = new BookSystem();
 	String user_name;
 	JPasswordField pass_textField;
+	boolean pass_result = false;
 	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;
@@ -139,8 +140,7 @@ public class User_MyPageUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object obj = e.getSource();
-		boolean pass_result = false;
+		Object obj = e.getSource();	
 			if (obj.equals(btn_usermodify)) { 
 				if (pass_result) {
 					new User_MyPage_UsermodifyUI(User_MyPageUI.this);					

@@ -65,8 +65,13 @@ public class BookSystem {
 		}
 		
 		/** 사용자 - 장바구니 담기 **/
-		public boolean User_Basket(BookVO vo, String name) {
-			return bdao.getResult(vo, name);
+		public boolean User_Basket(BookVO vo, String name, boolean result) {
+			return bdao.getResult(vo, name, result);
+		}
+		
+		/** 사용자 - 장바구니 담기 전 이미 담겨 있는 도서인지 확인 **/
+		public boolean Basket_check(BookVO vo, String name) {
+			return bdao.getBasketCheck(vo, name);
 		}
 		
 		/** 사용자 - 게시판 내용 저장 **/

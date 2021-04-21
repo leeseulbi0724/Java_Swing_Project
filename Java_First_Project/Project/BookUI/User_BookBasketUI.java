@@ -126,14 +126,14 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		BookVO vo = new BookVO();
 		vo.setBookname(bsBookName_tf.getText());
 		vo.setPrice(Integer.parseInt(bsBookPrice_tf.getText()));
-		vo.setCount(Integer.parseInt(count_box.getSelectedItem().toString()));
-		
-		if (system.User_Basket(vo, name)) {
+		vo.setCount(Integer.parseInt(count_box.getSelectedItem().toString()));	
+		boolean result = system.Basket_check(vo, name);
+		System.out.println(result);
+		if (system.User_Basket(vo, name,result)) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("선택하신 도서를 장바구니에 담았습니다."));
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("장바구니에 담지 못했습니다. 다시 시도해주세요."));
-		}
-		
+		}				
 	}
 }

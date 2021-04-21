@@ -188,17 +188,24 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 사용자 - 장바구니 담기 **/
-	public boolean getResult(BookVO vo, String name) {
+	public boolean getResult(BookVO vo, String name, boolean check_result) {
 		boolean result = false;
-		
+		boolean result_2 = check_result;		
 		try {
-			String sql = "INSERT INTO BOOK_USER_BASKET VALUES (?,?,?,?) ";
-			getPreparedStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, vo.getBookname());
-			pstmt.setInt(3, vo.getPrice());
-			pstmt.setInt(4, vo.getCount());
-			
+			if (result_2) {				
+				String sql = "UPDATE BOOK_USER_BASKET SET COUNT = COUNT+? WHERE BOOKNAME = ? AND ID = ?";
+				getPreparedStatement(sql);
+				pstmt.setInt(1, vo.getCount());
+				pstmt.setString(2, vo.getBookname());
+				pstmt.setString(3, name);
+			} else {
+				String sql = "INSERT INTO BOOK_USER_BASKET VALUES (?,?,?,?) ";
+				getPreparedStatement(sql);
+				pstmt.setString(1, name);
+				pstmt.setString(2, vo.getBookname());
+				pstmt.setInt(3, vo.getPrice());
+				pstmt.setInt(4, vo.getCount());
+			}						
 			int val = pstmt.executeUpdate();
 			if (val != 0) {
 				result = true;
@@ -209,6 +216,30 @@ public class BookDAO extends DBConn {
 		
 		return result;
 		
+	}
+	
+	/** 사용자 - 장바구니 담기전 이미 담겨있는 도서인지 체크 **/
+	public boolean getBasketCheck(BookVO vo, String name) {
+		boolean result = false;
+		
+		try {
+			String sql = " SELECT BOOKNAME FROM BOOK_USER_BASKET WHERE BOOKNAME = ? AND ID = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, vo.getBookname());
+			pstmt.setString(2, name);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BookVO book = new BookVO();
+				book.setBookname(rs.getString(1));			
+				if (book != null) {
+					result = true;
+				}
+			}
+		} catch (Exception e) {
+			
+		}
+		return result;
 	}
 	
 	/** 사용자 - 게시판 DB저장 **/
