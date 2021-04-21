@@ -475,12 +475,12 @@ public class BookDAO extends DBConn {
 		return list;
 	}
 	
-	/** 사용자 - 마이페이지 - My(내가쓴 모든 게시판글)  **/
+	/** 사용자 - 마이페이지 - My이력 (내가쓴 모든 게시판글)  **/
  	public ArrayList<BoardVO> getMyboard(String id) {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
 		try {
-			String sql = " select category, title, content, wdate from book_board where id = ? ";
+			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE FROM BOOK_BOARD WHERE ID = ? ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);

@@ -124,7 +124,7 @@ public class BookSystem {
 			return bdao.getAllReview(bookname);
 		}
 		
-		/** 사용자 - 마이페이지 - My(내가쓴 모든 게시판글) **/
+		/** 사용자 - 마이페이지 - My이력 (내가쓴 모든 게시판글) **/
 		public ArrayList<BoardVO> All_Myboard(String id) {
 			return bdao.getMyboard(id);
 		}

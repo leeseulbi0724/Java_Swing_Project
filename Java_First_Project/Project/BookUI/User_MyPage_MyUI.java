@@ -98,6 +98,7 @@ public class User_MyPage_MyUI extends JFrame{
 	
 	}//init
 
+	
 	//table에 출력되는 데이터 생성 - 일단은 게시판(카테고리, 제목, 내용, 날짜) 갖고오기
 	public void reviewData() {
 		model.setNumRows(0);
