@@ -104,6 +104,8 @@ public class User_MyPageUI implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		btn_pass.setFont(Commons.getFont());
 		
+		pass_textField.requestFocus();
+		
 		
 	}
 	

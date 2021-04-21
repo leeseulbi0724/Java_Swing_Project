@@ -3,22 +3,26 @@ package BookUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import BookSystem.BookSystem;
@@ -29,7 +33,7 @@ public class User_MyPage_BasketUI implements MouseListener{
 
 	JFrame frame;
 	User_MyPageUI main;
-	JPanel content_panel, btn_panel;
+	JPanel content_panel,button_panel;
 	JTextField textField;
 	String[] colName = {"도서명", "도서가격", "수량"};
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
@@ -38,6 +42,7 @@ public class User_MyPage_BasketUI implements MouseListener{
 	BookSystem system = new BookSystem();
 	BookVO vo;
 	String name;
+	int all_price = 0;
 
 	public User_MyPage_BasketUI(User_MyPageUI main) {
 		this.main = main;
@@ -61,12 +66,22 @@ public class User_MyPage_BasketUI implements MouseListener{
 		board_table.setModel(model);
 		board_table.setRowHeight(20);
 		
+		// 테이블 길이 조절 가운데정렬
+		board_table.getColumnModel().getColumn(2).setPreferredWidth(5);
+		board_table.getColumnModel().getColumn(1).setPreferredWidth(5);
+		board_table.getColumnModel().getColumn(0).setPreferredWidth(300);
+		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcmSchedule = board_table.getColumnModel();
+		for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+			tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+		}		
+		
 		JScrollPane scrollPane = new JScrollPane();		
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);		
 		
-		JPanel button_panel = new JPanel();
-		button_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		button_panel = new JPanel(new GridLayout(2,1));
 		
 		JButton btn_order = new JButton("주문하기");
 		btn_order.addActionListener(new ActionListener() {
@@ -77,8 +92,15 @@ public class User_MyPage_BasketUI implements MouseListener{
 				}
 			}
 		});
-		button_panel.add(btn_order);
+				
+		/** 총합계 버튼 패널에 추가 **/
+		JLabel price_lb = new JLabel();
+		price_lb.setText(" 총 주문금액 : " + all_price+ "원");
+		price_lb.setHorizontalAlignment(JLabel.CENTER);
+		button_panel.add(price_lb);
 		
+		button_panel.add(btn_order);
+		main.content_panel.setBackground(Color.WHITE);
 		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
 		content_panel.add(scrollPane, BorderLayout.CENTER);
@@ -86,10 +108,12 @@ public class User_MyPage_BasketUI implements MouseListener{
 		main.content_panel.setVisible(true);
 		main.content_panel.add(content_panel);
 		
+		
 		/** 폰트 **/
 		board_table.setFont(Commons.getFont());
 		scrollPane.setFont(Commons.getFont());
 		btn_order.setFont(Commons.getFont());
+		price_lb.setFont(Commons.getFont());
 		
 		/** 테이블 헤더 설정 **/
 		JTableHeader head = board_table.getTableHeader();
@@ -99,6 +123,7 @@ public class User_MyPage_BasketUI implements MouseListener{
 		/** 테이블 값 클릭 이벤트 **/
 		board_table.addMouseListener(this);
 		
+		
 	} //init
 
 	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PRICE) 생성
@@ -107,9 +132,11 @@ public class User_MyPage_BasketUI implements MouseListener{
 		for(BookVO book : main.system.getBookList(main.main.name)) {
 			row[0] = book.getBookname();
 			row[1] = book.getPrice();
-			row[2] = book.getCount();
-			
+			row[2] = book.getCount();			
 			model.addRow(row);
+			
+			all_price = all_price + (book.getPrice()*book.getCount());
+
 		}
 		model.fireTableDataChanged();
 		

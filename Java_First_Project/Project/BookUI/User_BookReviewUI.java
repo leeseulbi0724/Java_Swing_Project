@@ -141,7 +141,7 @@ public class User_BookReviewUI extends JDialog{
 		/** 컬럼 길이조절, 가운데정렬 **/
 		review_table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		review_table.getColumnModel().getColumn(1).setPreferredWidth(10);
-		review_table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		review_table.getColumnModel().getColumn(2).setPreferredWidth(200);
 		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
 		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		TableColumnModel tcmSchedule = review_table.getColumnModel();
