@@ -69,6 +69,11 @@ public class BookSystem {
 			return bdao.getResult(vo, name, result);
 		}
 		
+		/** 사용자 - 주문조회 후 장바구니 삭제하기 **/
+		public boolean User_Basket_Delete(String id, BookVO vo) {
+			return bdao.getBasketDelete(id, vo);
+		}
+		
 		/** 사용자 - 장바구니 담기 전 이미 담겨 있는 도서인지 확인 **/
 		public boolean Basket_check(BookVO vo, String name) {
 			return bdao.getBasketCheck(vo, name);
@@ -122,6 +127,16 @@ public class BookSystem {
 		/** 사용자 - 모든 리뷰정보 가져오기 **/
 		public ArrayList<BoardVO> All_Review(String bookname) {
 			return bdao.getAllReview(bookname);
+		}
+		
+		/** 사용자 - 마이페이지 - My이력 (내가쓴 모든 게시판글) **/
+		public ArrayList<BoardVO> All_Myboard(String id) {
+			return bdao.getMyboard(id);
+		}
+		
+		/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
+		public ArrayList<BoardVO> All_Myreview(String id) {
+			return bdao.getMyreview(id);
 		}
 		
 			

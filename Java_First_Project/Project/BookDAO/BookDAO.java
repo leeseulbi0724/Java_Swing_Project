@@ -242,6 +242,7 @@ public class BookDAO extends DBConn {
 		return result;
 	}
 	
+	
 	/** 사용자 - 게시판 DB저장 **/
 	public boolean getBoardInsert(BoardVO vo) {
 		boolean result = false;
@@ -349,6 +350,27 @@ public class BookDAO extends DBConn {
 		return booklist;
 	}
 	
+	/** 사용자 - 주문조회 후 장바구니 삭제 하기 **/
+	public boolean getBasketDelete(String id, BookVO vo) {
+		boolean result = false;
+		try {
+			String sql = " DELETE FROM BOOK_USER_BASKET WHERE ID = ? AND BOOKNAME = ?";
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, vo.getBookname());
+						
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result =true;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return result;
+	}
+	
 	/** 사용자 - 마이페아지 - 주문데이터 넘기기 **/
 	public boolean getOrder(String id, BookVO vo) {
 		boolean result = false;
@@ -375,8 +397,7 @@ public class BookDAO extends DBConn {
 	
 	/** 장바구니 테이블 -> 주문조회 테이블에서 책 정보 가져옴 **/
 	public ArrayList<BookVO> getResultBookinfo(String bookname) {
-		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
-		
+		ArrayList<BookVO> booklist = new ArrayList<BookVO>();		
 		try {
 			String sql = " select bookname, author, pblsh, price from book_data where bookname = ? ";
 			getPreparedStatement(sql);
@@ -474,7 +495,60 @@ public class BookDAO extends DBConn {
 		
 		return list;
 	}
+	
+	/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 게시판글)  **/
+ 	public ArrayList<BoardVO> getMyboard(String id) {
+ 		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE FROM BOOK_BOARD WHERE ID = ? ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setCategory(rs.getString(1));
+				vo.setTitle(rs.getString(2));
+				vo.setContent(rs.getString(3));
+				vo.setDate(rs.getString(4));
+				
+				writelist.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return writelist;
+ 	}
  	
+ 	/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
+ 	public ArrayList<BoardVO> getMyreview(String id) {
+ 		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " SELECT BOOKNAME, CONTENT, RDATE FROM BOOK_REVIEW WHERE ID = ? ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setCategory("리뷰");
+				vo.setTitle(rs.getString(1));
+				vo.setContent(rs.getString(2));
+				vo.setDate(rs.getString(3));
+				
+				writelist.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return writelist;
+ 	}
 	
 	/** 수량 가져오기 **/
 //	public ArrayList<BookVO> getCount(String name) {
