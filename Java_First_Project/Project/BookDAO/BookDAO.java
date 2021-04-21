@@ -319,7 +319,7 @@ public class BookDAO extends DBConn {
 	}
 	
 	
-	/** 사용자 - 마이페이지 - 주문 데이터 넘기기 **/
+	/** 사용자 - 마이페이지 - 주문조회  **/
 	public ArrayList<BookVO> getResultOrder(String name) {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
@@ -346,18 +346,20 @@ public class BookDAO extends DBConn {
 		return booklist;
 	}
 	
-	public boolean getOrder(BookVO vo, String name) {
+	/** 사용자 - 마이페아지 - 주문데이터 넘기기 **/
+	public boolean getOrder(String id, BookVO vo) {
 		boolean result = false;
 		
 		try {
-			String sql = " insert into BOOK_USER_ORDER values(?,?,?,?,?, sysdate) "; 
+			String sql = " insert into BOOK_USER_ORDER values(?,?,?,?,?, sysdate, ?) "; 
 			getPreparedStatement(sql);
 			
-			pstmt.setString(1, name);		//id받아서 넣기
+			pstmt.setString(1, id);		//id받아서 넣기
 			pstmt.setString(2, vo.getBookname());
 			pstmt.setString(3, vo.getAuthor());
 			pstmt.setString(4, vo.getPblsh());
 			pstmt.setInt(5, vo.getPrice());
+			pstmt.setInt(6, vo.getCount());
 			
 			int val = pstmt.executeUpdate();
 			if (val != 0) result = true;
@@ -366,6 +368,32 @@ public class BookDAO extends DBConn {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/** 장바구니 테이블 -> 주문조회 테이블에서 책 정보 가져옴 **/
+	public ArrayList<BookVO> getResultBookinfo(String bookname) {
+		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
+		
+		try {
+			String sql = " select bookname, author, pblsh, price, sysdate from book_data where bookname = ? ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, bookname);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BookVO vo = new BookVO();
+				vo.setBookname(rs.getString(1));
+				vo.setAuthor(rs.getString(2));
+				vo.setPblsh(rs.getString(3));
+				vo.setPrice(rs.getInt(4));
+				
+				booklist.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return booklist;
 	}
 	
 	/** 사용자 - 리뷰 등록 DB저장 **/
