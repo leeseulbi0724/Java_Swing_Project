@@ -88,6 +88,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();
 			row[4] = book.getPrice();
+			row[5] = book.getPblshdate();
 			model.addRow(row);
 			
 		}

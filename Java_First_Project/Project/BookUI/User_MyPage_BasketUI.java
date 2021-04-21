@@ -148,11 +148,12 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 			ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 			booklist = system.getBookinfo(bookname);		
 			vo.setBookname(bookname);
+			vo.setCount(count);
 			for(BookVO book : booklist) {
 				vo.setAuthor(book.getAuthor());
 				vo.setPblsh(book.getPblsh());
 				vo.setPrice(book.getPrice());
-				vo.setCount(book.getCount());
+				vo.setPblshdate(book.getPblshdate());
 			}	
 			if(system.User_Order(userid, vo)) {	
 				if (system.User_Basket_Delete(userid, vo)) {
@@ -174,10 +175,12 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		  int row = board_table.getSelectedRow();		  
 		  //테이블의 모델객체 얻어오기
 		  TableModel data = board_table.getModel();		  
-		  //0번째 도서명을 받아 setBookname으로 넘겨줌
+		  //0번째 도서명을 받아 setBookname으로 넘겨줌, 수량도 받아서 넘겨줌
 		  bookname = (String)data.getValueAt(row,0);
+		  count = (int) data.getValueAt(row, 2);
 		  vo = new BookVO();
-		  vo.setBookname(bookname);			  
+		  vo.setBookname(bookname);		
+		  vo.setCount(count);
 	}	
 	public void mousePressed(MouseEvent e) {
 	}
