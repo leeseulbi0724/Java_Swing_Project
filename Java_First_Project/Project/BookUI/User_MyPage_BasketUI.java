@@ -88,18 +88,14 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		
 		button_panel = new JPanel(new GridLayout(2,1));
 		
-		btn_order = new JButton("주문하기");	
-		btn_all_order = new JButton("전체 주문");
+		btn_order = new JButton("결제/주문");		
 		
-		JPanel btn_p = new JPanel();
-		btn_p.add(btn_order); 		btn_p.add( btn_all_order);
 				
 		/** 총합계 버튼 패널에 추가 **/
 		JLabel price_lb = new JLabel();
 		price_lb.setText(" 총 주문금액 : " + all_price+ "원");
 		price_lb.setHorizontalAlignment(JLabel.CENTER);
 		button_panel.add(price_lb);
-		button_panel.add(btn_p);
 		main.content_panel.setBackground(Color.WHITE);
 		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
@@ -107,6 +103,8 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		
 		main.content_panel.setVisible(true);
 		main.content_panel.add(content_panel);
+		
+		button_panel.add(btn_order);
 		
 		
 		/** 폰트 **/
@@ -121,7 +119,6 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		head.setForeground(new Color(255,255,255));		
 		
 		/** 이벤트 처리 **/
-		btn_all_order.addActionListener(this);
 		btn_order.addActionListener(this);
 		board_table.addMouseListener(this);
 		
@@ -144,9 +141,8 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		
 	}	
 	
-	/** 개별 주문 **/
+	/** 주문 **/
 	public void Order_proc() {
-		System.out.println(bookname);
 		if (bookname != null) {
 			vo = new BookVO();		
 			ArrayList<BookVO> booklist = new ArrayList<BookVO>();
@@ -159,21 +155,18 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 				vo.setCount(book.getCount());
 			}	
 			if(system.User_Order(userid, vo)) {	
-				
-					JOptionPane.showMessageDialog(null, Commons.getMsg("도서주문이 완료되었습니다."));					
-			
+				if (system.User_Basket_Delete(userid, vo)) {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("선택한 도서의 주문이 완료되었습니다."));	
+					new User_MyPage_OrderUI(main);
+				}			
 			}else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("도서 주문에 실패하였습니다."));
 			}					
 		} else {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("개별 주문 하실 도서를 선택해주세요."));
+			JOptionPane.showMessageDialog(null, Commons.getMsg("주문 하실 도서를 선택해주세요."));
 		}
 	}	
 	
-	/** 전체 주문 **/
-	public void Order_all_proc() {
-		
-	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -199,9 +192,7 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if (obj.equals(btn_all_order)) {
-			Order_all_proc();
-		} else if (obj.equals(btn_order)) {
+		if (obj.equals(btn_order)) {
 			Order_proc();
 		}
 		

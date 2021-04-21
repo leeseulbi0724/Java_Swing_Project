@@ -69,6 +69,11 @@ public class BookSystem {
 			return bdao.getResult(vo, name, result);
 		}
 		
+		/** 사용자 - 주문조회 후 장바구니 삭제하기 **/
+		public boolean User_Basket_Delete(String id, BookVO vo) {
+			return bdao.getBasketDelete(id, vo);
+		}
+		
 		/** 사용자 - 장바구니 담기 전 이미 담겨 있는 도서인지 확인 **/
 		public boolean Basket_check(BookVO vo, String name) {
 			return bdao.getBasketCheck(vo, name);
