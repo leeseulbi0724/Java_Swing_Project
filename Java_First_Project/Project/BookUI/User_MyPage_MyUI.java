@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -58,10 +61,10 @@ public class User_MyPage_MyUI extends JFrame{
 		center_panel.add(scrollPane, BorderLayout.CENTER);
 		
 		//table에 row data 추가
-		reviewData();
-		model.setColumnIdentifiers(header);
-		board_table.setModel(model);
-		board_table.setRowHeight(20);
+//		boardData();
+//		model.setColumnIdentifiers(header);
+//		board_table.setModel(model);
+//		board_table.setRowHeight(20);
 		
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);		
@@ -74,12 +77,43 @@ public class User_MyPage_MyUI extends JFrame{
         board_table.getColumn("Button").setCellEditor(new ButtonEditor(new JTextField()));
 		
 		JCheckBox checkbox_board = new JCheckBox("게시판");
+		checkbox_board.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					//게시판 테이블 보이기
+					boardData();
+					model.setColumnIdentifiers(header);
+					board_table.setModel(model);
+					board_table.setRowHeight(20);
+				}
+			}
+		});
+		checkbox_board.setSelected(true);
 		checkbox_board.setBounds(70, 6, 70, 23);
 		main.content_panel.add(checkbox_board);
 		
 		JCheckBox checkbox_review = new JCheckBox("리뷰");
+		checkbox_review.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					//리뷰 테이블 보이기
+					reviewData();
+					model.setColumnIdentifiers(header);
+					board_table.setModel(model);
+					board_table.setRowHeight(20);
+				}
+			}
+		});
 		checkbox_review.setBounds(12, 6, 54, 23);
 		main.content_panel.add(checkbox_review);
+		
+		//체크박스 여러개 중 하나만 선택되도록 설정
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(checkbox_board);		bg.add(checkbox_review);
 		
 		JButton btn_search = new JButton("검색");
 		btn_search.setBounds(141, 6, 58, 23);
@@ -100,7 +134,7 @@ public class User_MyPage_MyUI extends JFrame{
 
 	
 	//table에 출력되는 데이터 생성 - 일단은 게시판(카테고리, 제목, 내용, 날짜) 갖고오기
-	public void reviewData() {
+	public void boardData() {
 		model.setNumRows(0);
 		ArrayList<BoardVO> boardlist = system.All_Myboard(main.user_name);
 		for(BoardVO board : boardlist) {
@@ -113,6 +147,21 @@ public class User_MyPage_MyUI extends JFrame{
 		}
 		model.fireTableDataChanged();
 	}
+	
+	//table에 출력되는 데이터 생성 - 일단은 리뷰(카테고리, 제목, 내용, 날짜) 갖고오기
+		public void reviewData() {
+			model.setNumRows(0);
+			ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);
+			for(BoardVO board : boardlist) {
+				row[0] = board.getCategory();
+				row[1] = board.getTitle();
+				row[2] = board.getContent();
+				row[3] = board.getDate();
+				
+				model.addRow(row);
+			}
+			model.fireTableDataChanged();
+		}
 	
 	
 	/** 삭제 버튼 이벤트 처리 **/

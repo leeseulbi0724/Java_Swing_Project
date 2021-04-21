@@ -129,6 +129,11 @@ public class BookSystem {
 			return bdao.getMyboard(id);
 		}
 		
+		/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
+		public ArrayList<BoardVO> All_Myreview(String id) {
+			return bdao.getMyreview(id);
+		}
+		
 			
 //			/** 주문수량 가져오기 **/
 //			public ArrayList<BookVO> Admin_Count(String name) {

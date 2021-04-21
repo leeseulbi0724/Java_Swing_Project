@@ -475,7 +475,7 @@ public class BookDAO extends DBConn {
 		return list;
 	}
 	
-	/** 사용자 - 마이페이지 - My이력 (내가쓴 모든 게시판글)  **/
+	/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 게시판글)  **/
  	public ArrayList<BoardVO> getMyboard(String id) {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
@@ -492,6 +492,33 @@ public class BookDAO extends DBConn {
 				vo.setTitle(rs.getString(2));
 				vo.setContent(rs.getString(3));
 				vo.setDate(rs.getString(4));
+				
+				writelist.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return writelist;
+ 	}
+ 	
+ 	/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
+ 	public ArrayList<BoardVO> getMyreview(String id) {
+ 		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " SELECT BOOKNAME, CONTENT, RDATE FROM BOOK_REVIEW WHERE ID = ? ";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setCategory("리뷰");
+				vo.setTitle(rs.getString(1));
+				vo.setContent(rs.getString(2));
+				vo.setDate(rs.getString(3));
 				
 				writelist.add(vo);
 			}
