@@ -21,19 +21,26 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import BookSystem.BookSystem;
+import BookVO.BoardVO;
 import Commons.Commons;
 
 public class User_MyPage_MyUI extends JFrame{
-User_MyPageUI main;
-JButton btn_delete;
-JTable board_table;
-ArrayList<Object> list = new ArrayList<Object>();
-DefaultTableModel model;
+	User_MyPageUI main;
+	JButton btn_delete;
+	ArrayList<Object> list = new ArrayList<Object>();
+	Object[] header = {"분류","제목","내용","작성날짜", "Button"};
+	DefaultTableModel model= new DefaultTableModel(header, 0);
+	JTable board_table = new JTable(model);
+	Object[] row = new Object[5];
+	String id;
+	BookSystem system = new BookSystem();
 
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
 		super();		
 		this.main = main;
+		this.id = main.user_name;
 		init();
 	}	
 	
@@ -41,29 +48,7 @@ DefaultTableModel model;
 	public void init() {
 		main.switching(User_MyPageUI.My);
 		
-		Object[] header = {"분류","제목","내용","작성날짜", "Button"};
-		model = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane();					
-		
-		Object row[];
-		row = new Object[5];
-		row[0] = "FAQ";
-		row[1] = "문의 내용좀 확인해주세요";
-		row[2] = "~";
-		row[3] = "04/14";
-		row[4] = "삭제";
-		list.add(row);
-		model.addRow(row);
-		
-		Object row1[];
-		row1 = new Object[5];
-		row1[0] = "리뷰";
-		row1[1] = "이 책은 정말 좋아요";
-		row1[2] = "~";
-		row1[3] = "04/14";
-		row1[4] = "삭제";
-		list.add(row1);
-		model.addRow(row1);
 		
 		JPanel center_panel = new JPanel();
 		main.content_panel.add(center_panel);
@@ -72,7 +57,12 @@ DefaultTableModel model;
 				
 		center_panel.add(scrollPane, BorderLayout.CENTER);
 		
-		board_table = new JTable(model);
+		//table에 row data 추가
+		reviewData();
+		model.setColumnIdentifiers(header);
+		board_table.setModel(model);
+		board_table.setRowHeight(20);
+		
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);		
 		board_pane.setEnabled(false);
@@ -106,65 +96,87 @@ DefaultTableModel model;
 		head.setBackground(new Color(255,192,203));
 		head.setForeground(new Color(255,255,255));		
 	
-	}
+	}//init
 
+	//table에 출력되는 데이터 생성 - 일단은 게시판(카테고리, 제목, 내용, 날짜) 갖고오기
+	public void reviewData() {
+		model.setNumRows(0);
+		ArrayList<BoardVO> boardlist = system.All_Myboard(main.user_name);
+		for(BoardVO board : boardlist) {
+			row[0] = board.getCategory();
+			row[1] = board.getTitle();
+			row[2] = board.getContent();
+			row[3] = board.getDate();
+			
+			model.addRow(row);
+		}
+		model.fireTableDataChanged();
+	}
+	
+	
 	/** 삭제 버튼 이벤트 처리 **/
 	// 테이블에 버튼넣고 버튼 이벤트처리
-			class ButtonRenderer extends JButton implements TableCellRenderer {
-				 public ButtonRenderer() {
-				  setOpaque(true);
-				 }		 
-				 @Override
-				 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
-					int col) {
-					 	setText((obj == null) ? "" : obj.toString());
-					  	return this;
-					 }
-				}
-				class ButtonEditor extends DefaultCellEditor { 
-				JButton btn_delete;
-				String lbl;
-				 Boolean clicked;
+	class ButtonRenderer extends JButton implements TableCellRenderer {
+		 public ButtonRenderer() {
+		  setOpaque(true);
+		 }		 
+		 
+		 @Override
+		 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
+			int col) {
+			 	setText((obj == null) ? "" : obj.toString());
+			  	return this;
+			 }
+		}
+	class ButtonEditor extends DefaultCellEditor { 
+		JButton btn_delete;
+		String lbl;
+		Boolean clicked;
 
-				 public ButtonEditor(JTextField txt) {
-					  super(txt);
-					  btn_delete = new JButton();
-					  btn_delete.setOpaque(true);
-					  btn_delete.addActionListener(new ActionListener() {
-						  @Override
-						  public void actionPerformed(ActionEvent e) {
-						   fireEditingStopped();
-						  }
-					  });
-				 }
-				 @Override
-				 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
-					  lbl = (obj == null) ? "" : obj.toString();
-					  btn_delete.setText(lbl);
-					  clicked = true;
-					  return btn_delete;
-				 }
-				 @Override
-				 public Object getCellEditorValue() {
-				  if (clicked) {
-					 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
-					if (confirm == 0) {
-						list.remove(board_table.getSelectedRow());
-						model.removeRow(board_table.getSelectedRow());		
-					}
+		 public ButtonEditor(JTextField txt) {
+			  super(txt);
+			  btn_delete = new JButton();
+			  btn_delete.setOpaque(true);
+			  btn_delete.addActionListener(new ActionListener() {
+				  @Override
+				  public void actionPerformed(ActionEvent e) {
+				   fireEditingStopped();
 				  }
-				  clicked = false;
-				  return new String(lbl);
-				 }
-				 @Override
-				 public boolean stopCellEditing() {
-					  clicked = false;
-					  return super.stopCellEditing();
-				 }
-				 @Override
-				 public void fireEditingStopped() {
-					 super.fireEditingStopped();
-				 }
-
+			  });
+		 }
+		 @Override
+		 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
+			  lbl = (obj == null) ? "" : obj.toString();
+			  btn_delete.setText(lbl);
+			  clicked = true;
+			  return btn_delete;
+		 }
+		 @Override
+		 public Object getCellEditorValue() {
+		  if (clicked) {
+			 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
+			if (confirm == 0) {
+				list.remove(board_table.getSelectedRow());
+				model.removeRow(board_table.getSelectedRow());		
 			}
-}
+		  }
+		  clicked = false;
+		  return new String(lbl);
+		 }
+		 @Override
+		 public boolean stopCellEditing() {
+			  clicked = false;
+			  return super.stopCellEditing();
+		 }
+		 @Override
+		 public void fireEditingStopped() {
+			 super.fireEditingStopped();
+		 }
+
+	}//inner class
+	
+	
+		
+		
+		
+}//outer class
