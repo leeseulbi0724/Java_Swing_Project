@@ -46,12 +46,6 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		id_text.setText(mdao.MemberInfo(main.user_name).getId());
 		birthday_text.setText(mdao.MemberInfo(main.user_name).getBirthday());
 		
-		
-		
-		
-		
-		
-		
 		JLabel name_label = new JLabel("¿Ã∏ß");
 		name_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		name_label.setBounds(163, 75, 39, 15);
