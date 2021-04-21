@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BookDAO.MemberDAO;
 import BookSystem.BookSystem;
 import BookVO.MemberVO;
 import Commons.Commons;
@@ -20,13 +21,14 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	JButton btn_modify_check;
 	JTextField name_text,id_text, birthday_text, password_tf, hp_text, addr_text;
 	BookSystem system;
-	ArrayList<MemberVO> list;
-	String[] data;
+	String name;
+	MemberDAO mdao = new MemberDAO();
 	
 	
 	public User_MyPage_UsermodifyUI(User_MyPageUI main) {
 		this.main = main;
 		this.system = main.system;
+		this.name = main.user_name;
 		init();
 	}
 	
@@ -37,19 +39,12 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	public void init() {
 		main.switching(User_MyPageUI.Usermodify);
 		
-		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
-		list = system.Admin_MemberSelect();
-	
-		for(MemberVO member : list) {
-			data = new String[3];
-			data[0]= member.getName();
-			data[1]= member.getId();
-			data[2]= member.getBirthday();
-		}
-		
-		name_text = new JTextField(data[0]);
-		id_text = new JTextField(data[1]);
-		birthday_text = new JTextField(data[2]);
+		name_text = new JTextField();
+		id_text = new JTextField();
+		birthday_text = new JTextField();
+		name_text.setText(mdao.MemberInfo(main.user_name).getName());
+		id_text.setText(mdao.MemberInfo(main.user_name).getId());
+		birthday_text.setText(mdao.MemberInfo(main.user_name).getBirthday());
 		
 		JLabel name_label = new JLabel("¿Ã∏ß");
 		name_label.setHorizontalAlignment(SwingConstants.RIGHT);
