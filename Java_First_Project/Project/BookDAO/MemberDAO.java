@@ -208,12 +208,12 @@ public class MemberDAO extends DBConn {
 	}
 	
 	/** 마이페이지 - 회원정보 가져오기 **/
-	public MemberVO MemberInfo(String pass) {
+	public MemberVO MemberInfo(String id) {
 		MemberVO member = new MemberVO();
 		try {
-			String sql = " select name, id, birthday, hp, addr from book_users where pass = ? ";
+			String sql = " select name, id, birthday, hp, addr from book_users where id = ?  ";
 			getPreparedStatement(sql);
-			pstmt.setString(1, pass);
+			pstmt.setString(1, id);
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {

@@ -30,6 +30,9 @@ public class User_MyPageUI implements ActionListener {
 	boolean pass_result = false;
 	MemberDAO mdao = new MemberDAO();
 	
+	
+	
+	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;
 		this.main = main;
@@ -70,7 +73,7 @@ public class User_MyPageUI implements ActionListener {
 		content_panel = new JPanel();
 		content_panel.setLayout(null);
 		JLabel title_label = new JLabel("마이페이지 이용을 위해 비밀번호를 입력해주세요");
-		title_label.setBounds(175, 106, 224, 15);
+		title_label.setBounds(155, 106, 284, 15);
 		content_panel.add(title_label);
 		
 		pass_textField = new JPasswordField();
@@ -173,7 +176,8 @@ public class User_MyPageUI implements ActionListener {
 		if (obj.equals(btn_pass)) {
 			if (mdao.CheckPass(pass_textField.getText())) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("회원인증이 완료되었습니다."));
-				switching(Information);				
+				switching(Information);		
+				pass_result = true;
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호가 틀렸습니다. 다시 입력해주세요"));
 				pass_textField.setText("");
@@ -250,11 +254,11 @@ public class User_MyPageUI implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		
 		/** 회원정보 **/
-		name_text.setText(mdao.MemberInfo(pass_textField.getText()).getName());
-		id_text.setText(mdao.MemberInfo(pass_textField.getText()).getId());
-		birthday_text.setText(mdao.MemberInfo(pass_textField.getText()).getBirthday());
-		hp_text.setText(mdao.MemberInfo(pass_textField.getText()).getHp());
-		addr_text.setText(mdao.MemberInfo(pass_textField.getText()).getAddr());
+		name_text.setText(mdao.MemberInfo(main.name).getName());
+		id_text.setText(mdao.MemberInfo(main.name).getId());
+		birthday_text.setText(mdao.MemberInfo(main.name).getBirthday());
+		hp_text.setText(mdao.MemberInfo(main.name).getHp());
+		addr_text.setText(mdao.MemberInfo(main.name).getAddr());
 		
 		name_text.setBackground(Color.LIGHT_GRAY);
 		id_text.setBackground(Color.LIGHT_GRAY);
