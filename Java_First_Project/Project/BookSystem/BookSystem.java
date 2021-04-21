@@ -100,8 +100,13 @@ public class BookSystem {
 		}
 		
 		/** 사용자 - 마이페아지 - 주문데이터 넘기기 (insert) **/
-		public boolean User_Order(BookVO vo, String name) {
-			return bdao.getOrder(vo, name);
+		public boolean User_Order(String id, BookVO vo) {
+			return bdao.getOrder(id, vo);
+		}
+		
+		/** 장바구니 테이블 -> 주문조회 테이블에서 책 정보 가져옴 **/
+		public ArrayList<BookVO> getBookinfo(String bookname) {
+			return bdao.getResultBookinfo(bookname);
 		}
 		
 		/** 사용자 - 리뷰작성 DB 저장 **/

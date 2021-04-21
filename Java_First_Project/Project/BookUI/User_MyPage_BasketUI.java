@@ -2,13 +2,13 @@ package BookUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,13 +41,15 @@ public class User_MyPage_BasketUI implements MouseListener{
 	JTable board_table = new JTable(model);
 	BookSystem system = new BookSystem();
 	BookVO vo;
-	String name;
+	String bookname, userid;
+	int count;
 	int all_price = 0;
 
 	public User_MyPage_BasketUI(User_MyPageUI main) {
 		this.main = main;
 		this.frame = main.frame;
 		this.system = main.system;
+		this.userid = main.user_name;
 		init();
 	}
 
@@ -150,9 +152,11 @@ public class User_MyPage_BasketUI implements MouseListener{
 		  //테이블의 모델객체 얻어오기
 		  TableModel data = board_table.getModel();		  
 		  //0번째 도서명을 받아 setBookname으로 넘겨줌
-		  name = (String)data.getValueAt(row,0);
+		  bookname = (String)data.getValueAt(row,0);
+		  count = (int) data.getValueAt(row, 2);
 		  vo = new BookVO();
-		  vo.setBookname(name);	
+//		  vo.setBookname(bookname);	
+//		  vo.setCount(count);
 		  
 	}
 	
@@ -160,12 +164,21 @@ public class User_MyPage_BasketUI implements MouseListener{
 	public void Order_proc() {
 		vo = new BookVO();
 		
-		vo.setBookname(name);
+		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
+		booklist = system.getBookinfo(bookname);
 		
-		if(system.User_Order(vo, name)) {	//insert
-			JOptionPane.showMessageDialog(null, Commons.getMsg("주문완료료료료"));
+		vo.setBookname(bookname);
+		for(BookVO book : booklist) {
+			vo.setAuthor(book.getAuthor());
+			vo.setPblsh(book.getPblsh());
+			vo.setPrice(book.getPrice());
+		}
+		vo.setCount(count);
+	
+		if(system.User_Order(userid, vo)) {	//insert
+			JOptionPane.showMessageDialog(null, Commons.getMsg("도서를 주문하였습니다."));
 		}else {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("주문실패ㅐ패패"));
+			JOptionPane.showMessageDialog(null, Commons.getMsg("도서 주문에 실패하였습니다."));
 		}
 		
 	}
