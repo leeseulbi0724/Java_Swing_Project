@@ -149,14 +149,11 @@ public class BookSystem {
 		/** 사용자 - 게시판 댓글 불러오기 **/
 		public ArrayList<BoardVO> board_comment_select (String bid) {
 			return adao.getBoardCommentSelect(bid);
-		}
-		
+		}		
 			
-//			/** 주문수량 가져오기 **/
-//			public ArrayList<BookVO> Admin_Count(String name) {
-//				System.out.println(bdao.getCount(name));
-//				System.out.println("22");
-//				return bdao.getCount(name);
-//			}
+			/** 주문수량 가져오기 **/
+			public ArrayList<BookVO> Admin_Count(ArrayList<String> list) {
+				return bdao.getCount(list);
+			}
 
 }

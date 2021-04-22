@@ -77,7 +77,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
 			String sql = " Select BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE"
-					 			+ " from BOOK_DATA" + " ORDER BY SDATE DESC";			
+					 			+ " from BOOK_DATA" + " ORDER BY SDATE DESC";				
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -87,13 +87,14 @@ public class BookDAO extends DBConn {
 				vo.setAuthor(rs.getString(3));
 				vo.setPblsh(rs.getString(4));
 				vo.setPrice(rs.getInt(5));
-				vo.setPblshdate(rs.getString(6));				
+				vo.setPblshdate(rs.getString(6));
+				
 				list.add(vo);			
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}	
 		
 		return list;
 	}
@@ -346,28 +347,31 @@ public class BookDAO extends DBConn {
 
 	
 	/** 수량 가져오기 **/
-//	public ArrayList<BookVO> getCount(String name) {
-//		ArrayList<BookVO> list = new ArrayList<BookVO>();
-//		try {
-//			String sql = " SELECT BOOKNAME, COUNT(BOOKNAME)" +
-//					" FROM BOOK_USER_ORDER"  +
-//					" WHERE BOOKNAME = ?"
-//					+ " GROUP BY BOOKNAME";
-//			getPreparedStatement(sql);					
-//			pstmt.setString(1, name);
-//			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				BookVO vo = new BookVO();
-//				vo.setBookname(rs.getString(1));
-//				vo.setCount(rs.getInt(2));					
-//				list.add(vo);
-//			}		
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return list;
-//	}
+	public ArrayList<BookVO> getCount(ArrayList<String> nlist) {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		try {
+			String sql = " SELECT BOOKNAME, SUM(COUNT)" +
+					" FROM BOOK_USER_ORDER"
+					+ " GROUP BY BOOKNAME";
+			getPreparedStatement(sql);		
+		
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BookVO book = new BookVO();
+				book.setBookname(rs.getString(1));
+				book.setCount(rs.getInt(2));		
+				
+				System.out.println(book.getBookname());
+				
+				list.add(book);
+				
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 
 	
 	public void close() {
