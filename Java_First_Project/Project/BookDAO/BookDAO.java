@@ -248,7 +248,7 @@ public class BookDAO extends DBConn {
 		boolean result = false;
 		
 		try {
-			String sql = " INSERT INTO BOOK_BOARD VALUES (?,?,?,?,SYSDATE)";
+			String sql = " INSERT INTO BOOK_BOARD VALUES ('B_'||SEQU_BOOK_BOARD_BID.NEXTVAL,?,?,?,?,SYSDATE)";
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getCategory());
 			pstmt.setString(2, vo.getTitle());
