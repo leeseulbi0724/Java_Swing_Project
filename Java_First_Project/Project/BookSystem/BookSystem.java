@@ -92,8 +92,8 @@ public class BookSystem {
 		}
 		
 		/** 사용자 - 게시판 클릭 시 해당 값 가져오기 **/
-		public BoardVO board_result(String content) {			
-			return adao.getBoardResult(content);			
+		public BoardVO board_result(String bid) {			
+			return adao.getBoardResult(bid);			
 		}
 		
 		/** 관리자 - 도서삭제 시 DB에 있는 도서명인지 체크하기 **/
@@ -139,6 +139,16 @@ public class BookSystem {
 		/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
 		public ArrayList<BoardVO> All_Myreview(String id) {
 			return adao.getMyreview(id);
+		}
+		
+		/** 사용자 - 게시판 댓글 달기 DB 저장 **/
+		public boolean board_comment(BoardVO vo) {
+			return adao.getBoardComment(vo);
+		}
+		
+		/** 사용자 - 게시판 댓글 불러오기 **/
+		public ArrayList<BoardVO> board_comment_select (String bid) {
+			return adao.getBoardCommentSelect(bid);
 		}
 		
 			

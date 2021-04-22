@@ -136,19 +136,20 @@ public class BoardDAO extends DBConn {
 	}
 	
 	/** 사용자 - 게시판 클릭 시 해당 게시판 내용 가져오기 **/
-	public BoardVO getBoardResult(String content) {
+	public BoardVO getBoardResult(String bid) {
 		BoardVO vo = null;
 		
 		try {
-			String sql = "SELECT TITLE, CONTENT FROM BOOK_BOARD WHERE CONTENT = ?";
+			String sql = "SELECT TITLE, CONTENT, BID FROM BOOK_BOARD WHERE BID = ?";
 			getPreparedStatement(sql);
-			pstmt.setString(1, content);
+			pstmt.setString(1, bid);
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				vo = new BoardVO();
 				vo.setTitle(rs.getString(1));
-				vo.setContent(rs.getString(2));		
+				vo.setContent(rs.getString(2));	
+				vo.setBid(rs.getString(3));
 				
 			}
 			
@@ -164,19 +165,20 @@ public class BoardDAO extends DBConn {
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 		
 		try {
-		String sql = " SELECT ROWNUM, CATEGORY, TITLE, CONTENT, ID, WDATE FROM"
-				+ " (SELECT CATEGORY, TITLE, CONTENT, ID, WDATE FROM BOOK_BOARD ORDER BY WDATE)"
+		String sql = " SELECT ROWNUM, BID, CATEGORY, TITLE, CONTENT, ID, WDATE FROM"
+				+ " (SELECT BID, CATEGORY, TITLE, CONTENT, ID, WDATE FROM BOOK_BOARD ORDER BY WDATE)"
 				+ " ORDER BY ROWNUM DESC";
 		getPreparedStatement(sql);		
 		rs = pstmt.executeQuery();
 		while (rs.next()) {
 			BoardVO vo = new BoardVO();
 			vo.setRownum(rs.getInt(1));
-			vo.setCategory(rs.getString(2));
-			vo.setTitle(rs.getString(3));
-			vo.setContent(rs.getString(4));
-			vo.setId(rs.getString(5));
-			vo.setDate(rs.getString(6));
+			vo.setBid(rs.getString(2));
+			vo.setCategory(rs.getString(3));
+			vo.setTitle(rs.getString(4));
+			vo.setContent(rs.getString(5));
+			vo.setId(rs.getString(6));
+			vo.setDate(rs.getString(7));
 			
 			list.add(vo);
 		}
@@ -210,4 +212,53 @@ public class BoardDAO extends DBConn {
 		return result;
 		
 	}	
+	
+	/** 사용자 - 게시판 댓글 DB저장 **/
+	public boolean getBoardComment(BoardVO vo) {
+		
+		boolean result = false;
+		try {
+			String sql = " INSERT INTO BOOK_BOARD_COMMENT VALUES (?,?,?,SYSDATE)";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, vo.getBid());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getId());
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		return result;
+		
+	}
+	
+	/** 사용자 - 게시판 댓글 불러오기 **/
+	public ArrayList<BoardVO> getBoardCommentSelect(String bid) {
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		try {
+			String sql = " SELECT CID, MENT, ID, CDATE FROM BOOK_BOARD_COMMENT WHERE CID = ? ORDER BY CDATE ";
+			getPreparedStatement(sql);
+			pstmt.setString(1, bid);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setBid(rs.getString(1));
+				vo.setContent(rs.getString(2));
+				vo.setId(rs.getString(3));
+				vo.setDate(rs.getString(4));
+				
+				list.add(vo);				
+			}
+			
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
 }

@@ -1,8 +1,8 @@
 package BookVO;
 
 public class BoardVO {
-	String category, title, content, id, date;
-	int rownum, score, bid;
+	String category, title, content, id, date, bid;
+	int rownum, score;
 
 	public String getCategory() {
 		return category;
@@ -46,12 +46,13 @@ public class BoardVO {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	public int getBid() {
+	public String getBid() {
 		return bid;
 	}
-	public void setBid(int bid) {
+	public void setBid(String bid) {
 		this.bid = bid;
 	}
+
 	
 	
 	

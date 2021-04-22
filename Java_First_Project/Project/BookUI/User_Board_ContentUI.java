@@ -3,20 +3,24 @@ package BookUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import BookSystem.BookSystem;
+import BookVO.BoardVO;
 import Commons.Commons;
 
-public class User_Board_ContentUI extends JDialog{
+public class User_Board_ContentUI extends JDialog implements ActionListener{
 	
 	//Field
 	User_MainUI main;
@@ -26,13 +30,17 @@ public class User_Board_ContentUI extends JDialog{
 	JTextArea content_ta, comment_ta;
 	String title, content;
 	JButton write_btn;
+	String name, bid;
 	
 	//Constructor
-	public User_Board_ContentUI(String title, String content, Window parent) {
+	public User_Board_ContentUI(BoardVO vo, String name, Window parent) {
 		super(parent, "게시글 내용", ModalityType.APPLICATION_MODAL);
-		this.title = title;
-		this.content = content;
+		this.title = vo.getTitle();
+		this.content = vo.getContent();
+		this.bid = vo.getBid();
+		this.name = name;		
 		init();
+		comment_select();
 	}
 	
 	public void init() {
@@ -62,6 +70,7 @@ public class User_Board_ContentUI extends JDialog{
 		content_ta = new JTextArea();		
 		comment_ta = new JTextArea();
 		comment_tf = new JTextField(50);
+		comment_tf.requestFocus();
 		write_btn = new JButton("작성");
 		title_tf.setBounds(91, 40, 388, 25);
 		content_ta.setBounds(91, 75, 388, 186);			
@@ -85,8 +94,6 @@ public class User_Board_ContentUI extends JDialog{
 		write_panel.add(scrollPane);
 		write_panel.add(wpanel);
 		
-		comment_tf.requestFocus();
-		
 		/** **/
 //		Label.setFont(Commons.getFont());
 		label_title.setFont(Commons.getFont());
@@ -100,7 +107,39 @@ public class User_Board_ContentUI extends JDialog{
 		title_tf.setEditable(false);
 		content_ta.setEditable(false);		
 		comment_ta.setEditable(false);
-				
+		
+		/** 버튼 이벤트 **/
+		write_btn.addActionListener(this);				
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if  (obj.equals(write_btn)) {
+			comment_write();
+		}		
 	}	
+	
+	public void comment_select() {
+		ArrayList<BoardVO> list = system.board_comment_select(bid);
+		System.out.println(list.size());
+		for (BoardVO vo : list) {
+			comment_ta.append(" [ " + vo.getId()+"님 ] " + vo.getContent() + " "+vo.getDate()+"\n");
+		}
+	}
+	
+	public void comment_write() {
+		BoardVO vo = new BoardVO();
+		vo.setContent(comment_tf.getText());
+		vo.setId(name);
+		vo.setBid(bid);		
+		if (system.board_comment(vo)) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("댓글 작성 완료"));
+			comment_tf.setText("");
+			comment_select();
+		} else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("댓글 작성 실패"));
+		}
+	}
 
 }
