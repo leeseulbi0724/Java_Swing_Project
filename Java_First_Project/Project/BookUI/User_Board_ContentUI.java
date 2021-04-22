@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Window;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,9 +22,10 @@ public class User_Board_ContentUI extends JDialog{
 	User_MainUI main;
 	LoginUI login;
 	BookSystem system = new BookSystem();
-	JTextField title_tf;
+	JTextField title_tf, comment_tf;
 	JTextArea content_ta, comment_ta;
 	String title, content;
+	JButton write_btn;
 	
 	//Constructor
 	public User_Board_ContentUI(String title, String content, Window parent) {
@@ -35,14 +37,14 @@ public class User_Board_ContentUI extends JDialog{
 	
 	public void init() {
 		setBackground(new Color(211, 211, 211));
-		setBounds(133, 10, 531, 500);
+		setBounds(133, 10, 531, 480);
 		setLayout(new BorderLayout(0, 0));
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
-		JLabel Label = new JLabel(" 내 용 확 인 ");
-		Label.setHorizontalAlignment(SwingConstants.CENTER);
-		add(Label, BorderLayout.NORTH);
+//		JLabel Label = new JLabel(" 내 용 확 인 ");
+//		Label.setHorizontalAlignment(SwingConstants.CENTER);
+//		add(Label, BorderLayout.NORTH);
 
 		JPanel write_panel = new JPanel();			
 		add(BorderLayout.CENTER, write_panel);
@@ -59,9 +61,15 @@ public class User_Board_ContentUI extends JDialog{
 		title_tf = new JTextField(50);
 		content_ta = new JTextArea();		
 		comment_ta = new JTextArea();
+		comment_tf = new JTextField(50);
+		write_btn = new JButton("작성");
 		title_tf.setBounds(91, 40, 388, 25);
 		content_ta.setBounds(91, 75, 388, 186);			
 		comment_ta.setBounds(91, 285, 388, 60);
+		
+		JPanel wpanel = new JPanel(new BorderLayout());
+		wpanel.setBounds(91, 350, 388, 20);
+		wpanel.add(BorderLayout.CENTER, comment_tf);		wpanel.add(BorderLayout.EAST, write_btn);
 		
 		JScrollPane scrollPane = new JScrollPane(comment_ta);
 		scrollPane.setBounds(91, 285, 388, 60);
@@ -75,17 +83,23 @@ public class User_Board_ContentUI extends JDialog{
 		write_panel.add(content_ta);	
 		write_panel.add(label_comment);
 		write_panel.add(scrollPane);
+		write_panel.add(wpanel);
+		
+		comment_tf.requestFocus();
 		
 		/** **/
-		Label.setFont(Commons.getFont());
+//		Label.setFont(Commons.getFont());
 		label_title.setFont(Commons.getFont());
 		label_content.setFont(Commons.getFont());
 		label_comment.setFont(Commons.getFont());
 		title_tf.setFont(Commons.getFont());
 		content_ta.setFont(Commons.getFont());
+		comment_tf.setFont(Commons.getFont());
+		write_btn.setFont(Commons.getFont());
 		title_tf.setBackground(Color.WHITE);
 		title_tf.setEditable(false);
 		content_ta.setEditable(false);		
+		comment_ta.setEditable(false);
 				
 	}	
 

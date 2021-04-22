@@ -2,6 +2,7 @@ package BookSystem;
 
 import java.util.ArrayList;
 
+import BookDAO.BoardDAO;
 import BookDAO.BookDAO;
 import BookDAO.MemberDAO;
 import BookVO.BoardVO;
@@ -12,6 +13,7 @@ public class BookSystem {
 		//Field
 		MemberDAO mdao = new MemberDAO();			
 		BookDAO bdao = new BookDAO();
+		BoardDAO adao = new BoardDAO();
 		
 		//Constructor
 		public BookSystem() {			
@@ -81,17 +83,17 @@ public class BookSystem {
 		
 		/** 사용자 - 게시판 내용 저장 **/
 		public boolean User_Board(BoardVO vo) {
-			return bdao.getBoardInsert(vo);
+			return adao.getBoardInsert(vo);
 		}
 		
 		/** 사용자, 관리자 - 게시판 목록 불러오기 **/
 		public ArrayList<BoardVO> board_data() {
-			return bdao.getBoardSelect();
+			return adao.getBoardSelect();
 		}
 		
 		/** 사용자 - 게시판 클릭 시 해당 값 가져오기 **/
 		public BoardVO board_result(String content) {			
-			return bdao.getBoardResult(content);			
+			return adao.getBoardResult(content);			
 		}
 		
 		/** 관리자 - 도서삭제 시 DB에 있는 도서명인지 체크하기 **/
@@ -116,27 +118,27 @@ public class BookSystem {
 		
 		/** 사용자 - 리뷰작성 DB 저장 **/
 		public boolean User_ReviewResult(BoardVO vo) {
-			return bdao.getReviewResult(vo);
+			return adao.getReviewResult(vo);
 		}
 		
 		/** 사용자 -- 리뷰 작성 전 이미 작성된 리뷰가 있는지 체크 **/
 		public boolean ReviewCheck(String bookname, String username) {
-			return bdao.getReviewCheck(bookname, username);
+			return adao.getReviewCheck(bookname, username);
 		}
 		
 		/** 사용자 - 모든 리뷰정보 가져오기 **/
 		public ArrayList<BoardVO> All_Review(String bookname) {
-			return bdao.getAllReview(bookname);
+			return adao.getAllReview(bookname);
 		}
 		
 		/** 사용자 - 마이페이지 - My이력 (내가쓴 모든 게시판글) **/
 		public ArrayList<BoardVO> All_Myboard(String id) {
-			return bdao.getMyboard(id);
+			return adao.getMyboard(id);
 		}
 		
 		/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
 		public ArrayList<BoardVO> All_Myreview(String id) {
-			return bdao.getMyreview(id);
+			return adao.getMyreview(id);
 		}
 		
 			

@@ -2,7 +2,7 @@ package BookVO;
 
 public class BoardVO {
 	String category, title, content, id, date;
-	int rownum, score;
+	int rownum, score, bid;
 
 	public String getCategory() {
 		return category;
@@ -45,6 +45,12 @@ public class BoardVO {
 	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	public int getBid() {
+		return bid;
+	}
+	public void setBid(int bid) {
+		this.bid = bid;
 	}
 	
 	
