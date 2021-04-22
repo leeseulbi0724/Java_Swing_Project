@@ -29,7 +29,7 @@ import BookVO.BookVO;
 import Commons.Commons;
 
 public class Admin_DeleteUI implements ActionListener{
-
+//
 	Admin_MainUI main;
 	JFrame frame;
 	JPanel bottom_panel;
