@@ -11,6 +11,7 @@ import BookUI.Admin_MainUI;
 import BookUI.Admin_MemberViewsUI;
 import BookVO.MemberVO;
 
+
 public class MemberDAO extends DBConn {
 		
 	/** 로그인 처리 **/
@@ -62,23 +63,61 @@ public class MemberDAO extends DBConn {
 		return result;
 	}
 	
+	/** 회원검색 **/
+	public ArrayList<MemberVO> search(String category, String value) {
+	ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+		
+		try {
+			String sql = " SELECT ROWNUM RNO, ID, PASS, NAME, BIRTHDAY, HP, ADDR  "
+					+ " FROM BOOK_USERS WHERE ";
+		
+			if(category.equals("아이디")) {
+				sql = sql + " ID = ?";
+			}else if(category.equals("이름")) {				
+				sql = sql + " NAME = ?";
+			}
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, value);			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setRno(rs.getInt(1));
+				member.setId(rs.getString(2));
+				member.setPass(rs.getString(3));
+				member.setName(rs.getString(4));
+				member.setBirthday(rs.getString(5));
+				member.setHp(rs.getString(6));
+				member.setAddr(rs.getString(7));
+				list.add(member);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
 	/** 관리자 회원조회 - 회원목록 가져오기 **/
 	public ArrayList<MemberVO> getResultSelect(){
 		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
 			
 		try {
-			String sql = " select id,pass,name,birthday,hp,addr from book_users ";
+			String sql = " SELECT ROWNUM RNO, ID, PASS, NAME, BIRTHDAY, HP, ADDR " 
+						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC)  ";
 			getPreparedStatement(sql);
-			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberVO member = new MemberVO();
-				member.setId(rs.getString(1));
-				member.setPass(rs.getString(2));
-				member.setName(rs.getString(3));
-				member.setBirthday(rs.getString(4));
-				member.setHp(rs.getString(5));
-				member.setAddr(rs.getString(6));
+				member.setRno(rs.getInt(1));
+				member.setId(rs.getString(2));
+				member.setPass(rs.getString(3));
+				member.setName(rs.getString(4));
+				member.setBirthday(rs.getString(5));
+				member.setHp(rs.getString(6));
+				member.setAddr(rs.getString(7));
 				list.add(member);
 			}
 				
@@ -90,19 +129,16 @@ public class MemberDAO extends DBConn {
 	}
 	
 	/** 관리자 - 회원삭제 **/
-	public boolean getResultDelete(String id) {
-		boolean result = false;		
+	public int delete(String id) {
+		int result = 0;		
 		try {
 			String sql = " DELETE FROM BOOK_USERS WHERE ID = ?  ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);
 			
-					
-			int val = pstmt.executeUpdate();
-			if (val != 0) {
-				result = true;
-			}
+			result = pstmt.executeUpdate();		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		

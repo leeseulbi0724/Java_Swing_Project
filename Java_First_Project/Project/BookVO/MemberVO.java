@@ -1,8 +1,19 @@
 package BookVO;
 
 public class MemberVO {
-	// 아이디, 패스워드, 이름, 생년월일, 휴대폰번호, 주소 
+	// 아이디, 패스워드, 이름, 생년월일, 휴대폰번호, 주소
+	int rno;
 	String id, pass, cpass, name, birthday, hp, addr;
+	
+	
+	
+	public int getRno() {
+		return rno;
+	}
+
+	public void setRno(int rno) {
+		this.rno = rno;
+	}
 
 	public String getId() {
 		return id;
