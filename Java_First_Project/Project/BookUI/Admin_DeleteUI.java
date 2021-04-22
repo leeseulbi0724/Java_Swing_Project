@@ -7,9 +7,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
-import javax.swing.DefaultCellEditor;
+import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,11 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
-import BookUI.User_MyPage_MyUI.ButtonEditor;
-import BookUI.User_MyPage_MyUI.ButtonRenderer;
+import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -41,12 +39,14 @@ public class Admin_DeleteUI implements ActionListener{
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
 	String boxname;
+	BookSystem system = new BookSystem();
 	
 	Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
-	DefaultTableModel model = new DefaultTableModel(header, 0);
-	JTable book_table = new JTable(model);
+	JTable book_table = new JTable();
 	JScrollPane book_pane = new JScrollPane(book_table);	
 	JScrollPane scrollPane = new JScrollPane();		
+	
+	static final int LIST= 1;
 
 	public Admin_DeleteUI(Admin_MainUI main) {
 		this.main = main;
@@ -126,25 +126,39 @@ public class Admin_DeleteUI implements ActionListener{
 		list = new ArrayList<BookVO>();
 		list = main.system.Admin_Search(search_tf.getText());		
 		main.content_panel.setVisible(true);		
-		for (BookVO book : list) {			
-			model.setNumRows(0);
-			Object row[] = new Object[7];
-			row[0] = book.getBno();
-			row[1] = book.getBookname();
-			row[2] = book.getAuthor();
-			row[3] = book.getPblsh();
-			row[4] = book.getPrice();
-			row[5] = book.getPblshdate();
-			row[6] = "삭제";			
-			model.addRow(row);			
-		}
-		model.fireTableDataChanged();
+		Object[][] rowDatas = new Object[list.size()][header.length];
+		 for (int i = 0; i < list.size(); i++) {
+	            rowDatas[i] = new Object[] {
+	                list.get(i).getBno(),
+	                list.get(i).getBookname(),
+	                list.get(i).getAuthor(),
+	                list.get(i).getPblsh(),
+	                list.get(i).getPrice(),
+	                list.get(i).getPblshdate(),
+	                " "
+	            };
+	       }
+		 book_table.setModel(new DefaultTableModel(rowDatas,header) {
+	            boolean[] columnEditables = new boolean[] {
+	                false, false, false, true, false
+	            };
+	        });
+		 
+		 book_table.getColumnModel().getColumn(6).setCellRenderer(new TableUpdateCell("삭제", this, system,Admin_DeleteUI.LIST ));
+		 book_table.getColumnModel().getColumn(6).setCellEditor(new TableUpdateCell("삭제", this, system,Admin_DeleteUI.LIST ));
+		
+		 book_table.getColumnModel().getColumn(0).setResizable(false);
+		 book_table.getColumnModel().getColumn(1).setResizable(false);
+		 book_table.getColumnModel().getColumn(2).setResizable(false);
+		 book_table.getColumnModel().getColumn(3).setResizable(false);
+		 book_table.getColumnModel().getColumn(4).setResizable(false);
+		 book_table.getColumnModel().getColumn(5).setResizable(false);
+		 book_table.getColumnModel().getColumn(6).setResizable(false);
+
 		book_table.setFont(Commons.getFont());
 		book_pane.setEnabled(false);
 		scrollPane.setViewportView(book_pane);	
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
-        book_table.getColumn("삭제").setCellRenderer(new ButtonRenderer());
-        book_table.getColumn("삭제").setCellEditor(new ButtonEditor(new JTextField()));
         
         /** 테이블 색 설정 **/
 		JTableHeader head = book_table.getTableHeader();
@@ -153,78 +167,51 @@ public class Admin_DeleteUI implements ActionListener{
 		
 	}
 	
-	
-	/** 삭제 버튼 이벤트 처리 **/
-			class ButtonRenderer extends JButton implements TableCellRenderer {
-				 public ButtonRenderer() {
-				  setOpaque(true);
-				 }		 
-				 @Override
-				 public Component getTableCellRendererComponent(JTable table, Object obj, boolean selected, boolean focused, int row,
-					int col) {
-					 	setText((obj == null) ? "" : obj.toString());
-					  	return this;
-					 }
-				}
-				class ButtonEditor extends DefaultCellEditor { 
-				 JButton btn_delete;
-				 String lbl;
-				 Boolean clicked;
+	//삭제 버튼 생성 및 추가 클래스
+		class TableUpdateCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
+		    JButton jb;
+		   BookSystem system;
 
-				 public ButtonEditor(JTextField txt) {
-					  super(txt);
-					  btn_delete = new JButton();
-					  btn_delete.setOpaque(true);
-					  btn_delete.addActionListener(new ActionListener() {
-						  @Override
-						  public void actionPerformed(ActionEvent e) {
-							 try {
-								 fireEditingStopped();								
-							} catch (Exception e2) {
-								
-							}
-						  }
-					  });
-				 }
-				 @Override
-				 public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
-					  lbl = (obj == null) ? "" : obj.toString();
-					  btn_delete.setText(lbl);
-					  btn_delete.setFont(Commons.getFont());
-					  clicked = true;
-					  return btn_delete;
-				 }
-				 @Override
-				 public Object getCellEditorValue() {
-				  if (clicked) {
-					 int confirm = JOptionPane.showConfirmDialog(btn_delete, Commons.getMsg("정말로 삭제하시겠습니까?"));
-					if (confirm == 0) {						
-						if (main.system.Admin_Delete(search_tf.getText())) {
-							JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
-							model.removeRow(book_table.getSelectedRow());
-							main.switching(Admin_MainUI.home);
-						};						
-					}
-				  }
-				  clicked = false;
-				  return new String(lbl);
-				 }
-				 @Override
-				 public boolean stopCellEditing() {
-					  clicked = false;
-					  return super.stopCellEditing();
-				 }
-				 @Override
-				 public void fireEditingStopped() {
-					 try {
-						 super.fireEditingStopped();						
-					} catch (Exception e) {
-						
-					}
-				 }
-
-			}
-		
-	
+		    public TableUpdateCell(String name, Admin_DeleteUI mlist, BookSystem system, int option) {
+		    	this.system= system;
+		        jb = new JButton(name);
+		        jb.setFont(Commons.getFont());
+		        
+		        jb.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		            	String name = e.getActionCommand();            
+		            	int result = 0;
+		            	
+		            	if(name.equals("삭제")){
+		            		int confirm=JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 삭제하시겠습니까?"));
+			            	if(confirm==0) {	            		
+			            		if(option == Admin_DeleteUI.LIST) {
+			            			if (main.system.Admin_Delete(search_tf.getText())) {
+										JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
+										main.switching(Admin_MainUI.home);						
+			            		}			            		
+			            		if(result !=0)	mlist.init();
+			            	}
+		            	}
+		            	
+		            }
+		        }
+		      });
+		    }
+		    @Override
+		    public Object getCellEditorValue() {
+		        return null;
+		    }
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+		            int row, int column) {
+		        return jb;
+		    }
+		    @Override
+		    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+		            int column) {
+		        return jb;
+		    }
+		}//TableUpdateCell class	
 
 }
