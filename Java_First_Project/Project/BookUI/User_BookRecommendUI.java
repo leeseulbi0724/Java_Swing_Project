@@ -103,8 +103,9 @@ public class User_BookRecommendUI implements ActionListener {
 			main.switching(User_MainUI.BOOK);		
 			
 			bookPanel = new JPanel();
-			bookPanel.setBackground(Color.WHITE);
-			bookPanel.setBounds(133, 10, 531, 341);
+			bookPanel.setBackground(Color.BLACK);
+			bookPanel.setBounds(133, 20, 531, 310);
+			
 			bookPanel.setVisible(false);
 			bookPanel.setLayout(null);
 		

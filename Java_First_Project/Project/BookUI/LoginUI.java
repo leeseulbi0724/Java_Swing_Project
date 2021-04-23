@@ -60,7 +60,7 @@ public class LoginUI implements ActionListener {
 		frame.setResizable(false);
 		
 		
-		login_panel = new ImagePanel(new ImageIcon("images/books_img.jpg").getImage());
+		login_panel = new ImagePanel(new ImageIcon("images/LoginBackGroundimg.jpg").getImage());
 		login_panel.setBounds(0, 0, 800, 513);
 		frame.getContentPane().add(login_panel);
 		login_panel.setLayout(null);
@@ -81,7 +81,7 @@ public class LoginUI implements ActionListener {
 		
 		login_btn = new JButton("");
 		login_btn.setBorderPainted(false);
-		login_btn.setIcon(new ImageIcon("images/kakao_login_btn_img.png"));
+		login_btn.setIcon(new ImageIcon("images/LoginBtn.png"));
 		login_btn.setBackground(Color.WHITE);
 		login_btn.setBounds(100, 377, 125, 51);
 		login_panel.add(login_btn);

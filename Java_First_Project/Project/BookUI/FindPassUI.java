@@ -72,6 +72,7 @@ public class FindPassUI extends JDialog implements ActionListener{
 		JButton back_btn = new JButton("New button");
 		back_btn.setBackground(Color.WHITE);
 		back_btn.setForeground(Color.WHITE);
+		back_btn.setBorderPainted(false);
 		back_btn.setIcon(new ImageIcon("images/backicon.png"));
 		back_btn.setBounds(22, 10, 33, 33);
 		find_panel.add(back_btn);

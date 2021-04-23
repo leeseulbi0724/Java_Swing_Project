@@ -62,7 +62,7 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		
 		content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.info);
-		content_panel.setBounds(0, 0, 531, 301);
+		content_panel.setBounds(0, 0, 531, 310);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
 		//table¿¡ row data Ãß°¡
