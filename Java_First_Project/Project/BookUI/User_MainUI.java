@@ -24,13 +24,13 @@ public class User_MainUI implements ActionListener{
 	LoginUI main;
 	JFrame f;
 	JPanel topPanel;
-	ImagePanel mainPanel;
+	JPanel mainPanel;
 	//탑패널 버튼
 	JButton logout_btn,myPage_btn,board_btn,home_btn;	
 	//메인패널 버튼
 	JButton book1_btn,book2_btn,bookList_btn;	
 	//홈 화면 눌렀을 때 초기화되었기 때문에 다시 넣어줘야함
-	JLabel recommendIconLabel,lineLabel;	
+	JLabel recommendIconLabel,mainLabel;	
 	String name;	
 	// book1,book2 구별
 	public boolean flag;
@@ -109,12 +109,12 @@ public class User_MainUI implements ActionListener{
 		 * 메인 패널
 		 */
 		
-		mainPanel = new ImagePanel(new ImageIcon("images/mainFrame.png").getImage());
+		mainPanel = new JPanel();
 		mainPanel.setBackground(Color.WHITE);
 		mainPanel.setBounds(0, 109, 804, 491);
 		f.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
-				
+		
 		recommendIconLabel = new JLabel();
 		recommendIconLabel.setIcon(new ImageIcon("images/bestSeller.PNG"));
 		recommendIconLabel.setBounds(370, 27, 70, 70);
@@ -141,6 +141,11 @@ public class User_MainUI implements ActionListener{
 		bookList_btn.setBorderPainted(false);
 		bookList_btn.setBounds(370, 340, 51, 40);
 		mainPanel.add(bookList_btn);
+		
+		mainLabel = new JLabel();
+		mainLabel.setIcon(new ImageIcon("images/mainFrame.png"));
+		mainLabel.setBounds(0, 0, 792, 398);
+		mainPanel.add(mainLabel);	
 		
 		/* 버튼 */
 		home_btn.addActionListener(this);
@@ -221,6 +226,8 @@ public class User_MainUI implements ActionListener{
 			mainPanel.add(book2_btn);
 			bookList_btn.setBounds(370, 340, 51, 40);
 			mainPanel.add(bookList_btn);
+			mainLabel.setBounds(0, 0, 792, 398);
+			mainPanel.add(mainLabel);	
 		}
 	
 }
