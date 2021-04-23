@@ -110,14 +110,14 @@ public class User_MainUI implements ActionListener{
 		 */
 		
 		mainPanel = new JPanel();
-		mainPanel.setBackground(Color.WHITE);
+		mainPanel.setBackground(new Color(255, 240, 245));
 		mainPanel.setBounds(0, 109, 804, 491);
 		f.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		
 		recommendIconLabel = new JLabel();
 		recommendIconLabel.setIcon(new ImageIcon("images/bestSeller.PNG"));
-		recommendIconLabel.setBounds(370, 27, 70, 70);
+		recommendIconLabel.setBounds(365, 27, 70, 70);
 		mainPanel.add(recommendIconLabel);		
 		
 		
@@ -137,15 +137,10 @@ public class User_MainUI implements ActionListener{
 		bookList_btn = new JButton();
 		bookList_btn.setIcon(new ImageIcon("images/switch2222.png"));
 		bookList_btn.setPressedIcon(new ImageIcon("images/switch1111.png"));
-		bookList_btn.setBackground(Color.WHITE);
+		bookList_btn.setBackground(new Color(255, 240, 245));
 		bookList_btn.setBorderPainted(false);
 		bookList_btn.setBounds(370, 340, 51, 40);
 		mainPanel.add(bookList_btn);
-		
-		mainLabel = new JLabel();
-		mainLabel.setIcon(new ImageIcon("images/mainFrame.png"));
-		mainLabel.setBounds(0, 0, 792, 398);
-		mainPanel.add(mainLabel);	
 		
 		/* 버튼 */
 		home_btn.addActionListener(this);
@@ -218,7 +213,7 @@ public class User_MainUI implements ActionListener{
 		
 		//스위치에서 홈버튼 누르면 버튼 새로 생성해야하는거 좀 지저분해서 여따 옮겨봤어요 다시 옮기셔도 돼요 ^^
 		public void createContent() {
-			recommendIconLabel.setBounds(370, 27, 70, 70);
+			recommendIconLabel.setBounds(365, 27, 70, 70);
 			mainPanel.add(recommendIconLabel);		
 			book1_btn.setBounds(200, 92, 180, 230);
 			mainPanel.add(book1_btn);
@@ -226,8 +221,6 @@ public class User_MainUI implements ActionListener{
 			mainPanel.add(book2_btn);
 			bookList_btn.setBounds(370, 340, 51, 40);
 			mainPanel.add(bookList_btn);
-			mainLabel.setBounds(0, 0, 792, 398);
-			mainPanel.add(mainLabel);	
 		}
 	
 }
