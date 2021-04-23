@@ -117,7 +117,7 @@ public class BoardDAO extends DBConn {
 	public boolean getReviewResult(BoardVO vo) {
 		boolean result = false;
 		try {
-			String sql = " INSERT INTO BOOK_REVIEW VALUES(?,?,?,?,SYSDATE)";
+			String sql = " INSERT INTO BOOK_REVIEW VALUES('R_'||SEQU_BOOK_REVIEW_RID.NEXTVAL,?,?,?,?,SYSDATE)";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
