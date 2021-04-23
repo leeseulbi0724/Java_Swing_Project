@@ -14,9 +14,6 @@ public class Client {
 		oos = new ObjectOutputStream(s.getOutputStream());
 		ois = new ObjectInputStream(s.getInputStream());
 		
-		//1. CONNECT : status - 0		
-		
-		//4. 수신 - 브로드캐스팅하는 모든 메시지	
 		//new ClientThread(ois,taContent,lstUser,lCount).start();
 		new ClientThread(this).start();		
 		
