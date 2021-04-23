@@ -361,8 +361,6 @@ public class BookDAO extends DBConn {
 				book.setBookname(rs.getString(1));
 				book.setCount(rs.getInt(2));		
 				
-				System.out.println(book.getBookname());
-				
 				list.add(book);
 				
 			}		
