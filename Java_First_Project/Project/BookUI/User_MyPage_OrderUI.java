@@ -84,6 +84,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		model.setNumRows(0);
 		for(BookVO book : main.system.getOrderList(main.main.name)) {
 			
+			row[0] = book.getBno();
 			row[1] = book.getBookname();
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();

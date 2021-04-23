@@ -249,21 +249,22 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> booklist = new ArrayList<BookVO>();
 		
 		try {
-			String sql = " select bookname, author, pblsh, price, count, orderdate "
-					+ " from BOOK_USER_ORDER  where id = ? ";
+			String sql = " select rownum, bookname, author, pblsh, price, count, orderdate from " 
+					+ "(select bookname, author, pblsh, price, count, orderdate from BOOK_USER_ORDER  where id = ?) "
+					+ "order by rownum desc ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				BookVO book = new BookVO();
-				
-				book.setBookname(rs.getString(1));
-				book.setAuthor(rs.getString(2));
-				book.setPblsh(rs.getString(3));
-				book.setPrice(rs.getInt(4));
-				book.setCount(rs.getInt(5));
-				book.setPblshdate(rs.getString(6));
+				book.setBno(rs.getInt(1));
+				book.setBookname(rs.getString(2));
+				book.setAuthor(rs.getString(3));
+				book.setPblsh(rs.getString(4));
+				book.setPrice(rs.getInt(5));
+				book.setCount(rs.getInt(6));
+				book.setPblshdate(rs.getString(7));
 				
 				booklist.add(book);
 			}
