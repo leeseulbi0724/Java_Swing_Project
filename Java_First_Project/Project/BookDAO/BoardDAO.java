@@ -11,7 +11,7 @@ public class BoardDAO extends DBConn {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
 		try {
-			String sql = " SELECT BOOKNAME, CONTENT, RDATE FROM BOOK_REVIEW WHERE ID = ? ";
+			String sql = " SELECT BOOKNAME, CONTENT, RDATE, RID FROM BOOK_REVIEW WHERE ID = ? ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -23,6 +23,7 @@ public class BoardDAO extends DBConn {
 				vo.setTitle(rs.getString(1));
 				vo.setContent(rs.getString(2));
 				vo.setDate(rs.getString(3));
+				vo.setBid(rs.getString(4));
 				
 				writelist.add(vo);
 			}
@@ -38,7 +39,7 @@ public class BoardDAO extends DBConn {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
 		try {
-			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE FROM BOOK_BOARD WHERE ID = ? ";
+			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE, BID FROM BOOK_BOARD WHERE ID = ? ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -50,6 +51,7 @@ public class BoardDAO extends DBConn {
 				vo.setTitle(rs.getString(2));
 				vo.setContent(rs.getString(3));
 				vo.setDate(rs.getString(4));
+				vo.setBid(rs.getString(5));
 				
 				writelist.add(vo);
 			}
@@ -284,32 +286,23 @@ public class BoardDAO extends DBConn {
 		return result;
 	}
 	
-	/** 사용자 - 마이페이지 - 게시판 글 삭제 (데이터 가져오기)  **/
-	public ArrayList<BoardVO> getDeleteBoard(String id) {
-		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+	/** 사용자 - 마이페이지 - 리뷰 삭제 **/
+	public int getReviewDelete(String bid) {
+		int result = 0;
 		
 		try {
-			String sql = " select bid from book_board where id = ? "; 
+			String sql = "delete from book_review where rid = ? ";	
 			getPreparedStatement(sql);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
+			pstmt.setString(1, bid);
 			
-			while(rs.next()) {
-				BoardVO vo = new BoardVO();
-				vo.setBid(rs.getString(1));
+			result = pstmt.executeUpdate();	
 				
-				list.add(vo);
-				
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return list;
+		return result;
 	}
-	
-	
-	
 	
 	
 }

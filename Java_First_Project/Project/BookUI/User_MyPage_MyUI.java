@@ -35,12 +35,12 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	DefaultTableModel model= new DefaultTableModel(colName, 0);
 	JTable board_table = new JTable(model);
 	Object[] row = new Object[5];
-	String id, bookname, checkname;
+	String id;
 	BookSystem system = new BookSystem();
 	int rowrow;
 	BoardVO vo;
 	ArrayList<BoardVO> boardlist;
-	BookVO bookk;
+	BookVO book;
 	ArrayList<BookVO> booklist;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
@@ -173,12 +173,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	public void deleteBoardData() {
 		rowrow = board_table.getSelectedRow();	
 		vo = new BoardVO();
-		boardlist = new ArrayList<BoardVO>();
-		// id 받아와서 bid 비교함
-		boardlist = system.DeleteBoard(id);
-		for (BoardVO board : boardlist) {
-			vo.setBid(board.getBid());
-		}
+		ArrayList<BoardVO> boardlist = system.All_Myboard(main.user_name);
 		
 		if(rowrow == -1) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 게시글을 선택해주세요. "));
@@ -198,19 +193,15 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	//table에서 삭제하는 이벤트 - 리뷰 삭제 메소드
 	public void deleteReviewData() {
 		rowrow = board_table.getSelectedRow();	
-		bookk = new BookVO();
-		booklist = new ArrayList<BookVO>();
-		booklist = system.DeleteReview(id);
-		for (BookVO book : booklist) {
-			bookk.setBookname(book.getBookname());
-		}
+		vo = new BoardVO();
+		ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);
 		
 		if (rowrow == -1) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 리뷰를 선택해주세요. "));
 		} else {
 			int confirm = JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 삭제하시겠습니까?"));
 			if (confirm == 0) {
-				int result = system.MyDelete_Review(booklist.get(board_table.getSelectedRow()).getBookname());
+				int result = system.MyDelete_Review(boardlist.get(board_table.getSelectedRow()).getBid());
 				if (result != 0) {
 					JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰가 삭제되었습니다."));
 					init();
@@ -224,9 +215,6 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 		//선택한 행 가져오는 액션 이벤트
 		rowrow = board_table.getSelectedRow();	
 		TableModel data = board_table.getModel();
-		bookname = (String) data.getValueAt(rowrow, 1);
-		bookk = new BookVO();
-		bookk.setBookname(bookname);
 		
 	}
 	public void mousePressed(MouseEvent e) {

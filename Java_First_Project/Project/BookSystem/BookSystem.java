@@ -156,21 +156,11 @@ public class BookSystem {
 			return adao.getBoardDelete(bid);
 		}
 		
-		/** 사용자 - 마이페이지 - 게시판 글 삭제 (데이터 가져오기)  **/
-		public ArrayList<BoardVO> DeleteBoard(String id) {
-			return adao.getDeleteBoard(id);
-		}
-
 		/** 사용자 - 마이페이지 - 리뷰 삭제 **/
-		public int MyDelete_Review(String bookname) {
-			return bdao.getReviewDelete(bookname);
+		public int MyDelete_Review(String bid) {
+			return adao.getReviewDelete(bid);
 		}
 		
-		/** 사용자 - 마이페이지 - 리뷰 삭제 (데이터 가져오기)  **/
-		public ArrayList<BookVO> DeleteReview(String id) {
-			return bdao.getDeleteReview(id);
-		}
-			
 		/** 주문수량 가져오기 **/
 		public ArrayList<BookVO> Admin_Count(ArrayList<String> list) {
 			return bdao.getCount(list);
