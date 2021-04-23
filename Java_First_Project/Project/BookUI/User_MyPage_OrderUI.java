@@ -1,6 +1,7 @@
 package BookUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import BookSystem.BookSystem;
@@ -62,12 +64,14 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		
 		btn_review = new JButton("리뷰작성");
 		button_panel.add(btn_review);		
+		button_panel.setBackground(Color.WHITE);
 		
 		content_panel.add(button_panel, BorderLayout.SOUTH);
 		content_panel.add(scrollPane, BorderLayout.CENTER);
 		
 		main.content_panel.setVisible(true);
 		main.content_panel.add(content_panel);
+		main.content_panel.setBackground(Color.WHITE);
 		
 		/** 폰트 **/
 		board_table.setFont(Commons.getFont());
@@ -77,6 +81,10 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		/** 버튼 이벤트 **/
 		btn_review.addActionListener(this);
 		board_table.addMouseListener(this);
+		
+		JTableHeader head = board_table.getTableHeader();
+		head.setBackground(new Color(255,192,203));
+		head.setForeground(new Color(255,255,255));		
 	}//init
 	
 	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PBLSH, PRICE) 생성
@@ -84,6 +92,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		model.setNumRows(0);
 		for(BookVO book : main.system.getOrderList(main.main.name)) {
 			
+			row[0] = book.getBno();
 			row[1] = book.getBookname();
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();

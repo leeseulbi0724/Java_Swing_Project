@@ -214,7 +214,8 @@ public class Admin_MainUI  implements ActionListener {
 		book_table.removeAll();
 		row = new Object[7];		
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
-		ArrayList<BookVO> count_list = new ArrayList<BookVO>();
+		ArrayList<String> data_list = new ArrayList<String>();
+		ArrayList<BookVO> countlist = new ArrayList<BookVO>();
 		list = system.Admin_Select();
 		for (BookVO book : list) {
 			row[0] = book.getBno();
@@ -222,11 +223,27 @@ public class Admin_MainUI  implements ActionListener {
 			row[2] = book.getAuthor();
 			row[3] = book.getPblsh();
 			row[4] = book.getPrice();
-			row[5] = book.getPblshdate();
-			model.addRow(row);
-		}				
+			row[5] = book.getPblshdate();			
+			row[6] = 0;
+			data_list.add(book.getBookname());
+			model.addRow(row);			
+		}		
+		countlist = system.Admin_Count(data_list);
+		for (BookVO vo : countlist) {			
+		String name = vo.getBookname();
+		for (int i = 0; i<data_list.size(); i++) {
+				if (data_list.get(i).equals(name)) {				
+					book_table.getModel().setValueAt(vo.getCount(), i, 6);						
+				}				
+			}
+		}
+		
 		model.fireTableDataChanged();
+			
 	}
+	
+	
+	
 	
 }
 	

@@ -35,10 +35,13 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	JButton btn_write;
 	BookSystem system = new BookSystem();
 	JTable board_table;
+	ArrayList<BoardVO> list;
+	String name;
 	
 	public User_BoardUI(User_MainUI main) {
 		this.main = main;
 		this.frame = main.f;
+		this.name = main.name;
 		init();
 	}
 
@@ -96,7 +99,7 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		
 		/** 게시판 목록 보여주기 **/
 		Object row[];
-		ArrayList<BoardVO> list = system.board_data(); 
+		 list = system.board_data(); 
 		for (BoardVO vo : list) {
 			row = new Object[7];
 			row[0] = vo.getRownum();
@@ -126,14 +129,12 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == 1 ) { // 한번 클릭
 			  //선택한 셀의 행 번호계산 
-			  int row = board_table.getSelectedRow();		  
+//			  int row = board_table.getSelectedRow();		  
 			  //테이블의 모델객체 얻어오기
-			  TableModel data = board_table.getModel();		  
-			  String con = (String)data.getValueAt(row,3); 	
-			  BoardVO vo = system.board_result(con);	
-			  String title = vo.getTitle();
-			  String content = vo.getContent();
-			User_Board_ContentUI ui = new User_Board_ContentUI(title, content, frame);
+//			  TableModel data = board_table.getModel();		  
+			  String bid = list.get(board_table.getSelectedRow()).getBid();
+			  BoardVO vo = system.board_result(bid);	
+			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
 			ui.setVisible(true);
 		}			
 	}

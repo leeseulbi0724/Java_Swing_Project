@@ -3,6 +3,10 @@ package BookUI;
 import java.awt.EventQueue;
 
 public class BookAppTest {
+	
+	public BookAppTest() {
+		this.main(null);
+	}
 	//Main
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
