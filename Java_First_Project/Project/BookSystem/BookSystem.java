@@ -150,10 +150,30 @@ public class BookSystem {
 		public ArrayList<BoardVO> board_comment_select (String bid) {
 			return adao.getBoardCommentSelect(bid);
 		}		
+		
+		/** 사용자 - 마이페이지 - 게시판 글 삭제 **/
+		public int MyDelete_Board(String bid) {
+			return adao.getBoardDelete(bid);
+		}
+		
+		/** 사용자 - 마이페이지 - 게시판 글 삭제 (데이터 가져오기)  **/
+		public ArrayList<BoardVO> DeleteBoard(String id) {
+			return adao.getDeleteBoard(id);
+		}
+
+		/** 사용자 - 마이페이지 - 리뷰 삭제 **/
+		public int MyDelete_Review(String bookname) {
+			return bdao.getReviewDelete(bookname);
+		}
+		
+		/** 사용자 - 마이페이지 - 리뷰 삭제 (데이터 가져오기)  **/
+		public ArrayList<BookVO> DeleteReview(String id) {
+			return bdao.getDeleteReview(id);
+		}
 			
-			/** 주문수량 가져오기 **/
-			public ArrayList<BookVO> Admin_Count(ArrayList<String> list) {
-				return bdao.getCount(list);
-			}
+		/** 주문수량 가져오기 **/
+		public ArrayList<BookVO> Admin_Count(ArrayList<String> list) {
+			return bdao.getCount(list);
+		}
 
 }

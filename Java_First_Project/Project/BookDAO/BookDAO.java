@@ -370,6 +370,50 @@ public class BookDAO extends DBConn {
 		
 		return list;
 	}
+	
+	
+	/** 사용자 - 마이페이지 - 리뷰 삭제 **/
+	public int getReviewDelete(String bookname) {
+		int result = 0;
+		
+		try {
+			String sql = "delete from book_review where bookname = ? ";	
+			getPreparedStatement(sql);
+			pstmt.setString(1, bookname);
+			
+			result = pstmt.executeUpdate();	
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/** 사용자 - 마이페이지 - 리뷰 삭제 (데이터 가져오기)  **/
+	public ArrayList<BookVO> getDeleteReview(String id) {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		
+		try {
+			String sql = " select bookname from book_review where id = ? "; 
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BookVO vo = new BookVO();
+				
+				vo.setBookname(rs.getString(1));
+				list.add(vo);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 
 	
 	public void close() {

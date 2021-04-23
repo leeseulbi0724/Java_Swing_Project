@@ -3,6 +3,7 @@ package BookDAO;
 import java.util.ArrayList;
 
 import BookVO.BoardVO;
+import BookVO.BookVO;
 
 public class BoardDAO extends DBConn {
  	/** 사용자 - 마이페이지 - My이력 (내가 쓴 모든 리뷰들)  **/
@@ -261,4 +262,54 @@ public class BoardDAO extends DBConn {
 		
 		return list;
 	}
+	
+	
+	/** 사용자 - 마이페이지 - 게시판 글 삭제 **/
+	public int getBoardDelete(String bid) {
+		int result = 0;
+		
+		try {
+			
+			String sql = "delete from book_board where bid = ? ";	
+			
+			getPreparedStatement(sql);
+			pstmt.setString(1, bid);
+			
+			result = pstmt.executeUpdate();	
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/** 사용자 - 마이페이지 - 게시판 글 삭제 (데이터 가져오기)  **/
+	public ArrayList<BoardVO> getDeleteBoard(String id) {
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " select bid from book_board where id = ? "; 
+			getPreparedStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setBid(rs.getString(1));
+				
+				list.add(vo);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
+	
 }
