@@ -65,7 +65,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		DefaultTableModel model = new DefaultTableModel(header, 0);
 		
 		bookViewPanel = new JPanel();
-		bookViewPanel.setBackground(Color.WHITE);
+		bookViewPanel.setBackground(new Color(255, 240, 245));
 		bookViewPanel.setBounds(133, 10, 531, 341);
 		f.getContentPane().add(bookViewPanel);
 		bookViewPanel.setLayout(new BorderLayout());

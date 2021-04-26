@@ -45,7 +45,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		main.switching(User_MyPageUI.Order);
 		
 		content_panel = new JPanel();
-		content_panel.setBackground(SystemColor.info);
+//		content_panel.setBackground(new Color(255, 240, 245));
 		content_panel.setBounds(0, 0, 531, 301);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
@@ -60,7 +60,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		scrollPane.setViewportView(board_pane);
 		
 		JPanel button_panel = new JPanel();
-		button_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		button_panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		btn_review = new JButton("리뷰작성");
 		button_panel.add(btn_review);		
@@ -71,7 +71,6 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		
 		main.content_panel.setVisible(true);
 		main.content_panel.add(content_panel);
-		main.content_panel.setBackground(Color.WHITE);
 		
 		/** 폰트 **/
 		board_table.setFont(Commons.getFont());

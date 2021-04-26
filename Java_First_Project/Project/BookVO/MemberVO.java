@@ -2,11 +2,17 @@ package BookVO;
 
 public class MemberVO {
 	// 아이디, 패스워드, 이름, 생년월일, 휴대폰번호, 주소
-	int rno;
+	int rno, count;
 	String id, pass, cpass, name, birthday, hp, addr;
 	
 	
-	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getRno() {
 		return rno;
 	}

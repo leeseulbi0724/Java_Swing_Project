@@ -154,11 +154,12 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);
 	    
 	     
-		JScrollPane member_pane = new JScrollPane(member_table);
+		member_pane = new JScrollPane(member_table);
 		member_pane.setEnabled(false);
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setViewportView(member_pane);
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
+		main.content_panel.setVisible(true);
 	    
 		/** 테이블 색 설정 **/
 		JTableHeader head = member_table.getTableHeader();
@@ -186,7 +187,7 @@ public class Admin_MemberViewsUI implements ActionListener {
   	                " "
             };
         }
-        member_table = new JTable();
+       JTable member_table = new JTable();
         member_table.setModel(new DefaultTableModel(rowDatas,colNames) {
             boolean[] columnEditables = new boolean[] {
                 false, false, false, true, false
@@ -212,12 +213,11 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(6).setResizable(false);
 	     member_table.getColumnModel().getColumn(6).setPreferredWidth(140);
 	     member_table.getColumnModel().getColumn(7).setResizable(false);
-	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);
+	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);	    
 	    
-	     
-		search_pane = new JScrollPane(member_table);
+		JScrollPane search_pane = new JScrollPane(member_table);
 		search_pane.setEnabled(false);
-		scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(search_pane);
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		main.content_panel.setVisible(true);
@@ -235,7 +235,7 @@ public class Admin_MemberViewsUI implements ActionListener {
     	
     	if(obj == btn_search) {
     		if(search_tf.getText().equals("")) {
-    			init();
+//    			init();
     			member_data();
     		}else {
     			searchList();
