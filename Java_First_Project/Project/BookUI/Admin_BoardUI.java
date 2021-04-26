@@ -46,10 +46,7 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 		init();
 	}
 	
-	public Admin_BoardUI() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public void init() {
 		main.switching(Admin_MainUI.Board);
 

@@ -12,7 +12,6 @@ import BookUI.Admin_MemberViewsUI;
 import BookVO.BookVO;
 import BookVO.MemberVO;
 
-
 public class MemberDAO extends DBConn {
 		
 	/** 로그인 처리 **/
