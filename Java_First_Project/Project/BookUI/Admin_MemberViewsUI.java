@@ -230,7 +230,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 		head.setForeground(new Color(255,255,255));		
 		member_table.setFont(Commons.getFont());
 		
-		
+		System.out.println("확인완료");
     }    
   //검색 이벤트 처리
     @Override

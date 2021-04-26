@@ -134,7 +134,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		BoardVO vo = new BoardVO();
 		vo.setContent(comment_tf.getText());
 		vo.setId(name);
-		System.out.println(vo.getId());
+		System.out.println(name);
 		vo.setBid(bid);
 		if (system.board_comment(vo)) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("댓글 작성 완료"));

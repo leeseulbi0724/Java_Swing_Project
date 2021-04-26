@@ -37,7 +37,7 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	BookSystem system = new BookSystem();
 	BoardDAO bdao = new BoardDAO();
 	JTable board_table;
-	String name;
+	String name = "°ü¸®ÀÚ";
 	User_Board_ContentUI user;
 	
 	public Admin_BoardUI(Admin_MainUI main) {

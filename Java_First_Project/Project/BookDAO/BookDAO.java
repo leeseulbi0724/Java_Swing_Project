@@ -44,8 +44,8 @@ public class BookDAO extends DBConn {
 		String sql;
 		
 		try {
-			if(flag==false) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='정보처리기사'";	
-			else if(flag==true) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='언어의온도'";	
+			if(flag==false) sql = " SELECT * FROM BOOK_DATA WHERE BOOKNAME='정보처리기사' ";	
+			else if(flag==true) sql = " SELECT * FROM BOOK_DATA WHERE BOOKNAME='언어의온도' ";	
 			else sql = null;
 			
 			getPreparedStatement(sql);
