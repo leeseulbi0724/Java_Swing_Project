@@ -122,14 +122,16 @@ public class User_MainUI implements ActionListener{
 		
 		
 		book1_btn = new JButton();
-		book1_btn.setBackground(Color.WHITE);
-		book1_btn.setIcon(new ImageIcon("images/M.jfif"));
+		book1_btn.setBackground(new Color(255, 240, 245));
+		book1_btn.setBorderPainted(false);
+		book1_btn.setIcon(new ImageIcon("images/book1img.jpg"));
 		book1_btn.setBounds(200, 92, 180, 230);
 		mainPanel.add(book1_btn);
 		
 		book2_btn = new JButton();
-		book2_btn.setBackground(Color.WHITE);
-		book2_btn.setIcon(new ImageIcon("images/M2.jfif"));
+		book2_btn.setBackground(new Color(255, 240, 245));
+		book2_btn.setBorderPainted(false);
+		book2_btn.setIcon(new ImageIcon("images/book2img.jpg"));
 		book2_btn.setBounds(420, 92, 180, 230);
 		mainPanel.add(book2_btn);
 		
