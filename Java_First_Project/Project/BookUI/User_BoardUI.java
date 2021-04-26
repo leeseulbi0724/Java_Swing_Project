@@ -127,9 +127,19 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+<<<<<<< HEAD
 		if (e.getButton() == 1 ) { // 한번 클릭  
 			  String bid = list.get(board_table.getSelectedRow()).getBid();
 			  BoardVO vo = system.board_result(bid);	
+=======
+		if (e.getButton() == 1 ) { // 한번 클릭
+			  //선택한 셀의 행 번호계산 
+//			  int row = board_table.getSelectedRow();		  
+			  //테이블의 모델객체 얻어오기
+//			  TableModel data = board_table.getModel();		  
+			String bid = list.get(board_table.getSelectedRow()).getBid();
+			BoardVO vo = system.board_result(bid);	
+>>>>>>> branch 'master' of https://github.com/leeseulbi0724/JavaProject_First.git
 			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
 			ui.setVisible(true);
 		}			
