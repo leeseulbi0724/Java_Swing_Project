@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import BookUI.Admin_MainUI;
 import BookUI.Admin_MemberViewsUI;
+import BookVO.BookVO;
 import BookVO.MemberVO;
 
 
@@ -292,6 +293,37 @@ public class MemberDAO extends DBConn {
 		
 		return result;
 		
+	}
+	
+	/** 회원 구매 순위 구하기 **/
+	public ArrayList<MemberVO> getRank() {
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+		try {
+			String sql = " SELECT ID, DENSE_RANK() OVER(ORDER BY COUNT DESC) RANK, SUM(COUNT) COUNT"+ 
+					" FROM (" + 
+					" SELECT ID, SUM(COUNT) COUNT" + 
+					" FROM (" + 
+					" SELECT ID, SUM(COUNT) COUNT" + 
+					" FROM BOOK_USER_ORDER" + 
+					" GROUP BY ID, COUNT)" + 
+					" GROUP BY ID)"
+					+ " GROUP BY ID, COUNT";
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				MemberVO m = new MemberVO();
+				m.setId(rs.getString(1));
+				m.setRno(rs.getInt(2));
+				m.setCount(rs.getInt(3));
+				
+				list.add(m);
+			}
+			
+		} catch (Exception e) {
+		}
+		return list;
 	}
 		
 	public void close() {

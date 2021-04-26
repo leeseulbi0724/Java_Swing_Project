@@ -54,7 +54,7 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		content_panel.setBounds(133, 10, 531, 341);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
-		String[] colName = {"NO", "분야", "제목", "내용", "작성자", "작성날짜"};
+		String[] colName = {"NO", "분야", "제목", "작성자", "작성날짜"};
 		DefaultTableModel model = new DefaultTableModel(colName, 0);		
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -87,9 +87,10 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		
 		/** 컬럼 길이조절, 가운데정렬 **/
 		board_table.getColumnModel().getColumn(0).setPreferredWidth(1);
-		board_table.getColumnModel().getColumn(1).setPreferredWidth(7);
+		board_table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		board_table.getColumnModel().getColumn(2).setPreferredWidth(40);
 		board_table.getColumnModel().getColumn(3).setPreferredWidth(5);
-		board_table.getColumnModel().getColumn(4).setPreferredWidth(5);
+		board_table.getColumnModel().getColumn(4).setPreferredWidth(40);
 		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
 		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		TableColumnModel tcmSchedule = board_table.getColumnModel();
@@ -101,13 +102,12 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		Object row[];
 		 list = system.board_data(); 
 		for (BoardVO vo : list) {
-			row = new Object[7];
+			row = new Object[5];
 			row[0] = vo.getRownum();
 			row[1] = vo.getCategory();
 			row[2] = vo.getTitle();
-			row[3] = vo.getContent();
-			row[4] = vo.getId();
-			row[5] = vo.getDate();			
+			row[3] = vo.getId();
+			row[4] = vo.getDate();			
 			model.addRow(row);			
 		}
 		
@@ -127,13 +127,9 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == 1 ) { // 한번 클릭
-			  //선택한 셀의 행 번호계산 
-//			  int row = board_table.getSelectedRow();		  
-			  //테이블의 모델객체 얻어오기
-//			  TableModel data = board_table.getModel();		  
-			String bid = list.get(board_table.getSelectedRow()).getBid();
-			BoardVO vo = system.board_result(bid);	
+		if (e.getButton() == 1 ) { // 한번 클릭  
+			  String bid = list.get(board_table.getSelectedRow()).getBid();
+			  BoardVO vo = system.board_result(bid);	
 			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
 			ui.setVisible(true);
 		}			
