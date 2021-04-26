@@ -49,6 +49,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	Object row[];
 	BookSystem system = new BookSystem();
 	MemberDAO mdao = new MemberDAO();
+
 	
 	static final int LIST = 1;
 	static final int SEARCH = 2;
@@ -170,6 +171,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	
 	//검색
     public void searchList() {
+    	
         slist = mdao.search(comboBox.getSelectedItem().toString(),search_tf.getText());
         String [] colNames = new String [] {"번호","아이디","패스워드","이름","생년월일","HP","주소","삭제"};
         Object[][] rowDatas = new Object[slist.size()][colNames.length];
@@ -227,6 +229,8 @@ public class Admin_MemberViewsUI implements ActionListener {
 		head.setBackground(new Color(173, 216, 230));
 		head.setForeground(new Color(255,255,255));		
 		member_table.setFont(Commons.getFont());
+		
+		
     }    
   //검색 이벤트 처리
     @Override

@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import com.sun.tools.javac.Main;
 
 import BookSystem.BookSystem;
+import BookVO.MemberVO;
 import Commons.Commons;
 
 public class LoginUI implements ActionListener {
@@ -41,7 +42,7 @@ public class LoginUI implements ActionListener {
 	 JLabel lblNewLabel;
 	 JPanel main_panel;
 	 BookSystem system = new BookSystem();
-		
+	 MemberVO member = new MemberVO();
 	
 	
 	//Constructor
@@ -144,6 +145,7 @@ public class LoginUI implements ActionListener {
 	
 	//로그인 유효성 체크
 	public void login_proc() {
+		
 		if (id_tf.getText().equals("admin") && password_tf.getText().equals("1234")) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("관리자 로그인에 성공하셨습니다."));
 			id_tf.setText(""); password_tf.setText("");

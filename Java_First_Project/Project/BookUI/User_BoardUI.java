@@ -132,8 +132,8 @@ public class User_BoardUI implements ActionListener, MouseListener {
 //			  int row = board_table.getSelectedRow();		  
 			  //테이블의 모델객체 얻어오기
 //			  TableModel data = board_table.getModel();		  
-			  String bid = list.get(board_table.getSelectedRow()).getBid();
-			  BoardVO vo = system.board_result(bid);	
+			String bid = list.get(board_table.getSelectedRow()).getBid();
+			BoardVO vo = system.board_result(bid);	
 			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
 			ui.setVisible(true);
 		}			

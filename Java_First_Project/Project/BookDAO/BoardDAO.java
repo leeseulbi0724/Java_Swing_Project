@@ -162,6 +162,32 @@ public class BoardDAO extends DBConn {
 		return vo;
 		
 	}
+//	
+//	/** 관리자 - 게시판 클릭 시 해당 게시판 내용 가져오기 **/
+//	public BoardVO getBoardList(String bid) {
+//		BoardVO bo = null;
+//		
+//		try {
+//			String sql = "SELECT TITLE, CONTENT, BID FROM BOOK_BOARD WHERE BID = ?";
+//			getPreparedStatement(sql);
+//			pstmt.setString(1, bid);
+//			
+//			rs = pstmt.executeQuery();
+//			while(rs.next()) {
+//				bo = new BoardVO();
+//				bo.setTitle(rs.getString(1));
+//				bo.setContent(rs.getString(2));	
+//				bo.setBid(rs.getString(3));
+//				
+//			}
+//			
+//		} catch (Exception e) {
+//			
+//		}			
+//		return bo;
+//		
+//	}
+	
 	
 	/** 사용자, 관리자 - 게시판 목록 불러오기 **/
 	public ArrayList<BoardVO> getBoardSelect() {
@@ -240,6 +266,30 @@ public class BoardDAO extends DBConn {
 		
 	}
 	
+	/** 관리자 - 게시판 댓글 DB저장 **/
+//	public boolean getBoardAdminComment(BoardVO vo) {
+//		
+//		boolean result = false;
+//		try {
+//			String sql = " INSERT INTO BOOK_BOARD_COMMENT VALUES (?,?,?,SYSDATE)";
+//			getPreparedStatement(sql);
+//			
+//			pstmt.setString(1, vo.getBid());
+//			pstmt.setString(2, vo.getContent());
+//			pstmt.setString(3, vo.getId());
+//			
+//			int val = pstmt.executeUpdate();
+//			if (val != 0) {
+//				result = true;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//		
+//	}
+	
 	/** 사용자 - 게시판 댓글 불러오기 **/
 	public ArrayList<BoardVO> getBoardCommentSelect(String bid) {
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
@@ -302,6 +352,32 @@ public class BoardDAO extends DBConn {
 		}
 		
 		return result;
+	}
+	
+	/** 관리자 - 회원 게시판 - 게시판 내용 불러오기 **/
+	public ArrayList<BoardVO> getList() {
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		
+		try {
+			String sql = " SELECT ROWNUM RNO, TITLE, CONTENT, ID "
+						 +" FROM (SELECT BID,CATEGORY,TITLE, CONTENT, ID FROM BOOK_BOARD ORDER BY BID DESC) ";  
+			
+			getPreparedStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVO bo = new BoardVO();
+				bo.setRownum(rs.getInt(1));
+				bo.setTitle(rs.getString(2));
+				bo.setContent(rs.getString(3));
+				bo.setId(rs.getString(4));
+				list.add(bo);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 	

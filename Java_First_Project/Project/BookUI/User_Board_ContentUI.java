@@ -24,13 +24,15 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 	
 	//Field
 	User_MainUI main;
-	LoginUI login;
+	LoginUI login = new LoginUI();
+	BoardVO vo = new BoardVO();
 	BookSystem system = new BookSystem();
 	JTextField title_tf, comment_tf;
 	JTextArea content_ta, comment_ta;
 	String title, content;
 	JButton write_btn;
 	String name, bid;
+	Admin_BoardUI ui;
 	
 	//Constructor
 	public User_Board_ContentUI(BoardVO vo, String name, Window parent) {
@@ -38,7 +40,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		this.title = vo.getTitle();
 		this.content = vo.getContent();
 		this.bid = vo.getBid();
-		this.name = name;		
+		this.name = name;	
 		init();
 		comment_select();
 	}
@@ -124,7 +126,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		ArrayList<BoardVO> list = system.board_comment_select(bid);
 		System.out.println(list.size());
 		for (BoardVO vo : list) {
-			comment_ta.append(" [ " + vo.getId()+"´Ô ] " + vo.getContent() + " "+vo.getDate()+"\n");
+				comment_ta.append(" [ " + vo.getId()+"´Ô ] " + vo.getContent() + " "+vo.getDate()+"\n");
 		}
 	}
 	
@@ -132,7 +134,8 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		BoardVO vo = new BoardVO();
 		vo.setContent(comment_tf.getText());
 		vo.setId(name);
-		vo.setBid(bid);		
+		System.out.println(vo.getId());
+		vo.setBid(bid);
 		if (system.board_comment(vo)) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("´ñ±Û ÀÛ¼º ¿Ï·á"));
 			comment_tf.setText("");

@@ -145,7 +145,7 @@ public class BookSystem {
 		public boolean board_comment(BoardVO vo) {
 			return adao.getBoardComment(vo);
 		}
-		
+	
 		/** 사용자 - 게시판 댓글 불러오기 **/
 		public ArrayList<BoardVO> board_comment_select (String bid) {
 			return adao.getBoardCommentSelect(bid);
