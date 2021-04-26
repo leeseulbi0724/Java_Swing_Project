@@ -112,10 +112,10 @@ public class User_BookRecommendUI implements ActionListener {
 			bookimgLabel = new JLabel();
 			
 			if(main.flag==false) {
-			bookimgLabel.setIcon(new ImageIcon("images/small_book2.jpg"));
+			bookimgLabel.setIcon(new ImageIcon("images/book1_img.jpg"));
 			tag = false;
 			}else if(main.flag==true){
-			bookimgLabel.setIcon(new ImageIcon("images/small_book1.jpg"));
+			bookimgLabel.setIcon(new ImageIcon("images/book2_img.jpg"));
 			tag = true;
 			}
 			
