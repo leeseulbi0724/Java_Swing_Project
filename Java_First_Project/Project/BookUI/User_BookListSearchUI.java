@@ -97,16 +97,12 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		btn_panel.add(btn_review);		btn_panel.add(btn_basket);
 		bookViewPanel.add(BorderLayout.SOUTH, btn_panel);		
 		
-		tablePanel = new JPanel();
 		table = new JTable(model);
 		table.setRowHeight(30);
-		table.setPreferredScrollableViewportSize(new Dimension(400,400));
-		tablePanel.add(new JScrollPane(table));
-		tablePanel.setOpaque(false);		
-		JScrollPane scrollPane = new JScrollPane();
+		table.setPreferredScrollableViewportSize(new Dimension(400,400));		
+
 		JScrollPane board_pane = new JScrollPane(table);
-		scrollPane.setViewportView(board_pane);
-		bookViewPanel.add(BorderLayout.CENTER, scrollPane);		
+		bookViewPanel.add(BorderLayout.CENTER, board_pane);		
 		
 		/** 배경 설정 **/
 		title_panel.setBackground(Color.WHITE);
