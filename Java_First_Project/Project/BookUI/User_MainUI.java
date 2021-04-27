@@ -9,6 +9,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.URI;
 import java.util.ArrayList;
 
 import javax.swing.Action;
@@ -47,6 +50,8 @@ public class User_MainUI implements ActionListener{
 	JButton logout_btn,myPage_btn,board_btn,home_btn;	
 	//메인패널 버튼
 	JButton book1_btn,book2_btn,bookList_btn;	
+	//홍보 도서 버튼
+	JButton Label_01,Label_02,Label_03;
 	String name;	
 	// book1,book2 구별
 	JTextArea Rankarea;
@@ -233,23 +238,31 @@ public class User_MainUI implements ActionListener{
 //			
 //		}
 		
-		JLabel Label_01 = new JLabel();
-		Label_01.setBounds(591, 0, 201, 90);
+		
+		Label_01 = new JButton();
+		Label_01.setBounds(607, 0, 185, 90);
 		Label_01.setIcon(icon01);
+		Label_01.setBackground(new Color(255, 240, 245));
+		Label_01.setBorderPainted(false);
 		content_panel.add(Label_01);	
-		JLabel Label_02 = new JLabel();
-		Label_02.setBounds(413, 0, 201, 90);
+		Label_02 = new JButton();
+		Label_02.setBounds(424, 0, 185, 90);
 		Label_02.setIcon(new ImageIcon("images/Label02.PNG"));
+		Label_02.setBackground(new Color(255, 240, 245));
+		Label_02.setBorderPainted(false);
 		content_panel.add(Label_02);
-		JLabel Label_03 = new JLabel();
-		Label_03.setBounds(233, 0, 201, 90);
+		Label_03 = new JButton();
+		Label_03.setBounds(241, 0, 185, 90);
 		Label_03.setIcon(new ImageIcon("images/Label03.PNG"));
+		Label_03.setBackground(new Color(255, 240, 245));
+		Label_03.setBorderPainted(false);
 		content_panel.add(Label_03);
 		JLabel Label_04 = new JLabel();
 		Label_04.setBounds(0, 0, 201, 79);
 		Label_04.setIcon(new ImageIcon("images/BOOK_S.PNG"));
 		content_panel.add(Label_04);		
 		
+	
 		/* 버튼 */
 		home_btn.addActionListener(this);
 		book1_btn.addActionListener(this);
@@ -258,6 +271,9 @@ public class User_MainUI implements ActionListener{
 		board_btn.addActionListener(this);
 		myPage_btn.addActionListener(this);
 		logout_btn.addActionListener(this);
+		Label_01.addActionListener(this);
+		Label_02.addActionListener(this);
+		Label_03.addActionListener(this);
 		
 		
 		/** 폰트 **/
@@ -340,6 +356,31 @@ public class User_MainUI implements ActionListener{
 					topPanel.setVisible(false);
 					main.login_panel.setVisible(true);
 					new LoginUI();
+				}
+			}else if(obj.equals(Label_01)) {
+				try {
+					String link = "https://book.naver.com/bookdb/book_detail.nhn?bid=13410363";
+					URI uri = new URI(link);
+			        java.awt.Desktop.getDesktop().browse(uri);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}else if(obj.equals(Label_02)) {
+				try {
+					String link = "https://book.naver.com/bookdb/book_detail.nhn?bid=10962071";
+					URI uri = new URI(link);
+			        java.awt.Desktop.getDesktop().browse(uri);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+				
+			}else if(obj.equals(Label_03)) {
+				try {
+					String link = "https://book.naver.com/bookdb/book_detail.nhn?bid=9053751";
+					URI uri = new URI(link);
+			        java.awt.Desktop.getDesktop().browse(uri);
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
 			}
 		}
