@@ -26,8 +26,7 @@ public class FindPassUIEvent implements ActionListener {
 			if(mdao.getUpdatePassResult(main.temp_pass_tf.getText(), main.sign_name_tf.getText(), main.sign_birthday_tf.getText()
 					, main.sign_id_tf.getText())) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호가 변경되었습니다."));
-				main.temp_panel.setVisible(false);
-				main.find_panel.setVisible(false);
+				main.dispose();
 			}
 
 		}
