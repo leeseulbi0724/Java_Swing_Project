@@ -262,19 +262,18 @@ public class Admin_MemberViewsUI implements ActionListener {
 	        
 	        jb.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	            	String name = e.getActionCommand();            
-	            	int result = 0;
-	            	
+	            	String name = e.getActionCommand();            	            	
 	            	if(name.equals("삭제")){
 	            		int confirm=JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 삭제하시겠습니까?"));
 		            	if(confirm==0) {	            		
 		            		if(option == Admin_MemberViewsUI.LIST) {
-		            			JOptionPane.showMessageDialog(null, Commons.getMsg("회원이 삭제되었습니다"));
-		            			result = mdao.delete(mlist.list.get(mlist.member_table.getSelectedRow()).getId());
+		            			boolean result = mdao.delete(mlist.list.get(mlist.member_table.getSelectedRow()).getId());	
+		            			if (result) {
+		            				JOptionPane.showMessageDialog(null, Commons.getMsg("회원이 삭제되었습니다"));
+		            			}          			
 		            			
 		            		}
 		            		
-		            		if(result !=0)	mlist.init();
 		            	}
 	            	}
 	            	

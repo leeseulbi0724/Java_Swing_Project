@@ -129,20 +129,20 @@ public class MemberDAO extends DBConn {
 	}
 	
 	/** 관리자 - 회원삭제 **/
-	public int delete(String id) {
-		int result = 0;		
+	public boolean delete(String id) {
+		boolean result = false;		
 		try {
 			String sql = " DELETE FROM BOOK_USERS WHERE ID = ?  ";
 			getPreparedStatement(sql);
 			
-			pstmt.setString(1, id);
-			
-			result = pstmt.executeUpdate();		
+			pstmt.setString(1, id);			
+			int val = pstmt.executeUpdate();		
+			if (val != 0) {
+				result = true;
+			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 수 없는 회원입니다."));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "삭제할 수 없는 ID입니다.");
-		}		
+		} 
 		return result;
 	}
 	
