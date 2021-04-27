@@ -103,7 +103,8 @@ public class Admin_MemberViewsUI implements ActionListener {
 		btn_search.setFont(Commons.getFont());
 		search_tf.setFont(Commons.getFont());
 
-	
+//		scrollPane = new JScrollPane();
+//		main.content_panel.add(BorderLayout.CENTER, scrollPane);
 		member_data();
 		
 		
@@ -172,6 +173,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	
 	//검색
     public void searchList() {
+    	main.content_panel.removeAll();
     	
         slist = mdao.search(comboBox.getSelectedItem().toString(),search_tf.getText());
         String [] colNames = new String [] {"번호","아이디","패스워드","이름","생년월일","HP","주소","삭제"};
@@ -189,7 +191,7 @@ public class Admin_MemberViewsUI implements ActionListener {
   	                " "
             };
         }
-       JTable member_table = new JTable();
+        member_table = new JTable();
         member_table.setModel(new DefaultTableModel(rowDatas,colNames) {
             boolean[] columnEditables = new boolean[] {
                 false, false, false, true, false

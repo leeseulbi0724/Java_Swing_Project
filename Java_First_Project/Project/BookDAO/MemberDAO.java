@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import BookUI.Admin_MainUI;
 import BookUI.Admin_MemberViewsUI;
 import BookVO.BookVO;
@@ -106,7 +108,7 @@ public class MemberDAO extends DBConn {
 			
 		try {
 			String sql = " SELECT ROWNUM RNO, ID, PASS, NAME, BIRTHDAY, HP, ADDR " 
-						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC) WHERE ID != '관리자'  ";
+						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC) WHERE ID != '관리자' AND ID != 'admin'  ";
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -140,7 +142,7 @@ public class MemberDAO extends DBConn {
 			result = pstmt.executeUpdate();		
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "삭제할 수 없는 ID입니다.");
 		}		
 		return result;
 	}
