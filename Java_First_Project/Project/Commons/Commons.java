@@ -20,6 +20,10 @@ public class Commons {
 		Font font = new Font("LG PC", Font.PLAIN, num);
 		return font;
 	}	
+	public static Font getFont(int num, String name) {
+		Font font = new Font("LG PC", Font.BOLD, num);
+		return font;
+	}
 	
 	/** ¶óº§ **/
 	public static Label getMsg(String msg) {

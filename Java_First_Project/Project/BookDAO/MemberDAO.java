@@ -1,16 +1,13 @@
 package BookDAO;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-import BookUI.Admin_MainUI;
-import BookUI.Admin_MemberViewsUI;
-import BookVO.BookVO;
+import javax.swing.JOptionPane;
+
 import BookVO.MemberVO;
+import Commons.Commons;
 
 
 public class MemberDAO extends DBConn {
@@ -140,8 +137,8 @@ public class MemberDAO extends DBConn {
 			
 			result = pstmt.executeUpdate();		
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 수 없는 회원입니다."));
 		}		
 		return result;
 	}
@@ -295,36 +292,7 @@ public class MemberDAO extends DBConn {
 		
 	}
 	
-	/** 회원 구매 순위 구하기 **/
-	public ArrayList<MemberVO> getRank() {
-		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
-		try {
-			String sql = " SELECT ID, DENSE_RANK() OVER(ORDER BY COUNT DESC) RANK, SUM(COUNT) COUNT"+ 
-					" FROM (" + 
-					" SELECT ID, SUM(COUNT) COUNT" + 
-					" FROM (" + 
-					" SELECT ID, SUM(COUNT) COUNT" + 
-					" FROM BOOK_USER_ORDER" + 
-					" GROUP BY ID, COUNT)" + 
-					" GROUP BY ID)"
-					+ " GROUP BY ID, COUNT";
-			getPreparedStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				MemberVO m = new MemberVO();
-				m.setId(rs.getString(1));
-				m.setRno(rs.getInt(2));
-				m.setCount(rs.getInt(3));
-				
-				list.add(m);
-			}
-			
-		} catch (Exception e) {
-		}
-		return list;
-	}
+	
 		
 	public void close() {
 		try {

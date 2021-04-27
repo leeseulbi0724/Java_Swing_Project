@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import BookVO.BoardVO;
 import BookVO.BookVO;
+import BookVO.MemberVO;
 import Commons.Commons;
 
 public class BookDAO extends DBConn {
@@ -44,8 +45,8 @@ public class BookDAO extends DBConn {
 		String sql;
 		
 		try {
-			if(flag==false) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='정보처리기사'";	
-			else if(flag==true) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='언어의온도'";	
+			if(flag==false) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='죽고 싶지만 떡볶이는 먹고 싶어'";	
+			else if(flag==true) sql = "SELECT*FROM BOOK_DATA WHERE BOOKNAME='나는 나로 살기로 했다'";	
 			else sql = null;
 			
 			getPreparedStatement(sql);
@@ -369,6 +370,37 @@ public class BookDAO extends DBConn {
 			e.printStackTrace();
 		}
 		
+		return list;
+	}
+	
+	/** 도서 구매 순위 구하기 **/
+	public ArrayList<BookVO> getRank() {
+		ArrayList<BookVO> list = new ArrayList<BookVO>();
+		try {
+			String sql = " SELECT BOOKNAME, RANK() OVER(ORDER BY COUNT DESC) RANK, SUM(COUNT) COUNT"+ 
+					" FROM (" + 
+					" SELECT BOOKNAME, SUM(COUNT) COUNT" + 
+					" FROM (" + 
+					" SELECT BOOKNAME, SUM(COUNT) COUNT" + 
+					" FROM BOOK_USER_ORDER" + 
+					" GROUP BY BOOKNAME, COUNT)" + 
+					" GROUP BY BOOKNAME)"
+					+ " GROUP BY BOOKNAME, COUNT";
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				BookVO book = new BookVO();
+				book.setBookname(rs.getString(1));
+				book.setBno(rs.getInt(2));
+				book.setCount(rs.getInt(3));
+				
+				list.add(book);
+			}
+			
+		} catch (Exception e) {
+		}
 		return list;
 	}
 

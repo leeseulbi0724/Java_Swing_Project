@@ -47,41 +47,6 @@ public class User_BookReviewUI extends JDialog{
 		ReviewCreate();
 	}
 	
-//	public void createReview() {				
-//		setBounds(0, 188, 491, 250);
-//		getContentPane().setBackground(Color.WHITE);
-//		setLayout(null);
-//		setResizable(false);
-//		setLocationRelativeTo(null);
-//		
-//		JLabel book1img = new JLabel();
-//		book1img.setBackground(Color.WHITE);
-//		if(main.tag==false) {
-//			book1img.setIcon(new ImageIcon("images/small_book2.jpg"));			
-//		}else if(main.tag==true) {
-//			book1img.setIcon(new ImageIcon("images/small_book1.jpg"));
-//		}
-//		
-//		book1img.setBounds(12, 10, 103, 151);
-//		add(book1img);
-//		
-//		JLabel starLabel = new JLabel("별점");
-//		starLabel.setBounds(150, 26, 115, 42);
-//		add(starLabel);
-//		
-//		JTextArea reviewContent_ta = new JTextArea();
-//		reviewContent_ta.setBackground(new Color(255, 240, 245));
-//		reviewContent_ta.setBounds(160, 79, 267, 82);
-//		add(reviewContent_ta);
-//		reviewContent_ta.setEnabled(false);
-//		
-//		JButton buy_btn = new JButton("구매하기");
-//		buy_btn.setForeground(Color.WHITE);
-//		buy_btn.setBackground(Color.PINK);
-//		buy_btn.setBounds(188, 171, 180, 30);
-//		add(buy_btn);				
-//	}
-	
 	public void ReviewCreate() {
 		setBounds(0, 188, 491, 250);
 		getContentPane().setBackground(Color.WHITE);

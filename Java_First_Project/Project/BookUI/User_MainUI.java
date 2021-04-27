@@ -5,12 +5,18 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,12 +26,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
-import BookDAO.MemberDAO;
-import BookVO.MemberVO;
+import BookDAO.BookDAO;
+import BookVO.BookVO;
 import Commons.Commons;
 
 public class User_MainUI implements ActionListener{
@@ -47,13 +59,16 @@ public class User_MainUI implements ActionListener{
 	JScrollPane scrollPane;
 	public boolean flag;
 	
+	DefaultTableModel model;
+	
 	public static final int HOME = 0;
 	public static final int BOOK = 1;
 	public static final int BOOKLIST = 3;
 	public static final int BOARD = 4;
-	public static final int MYPAGE = 5;	
+	public static final int MYPAGE = 5;
+	private static final Object[][]  Object = null;	
 	
-	MemberDAO dao = new MemberDAO();
+	BookDAO bdao = new BookDAO();
 	
 	//Constructor	
 	public User_MainUI(LoginUI main, String name) {
@@ -132,66 +147,105 @@ public class User_MainUI implements ActionListener{
 		mainPanel.setLayout(null);
 		
 		content_panel = new JPanel();
-		content_panel.setBounds(12, 10, 768, 374);
+		content_panel.setBounds(0, 10, 804, 386);
 		content_panel.setBackground(new Color(255, 240, 245));
 		content_panel.setLayout(null);
-		mainPanel.add(content_panel);
+		mainPanel.add(content_panel);				
 		
-//		JLabel recommendIconLabel = new JLabel();
-//		recommendIconLabel.setIcon(new ImageIcon("images/bestSeller.PNG"));
-//		recommendIconLabel.setBounds(135, 10, 70, 70);
-//		content_panel.add(recommendIconLabel);				
+		JPanel recommend_panel = new JPanel();
+		recommend_panel.setBounds(94, 100, 256, 235);
+		recommend_panel.setBackground(Color.WHITE);
+		recommend_panel.setBorder(new TitledBorder(new LineBorder(new Color(240, 128, 128),3)));
+		content_panel.add(recommend_panel);
+		recommend_panel.setLayout(null);
 		
 		book1_btn = new JButton();
-		book1_btn.setBackground(new Color(255, 240, 245));
+		book1_btn.setBackground(Color.WHITE);
 		book1_btn.setBorderPainted(false);
-		book1_btn.setIcon(new ImageIcon("images/book1img.jpg"));
-		book1_btn.setBounds(52, 118, 112, 172);
-		content_panel.add(book1_btn);
+		book1_btn.setBorder(null);
+		book1_btn.setIcon(new ImageIcon("images/book1_s.jpg"));
+		book1_btn.setBounds(12, 53, 112, 172);
+		recommend_panel.add(book1_btn);
 		
 		book2_btn = new JButton();
-		book2_btn.setBackground(new Color(255, 240, 245));
+		book2_btn.setBackground(Color.WHITE);
 		book2_btn.setBorderPainted(false);
-		book2_btn.setIcon(new ImageIcon("images/book2img.jpg"));
-		book2_btn.setBounds(188, 118, 112, 172);
-		content_panel.add(book2_btn);		
+		book2_btn.setBorder(null);
+		book2_btn.setIcon(new ImageIcon("images/book2_s.jpg"));
+		book2_btn.setBounds(132, 53, 112, 172);
+		recommend_panel.add(book2_btn);		
 
 		bookList_btn = new JButton("도 서 전 체 리 스 트");
-		bookList_btn.setBackground(Color.PINK);
-		bookList_btn.setBounds(285, 334, 201, 30);
-		bookList_btn.setBorder(null);
-//		bookList_btn.setFocusPainted(false);
+		bookList_btn.setBackground(new Color(255, 228, 225));
+		bookList_btn.setBounds(287, 346, 201, 20);
+//		bookList_btn.setBorder(null);
+		bookList_btn.setFocusPainted(false);
 		content_panel.add(bookList_btn);
 		
 		recommendText_Panel = new JPanel();
 		recommendText_Panel.setLayout(new BorderLayout(0, 0));
 		recommendText_Panel.setBackground(Color.WHITE);
-		recommendText_Panel.setBounds(105, 78, 136, 30);
-		content_panel.add(recommendText_Panel);
+		recommendText_Panel.setBounds(60, 10, 136, 30);
+		recommend_panel.add(recommendText_Panel);
 		
 		JLabel recommendTextLabel = new JLabel("이달의 추천도서");
 		recommendTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		recommendTextLabel.setForeground(new Color(240, 128, 128));
 		recommendText_Panel.add(recommendTextLabel);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(517, 78, 136, 30);
-		panel.setBackground(Color.WHITE);
-		content_panel.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));		
+		JPanel bookrank_panel = new JPanel();
+		bookrank_panel.setBounds(414, 100, 322, 235);
+		bookrank_panel.setBackground(Color.WHITE);
+		bookrank_panel.setBorder(new TitledBorder(new LineBorder(new Color(240, 128, 128),3)));
+		content_panel.add(bookrank_panel);
+		bookrank_panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("이달의 구매왕");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel, BorderLayout.CENTER);		
+		JLabel rank_Label = new JLabel("이달의 베스트셀러");
+		rank_Label.setHorizontalAlignment(SwingConstants.CENTER);
+		rank_Label.setForeground(new Color(240, 128, 128));
+		rank_Label.setBounds(66, 24, 180, 15);
+		bookrank_panel.add(rank_Label);
 		
-		Rankarea = new JTextArea();
-		Rankarea.setEditable(false);
-		Rankarea.setTabSize(6);
-		
-		scrollPane = new JScrollPane(Rankarea);
-		scrollPane.setBounds(454, 118, 256, 80);
+		String[] colName = {"NO", "제목"};
+		model = new DefaultTableModel(colName, 0);				
+		JTable rank_table = new JTable(model);
+		rank_table.setEnabled(false);
+		rank_table.setShowVerticalLines(false);
+		rank_table.setShowHorizontalLines(false);
+		scrollPane = new JScrollPane(rank_table);
+		scrollPane.setBounds(35, 48, 256, 175);
 		scrollPane.setVisible(true);
-		content_panel.add(scrollPane);
-
+		bookrank_panel.add(scrollPane);	
+		
+		/** 가운데정렬, 헤더 색깔, 컬럼 길이 조절 **/
+		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcmSchedule = rank_table.getColumnModel();
+		for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+			tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+		}
+		JTableHeader head = rank_table.getTableHeader();
+		head.setBackground(new Color(255,192,203));
+		head.setForeground(new Color(255,255,255));		
+		rank_table.getColumnModel().getColumn(0).setPreferredWidth(1);
+		rank_table.getColumnModel().getColumn(1).setPreferredWidth(180);
+		
+		JLabel Label_01 = new JLabel();
+		Label_01.setBounds(591, 0, 201, 90);
+		Label_01.setIcon(new ImageIcon("images/Label01.PNG"));
+		content_panel.add(Label_01);	
+		JLabel Label_02 = new JLabel();
+		Label_02.setBounds(413, 0, 201, 90);
+		Label_02.setIcon(new ImageIcon("images/Label02.PNG"));
+		content_panel.add(Label_02);
+		JLabel Label_03 = new JLabel();
+		Label_03.setBounds(233, 0, 201, 90);
+		Label_03.setIcon(new ImageIcon("images/Label03.PNG"));
+		content_panel.add(Label_03);
+		JLabel Label_04 = new JLabel();
+		Label_04.setBounds(0, 0, 201, 79);
+		Label_04.setIcon(new ImageIcon("images/logo1.PNG"));
+		content_panel.add(Label_04);
 		
 		
 		/* 버튼 */
@@ -209,18 +263,25 @@ public class User_MainUI implements ActionListener{
 		logout_btn.setFont(Commons.getFont());
 		board_btn.setFont(Commons.getFont());
 		bookList_btn.setFont(Commons.getFont());
-		recommendTextLabel.setFont(Commons.getFont());
+		recommendTextLabel.setFont(Commons.getFont(15,"BOLD"));
 		id_label.setFont(Commons.getFont());
-		lblNewLabel.setFont(Commons.getFont());		
+		bookrank_panel.setFont(Commons.getFont());
+		rank_Label.setFont(Commons.getFont(15,"BOLD"));
 		
 		user_order_rank();
 		
 	}//init
 	
 	public void user_order_rank() {
-		ArrayList<MemberVO> list = dao.getRank();		
-		for (MemberVO m : list) {
-			Rankarea.append("\t [ "+m.getRno() + "등 ] " + m.getId() + "님 " + m.getCount() + "권 구매\n");
+		ArrayList<BookVO> list = bdao.getRank();		
+		Object row[];
+		for (BookVO b : list) {
+			row = new Object[3];
+			row[0] = b.getBno()+"등";
+			row[1] = b.getBookname();
+			
+			model.addRow(row);
+			
 		}
 	}
 

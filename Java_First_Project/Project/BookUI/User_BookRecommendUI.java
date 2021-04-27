@@ -104,7 +104,7 @@ public class User_BookRecommendUI implements ActionListener {
 			
 			bookPanel = new JPanel();
 			bookPanel.setBackground(Color.WHITE);
-			bookPanel.setBounds(133, 20, 531, 310);
+			bookPanel.setBounds(133, 20, 531, 330);
 			
 			bookPanel.setVisible(false);
 			bookPanel.setLayout(null);
@@ -112,14 +112,14 @@ public class User_BookRecommendUI implements ActionListener {
 			bookimgLabel = new JLabel();
 			
 			if(main.flag==false) {
-			bookimgLabel.setIcon(new ImageIcon("images/book1_img.jpg"));
+			bookimgLabel.setIcon(new ImageIcon("images/book1_s.jpg"));
 			tag = false;
 			}else if(main.flag==true){
-			bookimgLabel.setIcon(new ImageIcon("images/book2_img.jpg"));
+			bookimgLabel.setIcon(new ImageIcon("images/book2_s.jpg"));
 			tag = true;
 			}
 			
-			bookimgLabel.setBounds(0, -10, 111, 155);
+			bookimgLabel.setBounds(20, 0, 150, 250);
 			bookPanel.add(bookimgLabel);
 			
 			bookNumberLabel = new JLabel("도서번호");
