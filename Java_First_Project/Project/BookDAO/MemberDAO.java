@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import BookUI.Admin_MainUI;
+import BookUI.Admin_MemberViewsUI;
+import BookVO.BookVO;
 import BookVO.MemberVO;
 import Commons.Commons;
-
 
 public class MemberDAO extends DBConn {
 		
@@ -104,7 +106,7 @@ public class MemberDAO extends DBConn {
 			
 		try {
 			String sql = " SELECT ROWNUM RNO, ID, PASS, NAME, BIRTHDAY, HP, ADDR " 
-						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC)  ";
+						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC) WHERE ID != '관리자' AND ID != 'admin'  ";
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -136,9 +138,10 @@ public class MemberDAO extends DBConn {
 			pstmt.setString(1, id);
 			
 			result = pstmt.executeUpdate();		
-			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 수 없는 회원입니다."));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "삭제할 수 없는 ID입니다.");
 		}		
 		return result;
 	}
