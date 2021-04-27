@@ -194,7 +194,7 @@ public class BoardDAO extends DBConn {
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 		
 		try {
-		String sql = " SELECT ROWNUM, BID, CATEGORY, TITLE, CONTENT, ID, WDATE FROM"
+		String sql = " SELECT ROWNUM, BID, CATEGORY, TITLE, CONTENT, ID, TO_CHAR(WDATE,'YYYY-MM-DD') FROM"
 				+ " (SELECT BID, CATEGORY, TITLE, CONTENT, ID, WDATE FROM BOOK_BOARD ORDER BY WDATE)"
 				+ " ORDER BY ROWNUM DESC";
 		getPreparedStatement(sql);		

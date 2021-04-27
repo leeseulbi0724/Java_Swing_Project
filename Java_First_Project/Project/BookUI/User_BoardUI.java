@@ -88,9 +88,9 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		/** 컬럼 길이조절, 가운데정렬 **/
 		board_table.getColumnModel().getColumn(0).setPreferredWidth(1);
 		board_table.getColumnModel().getColumn(1).setPreferredWidth(10);
-		board_table.getColumnModel().getColumn(2).setPreferredWidth(40);
+		board_table.getColumnModel().getColumn(2).setPreferredWidth(200);
 		board_table.getColumnModel().getColumn(3).setPreferredWidth(5);
-		board_table.getColumnModel().getColumn(4).setPreferredWidth(40);
+		board_table.getColumnModel().getColumn(4).setPreferredWidth(60);
 		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
 		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		TableColumnModel tcmSchedule = board_table.getColumnModel();
