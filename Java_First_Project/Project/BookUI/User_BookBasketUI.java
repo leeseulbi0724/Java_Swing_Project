@@ -77,7 +77,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		
 		bsBookPrice_tf = new JTextField();
 		bsBookPrice_tf.setBounds(44, 170, 269, 35);
-		bsBookPrice_tf.setText(String.valueOf(book.getPrice()));
+		bsBookPrice_tf.setText(String.valueOf(book.getPrice())+"¿ø");
 		basketPanel.add(bsBookPrice_tf);
 		bsBookPrice_tf.setColumns(10);		
 		
@@ -125,7 +125,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	public void Basket_proc() {
 		BookVO vo = new BookVO();
 		vo.setBookname(bsBookName_tf.getText());
-		vo.setPrice(Integer.parseInt(bsBookPrice_tf.getText()));
+		vo.setPrice((book.getPrice()));
 		vo.setCount(Integer.parseInt(count_box.getSelectedItem().toString()));	
 		boolean result = system.Basket_check(vo, name);
 		System.out.println(result);

@@ -5,18 +5,12 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -60,6 +54,7 @@ public class User_MainUI implements ActionListener{
 	public boolean flag;
 	
 	DefaultTableModel model;
+	JTable rank_table;
 	
 	public static final int HOME = 0;
 	public static final int BOOK = 1;
@@ -208,7 +203,7 @@ public class User_MainUI implements ActionListener{
 		
 		String[] colName = {"NO", "제목"};
 		model = new DefaultTableModel(colName, 0);				
-		JTable rank_table = new JTable(model);
+		rank_table = new JTable(model);
 		rank_table.setEnabled(false);
 		rank_table.setShowVerticalLines(false);
 		rank_table.setShowHorizontalLines(false);
@@ -230,9 +225,17 @@ public class User_MainUI implements ActionListener{
 		rank_table.getColumnModel().getColumn(0).setPreferredWidth(1);
 		rank_table.getColumnModel().getColumn(1).setPreferredWidth(180);
 		
+		
+		ImageIcon icon01 = new ImageIcon("images/Label01.PNG");
+		int h = icon01.getIconHeight();
+		int w = icon01.getIconWidth();
+//		ImageIcon imageSetSize(icon01, w, h) {
+//			
+//		}
+		
 		JLabel Label_01 = new JLabel();
 		Label_01.setBounds(591, 0, 201, 90);
-		Label_01.setIcon(new ImageIcon("images/Label01.PNG"));
+		Label_01.setIcon(icon01);
 		content_panel.add(Label_01);	
 		JLabel Label_02 = new JLabel();
 		Label_02.setBounds(413, 0, 201, 90);
@@ -245,8 +248,7 @@ public class User_MainUI implements ActionListener{
 		JLabel Label_04 = new JLabel();
 		Label_04.setBounds(0, 0, 201, 79);
 		Label_04.setIcon(new ImageIcon("images/logo1.PNG"));
-		content_panel.add(Label_04);
-		
+		content_panel.add(Label_04);		
 		
 		/* 버튼 */
 		home_btn.addActionListener(this);
@@ -272,7 +274,13 @@ public class User_MainUI implements ActionListener{
 		
 	}//init
 	
+	private ImageIcon imageSetsize(ImageIcon icon01, int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public void user_order_rank() {
+		model.setRowCount(0);
 		ArrayList<BookVO> list = bdao.getRank();		
 		Object row[];
 		for (BookVO b : list) {
@@ -280,9 +288,9 @@ public class User_MainUI implements ActionListener{
 			row[0] = b.getBno()+"등";
 			row[1] = b.getBookname();
 			
-			model.addRow(row);
-			
+			model.addRow(row);			
 		}
+		model.fireTableDataChanged();
 	}
 
 
@@ -294,6 +302,7 @@ public class User_MainUI implements ActionListener{
 				mainPanel.setVisible(true);
 				//리셋되는 버튼들 새로 생성하는것
 				createContent();
+				user_order_rank();
 			case BOARD :
 				mainPanel.setVisible(true);
 			case MYPAGE :
