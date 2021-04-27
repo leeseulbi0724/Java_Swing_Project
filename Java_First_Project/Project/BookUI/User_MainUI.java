@@ -247,7 +247,7 @@ public class User_MainUI implements ActionListener{
 		content_panel.add(Label_03);
 		JLabel Label_04 = new JLabel();
 		Label_04.setBounds(0, 0, 201, 79);
-		Label_04.setIcon(new ImageIcon("images/logo1.PNG"));
+		Label_04.setIcon(new ImageIcon("images/BOOK_S.PNG"));
 		content_panel.add(Label_04);		
 		
 		/* ¹öÆ° */
