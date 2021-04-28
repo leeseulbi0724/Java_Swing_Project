@@ -281,7 +281,7 @@ public class MemberDAO extends DBConn {
 			
 			String sql =  " update book_users "
 					+ " set pass = ?, hp=?, addr=? "
-					+ " where id =?"; //id 비교? pass 비교?
+					+ " where id =?"; 
 			getPreparedStatement(sql);
 			pstmt.setString(1, member.getPass());
 			pstmt.setString(2, member.getHp());

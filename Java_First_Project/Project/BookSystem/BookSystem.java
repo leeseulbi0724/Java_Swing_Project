@@ -15,7 +15,7 @@ public class BookSystem {
 		BookDAO bdao = new BookDAO();
 		BoardDAO adao = new BoardDAO();
 		
-		//Constructor
+		////Constructor
 		public BookSystem() {			
 
 		}

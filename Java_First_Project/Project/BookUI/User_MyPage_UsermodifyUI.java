@@ -134,7 +134,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		btn_modify_check.setFont(Commons.getFont());
 		
-	} //init
+	} ////init
 	
 	@Override
 	/** [수정하기] 버튼 누르면 행해지는 액션이벤트 **/
