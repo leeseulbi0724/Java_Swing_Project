@@ -152,6 +152,7 @@ public class FindPassUI extends JDialog implements ActionListener{
 				temp_pass_tf = new JTextField();
 				tmp_pass = String.valueOf(Math.round(Math.random()*1000000));
 				temp_pass_tf.setText(tmp_pass);
+				temp_pass_tf.setEnabled(false);
 				temp_pass_tf.setHorizontalAlignment(SwingConstants.CENTER);
 				temp_pass_tf.setBounds(64, 180, 344, 75);
 				temp_pass_tf.setColumns(10);
