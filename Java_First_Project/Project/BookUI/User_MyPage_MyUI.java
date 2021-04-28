@@ -2,7 +2,6 @@ package BookUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -15,8 +14,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +29,7 @@ import BookVO.BoardVO;
 import BookVO.BookVO;
 import Commons.Commons;
 
-public class User_MyPage_MyUI extends JFrame implements MouseListener{
+public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionListener{
 	User_MyPageUI main;
 	JButton btn_delete;
 	ArrayList<Object> list = new ArrayList<Object>();
@@ -42,7 +43,9 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	BoardVO vo;
 	ArrayList<BoardVO> boardlist;
 	BookVO book;
-	ArrayList<BookVO> booklist;
+	JPopupMenu popupMenu;
+	JMenuItem remove;
+	JCheckBox checkbox_review, checkbox_board;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
 		super();		
@@ -68,7 +71,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 		scrollPane.setViewportView(board_pane);		
 		board_pane.setEnabled(false);
 		
-		JCheckBox checkbox_board = new JCheckBox("게시판");
+		checkbox_board = new JCheckBox("게시판");
 		checkbox_board.addItemListener(new ItemListener() {
 
 			@Override
@@ -86,7 +89,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 		main.content_panel.add(checkbox_board);
 		
 		
-		JCheckBox checkbox_review = new JCheckBox("리뷰");
+		checkbox_review = new JCheckBox("리뷰");
 		checkbox_review.addItemListener(new ItemListener() {
 			
 			@Override
@@ -127,23 +130,32 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 		main.content_panel.add(btn_delete);
 		btn_delete.setBackground(Color.WHITE);
 		
-		/** 폰트설정 **/
-		board_table.setFont(Commons.getFont());
-		checkbox_board.setFont(Commons.getFont());
-		checkbox_review.setFont(Commons.getFont());
-		btn_delete.setFont(Commons.getFont());
 		
 		JTableHeader head = board_table.getTableHeader();
 		head.setBackground(new Color(255,192,203));
 		head.setForeground(new Color(255,255,255));		
+		
+		  popupMenu = new JPopupMenu();
+		 remove = new JMenuItem("내용 보기");
+		  remove.addActionListener(this);
+          popupMenu.add(remove);
+          board_table.setComponentPopupMenu(popupMenu);
+          
+          board_table.addMouseListener(this);
 	
+          /** 폰트설정 **/
+          board_table.setFont(Commons.getFont());
+          checkbox_board.setFont(Commons.getFont());
+          checkbox_review.setFont(Commons.getFont());
+          btn_delete.setFont(Commons.getFont());
+          remove.setFont(Commons.getFont());
 	}//init
 
 	
 	//table에 출력되는 데이터 생성 - 일단은 게시판(카테고리, 제목, 내용, 날짜) 갖고오기
 	public void boardData() {
 		model.setNumRows(0);
-		ArrayList<BoardVO> boardlist = system.All_Myboard(main.user_name);
+		boardlist = system.All_Myboard(main.user_name);
 		for(BoardVO board : boardlist) {
 			row[0] = board.getCategory();
 			row[1] = board.getTitle();
@@ -158,7 +170,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	//table에 출력되는 데이터 생성 - 일단은 리뷰(카테고리, 제목, 내용, 날짜) 갖고오기
 	public void reviewData() {
 		model.setNumRows(0);
-		ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);
+		boardlist = system.All_Myreview(main.user_name);
 		for(BoardVO board : boardlist) {
 			row[0] = board.getCategory();
 			row[1] = board.getTitle();
@@ -172,8 +184,6 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 
 	//table에서 삭제하는 이벤트 - 게시판 글 삭제 메소드
 	public void deleteBoardData() {
-		rowrow = board_table.getSelectedRow();	
-		vo = new BoardVO();
 		ArrayList<BoardVO> boardlist = system.All_Myboard(main.user_name);
 		
 		if(rowrow == -1) {
@@ -193,8 +203,6 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	
 	//table에서 삭제하는 이벤트 - 리뷰 삭제 메소드
 	public void deleteReviewData() {
-		rowrow = board_table.getSelectedRow();	
-		vo = new BoardVO();
 		ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);
 		
 		if (rowrow == -1) {
@@ -216,7 +224,9 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 		//선택한 행 가져오는 액션 이벤트
 		rowrow = board_table.getSelectedRow();	
 		TableModel data = board_table.getModel();
-		
+		 String name = (String)data.getValueAt(rowrow, 1);
+		 book = new BookVO();
+		 book.setBookname(name);		
 	}
 	public void mousePressed(MouseEvent e) {
 	}
@@ -225,6 +235,24 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener{
 	public void mouseEntered(MouseEvent e) {
 	}
 	public void mouseExited(MouseEvent e) {			
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JMenuItem menu = (JMenuItem) e.getSource();
+		if (menu == remove) {
+			if(checkbox_board.isSelected()) {
+				String bid = boardlist.get(board_table.getSelectedRow()).getBid();
+				BoardVO vo = system.board_result(bid);	
+				User_Board_ContentUI ui = new User_Board_ContentUI(vo, id, main.frame);
+				ui.setVisible(true);				
+			} if(checkbox_review.isSelected()) {				
+				User_BookReviewUI review = new User_BookReviewUI(main.frame, book.getBookname());
+				review.setVisible(true);				
+			}
+		}
+		
 	}
 		
 		
