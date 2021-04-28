@@ -153,7 +153,6 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		
 		if(form_check()) {
 			MemberVO vo = new MemberVO();
-			vo.setName(mdao.MemberInfo(main.user_name).getName());
 			vo.setPass(password_tf.getText());
 			vo.setHp(hp_text.getText());
 			vo.setAddr(addr_text.getText());
