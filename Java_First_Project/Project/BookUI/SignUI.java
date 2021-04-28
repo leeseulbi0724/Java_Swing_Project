@@ -46,6 +46,8 @@ public class SignUI extends JDialog implements ActionListener {
 	JButton check_id_btn;
 	MemberDAO dao = new MemberDAO();
 	
+	boolean flag = false;
+	
 	//Constructor
 	public SignUI(LoginUI ui) {
 		this.ui = ui;
@@ -200,38 +202,15 @@ public class SignUI extends JDialog implements ActionListener {
 		
 		if(obj == sign_btn) {
 			//유효성 체크
-			if(form_check()) {
-				//JTextField 형변환
-				ArrayList<JTextField> jlist = new ArrayList<JTextField>();
-				for(Object tf : list) {
-					JTextField jtf = (JTextField)tf;
-					jlist.add(jtf);
-				}
-				
-				MemberVO member = new MemberVO();
-				member.setId(jlist.get(0).getText());
-				member.setPass(jlist.get(1).getText());
-				member.setCpass(jlist.get(2).getText());
-				member.setName(jlist.get(3).getText());
-				member.setBirthday(jlist.get(4).getText());
-				member.setHp(jlist.get(5).getText());
-				member.setAddr(jlist.get(6).getText());
-				
-				boolean result = ui.system.join(member);
-				
-				if(result) {
-					JOptionPane.showMessageDialog(null, Commons.getMsg("회원가입이 완료되었습니다."));
-					for(Object obj2 : list) {
-						JTextField tf = (JTextField)obj2;
-						tf.setText("");
-					}
-					dispose();
-					
-				}else {
-					JOptionPane.showMessageDialog(null, Commons.getMsg("회원가입에 실패하셨습니다."));
-				}
+			if(form_check()) {						
+				if (flag == true) {
+					result_sign();
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("아이디 중복확인을 클릭해주세요"));
+				}				
+
 			}
-		}else if(obj == check_id_btn) {
+		} else if(obj == check_id_btn) {
 			//중복확인 버튼 액션
 			if(dao.CheckID(sign_id_tf.getText())) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("사용중인 ID입니다."));
@@ -239,6 +218,7 @@ public class SignUI extends JDialog implements ActionListener {
 			}else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("사용가능한 ID입니다."));
 				check_id_btn.setEnabled(false);
+				flag = true;
 			}
 		}
 		else {
@@ -246,10 +226,40 @@ public class SignUI extends JDialog implements ActionListener {
 				JTextField tf = (JTextField)obj2;
 				tf.setText("");
 			}
-		}
-		
+		}		
 		
 	};
+	
+	public void result_sign() {
+		//JTextField 형변환		
+		ArrayList<JTextField> jlist = new ArrayList<JTextField>();
+		for(Object tf : list) {
+			JTextField jtf = (JTextField)tf;
+			jlist.add(jtf);
+		}
+		MemberVO member = new MemberVO();
+		member.setId(jlist.get(0).getText());
+		member.setPass(jlist.get(1).getText());
+		member.setCpass(jlist.get(2).getText());
+		member.setName(jlist.get(3).getText());
+		member.setBirthday(jlist.get(4).getText());
+		member.setHp(jlist.get(5).getText());
+		member.setAddr(jlist.get(6).getText());
+		
+		boolean result = ui.system.join(member);
+		
+		if(result) {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("회원가입이 완료되었습니다."));
+			for(Object obj2 : list) {
+				JTextField tf = (JTextField)obj2;
+				tf.setText("");
+			}
+			dispose();
+			
+		}else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("회원가입에 실패하셨습니다."));
+		}
+	}
 	
 	
 	
