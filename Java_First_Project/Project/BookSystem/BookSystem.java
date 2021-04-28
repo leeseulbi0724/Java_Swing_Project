@@ -37,8 +37,8 @@ public class BookSystem {
 		}
 			
 		/** 사용자 - 마이페이지 - 정보수정 **/
-		public int User_MyPage_Modify(MemberVO vo, String pass) {
-			return mdao.getModifyResult(vo,pass);
+		public int User_MyPage_Modify(MemberVO vo, String id) {
+			return mdao.getModifyResult(vo,id);
 		}
 		
 		/** 관리자 - 회원조회 (회원목록 가져오기) **/

@@ -273,16 +273,21 @@ public class MemberDAO extends DBConn {
 	}
 
 	/** User_MyPage_Usermodify (사용자 - 회원정보수정) **/
-	public int getModifyResult(MemberVO member,String pass) {
+	public int getModifyResult(MemberVO member,String id) {
 		// id 비교해서 맞으면 비밀번호, 폰번호, 주소 수정
 		int result = 0;
 		
 		try {
-			String sql = " update book_users set pass = ?, hp = ?, addr = ?"; //id 비교? pass 비교?
+			
+			String sql =  " update book_users "
+					+ " set pass = ?, hp=?, addr=? "
+					+ " where id =?"; //id 비교? pass 비교?
 			getPreparedStatement(sql);
 			pstmt.setString(1, member.getPass());
 			pstmt.setString(2, member.getHp());
 			pstmt.setString(3, member.getAddr());
+			pstmt.setString(4, id);
+			
 		
 			int val = pstmt.executeUpdate();
 			

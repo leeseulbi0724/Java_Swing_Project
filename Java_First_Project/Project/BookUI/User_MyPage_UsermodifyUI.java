@@ -150,12 +150,15 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	
 	/** 수정완료 시 **/
 	public void modify_proc() {
+		
 		if(form_check()) {
 			MemberVO vo = new MemberVO();
+			vo.setName(mdao.MemberInfo(main.user_name).getName());
 			vo.setPass(password_tf.getText());
 			vo.setHp(hp_text.getText());
 			vo.setAddr(addr_text.getText());
-			int result = main.system.User_MyPage_Modify(vo,password_tf.getText());
+			int result = main.system.User_MyPage_Modify(vo,id_text.getText());
+			System.out.println(result);
 			
 			if(result == 0) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 완료되었습니다"));
