@@ -62,7 +62,7 @@ public class User_MyPageUI implements ActionListener {
 		btn_order = new JButton("주문조회");
 		btn_panel.add(btn_order);
 		
-		btn_my = new JButton("    My   ");
+		btn_my = new JButton("My이력");
 		btn_panel.add(btn_my);
 		
 		main_panel = new JPanel(new BorderLayout());
