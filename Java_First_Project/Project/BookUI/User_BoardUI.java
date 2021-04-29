@@ -121,9 +121,9 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btn_write)) {
-			main.mainPanel.removeAll();
-			main.mainPanel.setVisible(false);
-			new User_WriteUI(main);
+			String category = "¿€º∫";
+			User_WriteUI ui = new User_WriteUI(category, main, main.f);
+			ui.setVisible(true);
 		}		
 	}
 	@Override

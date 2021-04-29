@@ -57,8 +57,8 @@ public class BookSystem {
 		}
 		
 		/** 관리자 - 도서검색 **/
-		public ArrayList<BookVO> Admin_Search(String text) {
-			return bdao.getResult(text);
+		public ArrayList<BookVO> Admin_Search(String comboname, String text) {
+			return bdao.getResult(comboname, text);
 		}
 		
 		/** 사용자 - 마이페이지 - 장바구니 내역 불러오기**/
@@ -97,8 +97,8 @@ public class BookSystem {
 		}
 		
 		/** 관리자 - 도서삭제 시 DB에 있는 도서명인지 체크하기 **/
-		public ArrayList<BookVO> Book_Equals() {
-			return bdao.getBookEquals();
+		public ArrayList<BookVO> Book_Equals(String comboname) {
+			return bdao.getBookEquals(comboname);
 		}
 		
 		/** 사용자 - 마이페이지 - 주문조회 (select) **/
@@ -205,6 +205,16 @@ public class BookSystem {
 		
 		public boolean User_delete(String name) {
 			return mdao.getUserDelete(name);
+		}
+		
+		/** 리뷰 - 수정 **/
+		public boolean User_ReviewUpdate(String rid, BoardVO vo) {
+			return adao.User_ReviewUpdate(rid, vo);
+		}
+		
+		/** 게시판 - 수정 **/
+		public boolean User_Board_Update(String bid, BoardVO vo) {
+			return adao.User_Board_Update(bid, vo);
 		}
 		
 

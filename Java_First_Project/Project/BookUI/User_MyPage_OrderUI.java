@@ -14,8 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import BookSystem.BookSystem;
@@ -26,7 +29,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 	
 	User_MyPageUI main;
 	JPanel content_panel;
-	String[] colName = {"주문번호", "도서명", "저자", "출판사", "가격", "주문수량", "주문일자"};
+	String[] colName = {"NO", "도서명", "저자", "출판사", "가격", "수량", "주문일자"};
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
 	Object[] row = new Object[7];
 	JTable board_table = new JTable(model);
@@ -84,6 +87,21 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		JTableHeader head = board_table.getTableHeader();
 		head.setBackground(new Color(255,192,203));
 		head.setForeground(new Color(255,255,255));		
+		
+		/** 컬럼 길이조절, 가운데정렬 **/
+		board_table.getColumnModel().getColumn(0).setPreferredWidth(1);
+		board_table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		board_table.getColumnModel().getColumn(2).setPreferredWidth(30);
+		board_table.getColumnModel().getColumn(3).setPreferredWidth(30);
+		board_table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		board_table.getColumnModel().getColumn(5).setPreferredWidth(1);
+		board_table.getColumnModel().getColumn(6).setPreferredWidth(100);
+		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			TableColumnModel tcmSchedule = board_table.getColumnModel();
+			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+			}
 	}//init
 	
 	//table에 출력되는 데이터 (BOOKNAME, AUTHOR, PBLSH, PRICE) 생성
@@ -110,7 +128,8 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		if (obj.equals(btn_review)) {
 			if (system.ReviewCheck(bookname, user_name)) {
 				if (bookname != null) {
-					User_ReviewWriteUI rw = new User_ReviewWriteUI(main.frame, bookname, user_name, system);
+					String category = "등록";
+					User_ReviewWriteUI rw = new User_ReviewWriteUI(category, main.frame, bookname, user_name, system);
 					rw.setVisible(true);				
 				} else {
 					JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰를 작성하실 주문서를 클릭해주세요."));

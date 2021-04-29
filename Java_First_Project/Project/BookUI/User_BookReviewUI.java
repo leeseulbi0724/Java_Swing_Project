@@ -30,10 +30,11 @@ public class User_BookReviewUI extends JDialog{
 	//Field
 	User_BookRecommendUI main;
 	User_BookListSearchUI mainB;
-	LoginUI login;
 	String bookname;
 	JTable review_table;
 	BookSystem system;
+	
+	String category;
 
 	//Constructor
 	public User_BookReviewUI(Window parent, String bookname, BookSystem system) {		

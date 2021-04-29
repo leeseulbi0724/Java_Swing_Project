@@ -86,7 +86,8 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_pane);		
 		
-		button_panel = new JPanel(new GridLayout(2,1));
+		button_panel = new JPanel();
+		button_panel.setBackground(Color.WHITE);
 		
 		btn_order = new JButton("결제/주문");		
 		

@@ -3,11 +3,14 @@ package BookUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Window;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,7 +22,7 @@ import BookSystem.BookSystem;
 import BookVO.BoardVO;
 import Commons.Commons;
 
-public class User_WriteUI implements ActionListener {
+public class User_WriteUI extends JDialog implements ActionListener {
 
 	User_MainUI main;
 	JPanel content_panel;
@@ -27,31 +30,47 @@ public class User_WriteUI implements ActionListener {
 	JComboBox comboBox;
 	JTextField title_tf;
 	JTextArea content_ta;
-	String name, boxname;
+	String name, boxname, bid;
 	BookSystem system;
+	String category;
+	BoardVO vo;
 	
-	public User_WriteUI(User_MainUI main) {
+	public User_WriteUI(String category, User_MainUI main, Window parent) {
+		super(parent, "게시글 작성", ModalityType.APPLICATION_MODAL);
+		this.category = category;
+		this.main = main;
+		this.name = main.name;
+		this.system = main.system;
+		init();
+	}
+	public User_WriteUI(String bid, String category, BoardVO vo, User_MainUI main, Window parent) {
+		super(parent, "게시글 작성", ModalityType.APPLICATION_MODAL);
+		this.bid = bid;
+		this.vo = vo;
+		this.category = category;
 		this.main = main;
 		this.name = main.name;
 		this.system = main.system;
 		init();
 	}
 	
+	
 	public void init() {
 		
 		content_panel = new JPanel();
-		content_panel.setBackground(new Color(211, 211, 211));
-		content_panel.setBounds(133, 10, 531, 341);
+		content_panel.setBackground(new Color(240, 248, 255));
+		content_panel.setBounds(133, 10, 531, 300);
 		content_panel.setLayout(new BorderLayout(0, 0));
-		main.mainPanel.setVisible(true);
-		main.mainPanel.add(content_panel);
+		add(content_panel);
+		setBounds(133, 10, 531, 380);
+		setLocationRelativeTo(null);
 		
 		JLabel Label = new JLabel(" 게 시 판 글 쓰 기 ");
-		Label.setForeground(Color.WHITE);
 		Label.setHorizontalAlignment(SwingConstants.CENTER);
 		content_panel.add(Label, BorderLayout.NORTH);
 
-		JPanel write_panel = new JPanel();			
+		JPanel write_panel = new JPanel();
+		write_panel.setBackground(new Color(240, 248, 255));
 		content_panel.add(write_panel);
 		write_panel.setLayout(null);
 		
@@ -60,6 +79,7 @@ public class User_WriteUI implements ActionListener {
 		JLabel label_gory = new JLabel("분야");
 
 		JPanel box_panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		box_panel.setBackground(new Color(240, 248, 255));
 		box_panel.setBounds(87, 5, 388, 32);
 		write_panel.add(box_panel);
 		
@@ -84,7 +104,7 @@ public class User_WriteUI implements ActionListener {
 		write_panel.add(label_content);			
 		write_panel.add(content_ta);		
 
-		btn_write = new JButton("작성");
+		btn_write = new JButton("확인");
 		btn_write.setBounds(153, 280, 75, 23);
 		write_panel.add(btn_write);
 		
@@ -107,6 +127,16 @@ public class User_WriteUI implements ActionListener {
 		btn_reset.addActionListener(this);
 		btn_write.addActionListener(this);
 		
+		if (category == "수정") {
+			if (vo.getCategory().equals("질문FAQ")) {
+				comboBox.setSelectedIndex(1);				
+			} else if (vo.getCategory().equals("도서요청")) {
+				comboBox.setSelectedIndex(2);
+			}
+			title_tf.setText(vo.getTitle());
+			content_ta.setText(vo.getContent());
+			comboBox.setEnabled(false);
+		}		
 	}
 
 	@Override
@@ -143,11 +173,21 @@ public class User_WriteUI implements ActionListener {
 		board.setTitle(title_tf.getText());
 		board.setContent(content_ta.getText());
 		board.setId(name);
-		if (system.User_Board(board)) {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 완료되었습니다."));
-			new User_BoardUI(main);
-		} else {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 실패되었습니다."));
+		if (category == "작성") {
+			if (system.User_Board(board)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 완료되었습니다."));
+				dispose();
+				new User_BoardUI(main);
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("작성이 실패되었습니다."));
+			}		
+		} else if (category == "수정") {			
+			if (system.User_Board_Update(bid, board)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 완료되었습니다."));
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 실패되었습니다."));
+			}
 		}
 	}
 

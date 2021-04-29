@@ -112,21 +112,25 @@ public class BookDAO extends DBConn {
 				result = true;
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제하실 수 없는 도서입니다."));
+			
 		}		
 		return result;
 	}
 	
-	public ArrayList<BookVO> getBookEquals() {
+	public ArrayList<BookVO> getBookEquals(String comboname) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
-			String sql = "SELECT BOOKNAME FROM BOOK_DATA";
-			getPreparedStatement(sql);
-			
+			if (comboname == "도서번호") {
+				String sql = "SELECT BNO FROM BOOK_DATA";				
+				getPreparedStatement(sql);
+			} else {
+				String sql = "SELECT BOOKNAME FROM BOOK_DATA";	
+				getPreparedStatement(sql);
+			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BookVO vo = new BookVO();
-				vo.setBookname(rs.getString(1));
+				vo.setBookname(rs.getString(1));	
 				
 				list.add(vo);
 			}
@@ -138,12 +142,16 @@ public class BookDAO extends DBConn {
 	}
 	
 	/** 관리자 - 도서조회 **/
-	public ArrayList<BookVO> getResult(String text) {
+	public ArrayList<BookVO> getResult(String comboname, String text) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
-		String sql;
 		try {		
-			sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";			
-			getPreparedStatement(sql);
+			if (comboname == "도서번호") {
+				String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BNO = ? ";		
+				getPreparedStatement(sql);
+			} else {
+				String sql = "SELECT BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE FROM BOOK_DATA WHERE BOOKNAME = ? ";		
+				getPreparedStatement(sql);
+			}			
 			pstmt.setString(1, text);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -153,7 +161,9 @@ public class BookDAO extends DBConn {
 				vo.setAuthor(rs.getString(3));
 				vo.setPblsh(rs.getString(4));
 				vo.setPrice(rs.getInt(5));
-				vo.setPblshdate(rs.getString(6));				
+				vo.setPblshdate(rs.getString(6));	
+				
+				System.out.println(vo.getBookname());
 				list.add(vo);				
 			}
 		} catch (Exception e) {
@@ -413,6 +423,11 @@ public class BookDAO extends DBConn {
 			e.printStackTrace();
 		}
 	}
+
+
+	
+
+
 
 	
 }

@@ -68,7 +68,7 @@ public class Admin_DeleteUI implements ActionListener{
 		
 		comboBox = new JComboBox();
 		bottom_panel.add(comboBox, BorderLayout.WEST);
-		comboBox.addItem("도서명");
+		comboBox.addItem("도서번호");  comboBox.addItem("도서명");	
 		
 		JLabel name_label = new JLabel("도 서 삭 제");
 		name_label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,16 +105,17 @@ public class Admin_DeleteUI implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		String comboname = (String)comboBox.getSelectedItem();
 		int i = 0;
 		if (obj.equals(search_tf) || obj.equals(btn_search)) {
-			ArrayList<BookVO> list = main.system.Book_Equals();
-			for (i = 0; i<list.size(); i++) {
-				if (search_tf.getText().equals(list.get(i).getBookname())) {
-					main.content_panel.remove(main.scrollPane);
-					main.content_panel.setVisible(false);
-					data_search();
-				} 
-			}
+			ArrayList<BookVO> list = main.system.Book_Equals(comboname);
+				for (i = 0; i<list.size(); i++) {
+						if (search_tf.getText().equals(list.get(i).getBookname())) {
+							main.content_panel.remove(main.scrollPane);
+							main.content_panel.setVisible(false);					
+							data_search(comboname);
+						} 		
+				}		 
 			if (i == list.size()+1) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("존재하지 않는 도서입니다. 다시 입력해주세요"));
 			}
@@ -122,10 +123,11 @@ public class Admin_DeleteUI implements ActionListener{
 	}
 	
 	
+	
 	/** 도서 검색 **/
-	public void data_search() {
+	public void data_search(String comboname) {		
 		list = new ArrayList<BookVO>();
-		list = main.system.Admin_Search(search_tf.getText());		
+		list = main.system.Admin_Search(comboname, search_tf.getText());		
 		main.content_panel.setVisible(true);		
 		Object[][] rowDatas = new Object[list.size()][header.length];
 		 for (int i = 0; i < list.size(); i++) {

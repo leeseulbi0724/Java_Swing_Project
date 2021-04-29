@@ -43,8 +43,9 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	BoardVO vo;
 	ArrayList<BoardVO> boardlist;
 	BookVO book;
+	
 	JPopupMenu popupMenu;
-	JMenuItem remove;
+	JMenuItem remove, update;
 	JCheckBox checkbox_review, checkbox_board;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
@@ -136,11 +137,16 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 		head.setBackground(new Color(255,192,203));
 		head.setForeground(new Color(255,255,255));		
 		
-		  popupMenu = new JPopupMenu();
-		 remove = new JMenuItem("내용 보기");
+		  popupMenu = new JPopupMenu();		  
+		 remove = new JMenuItem("내용보기");
 		  remove.addActionListener(this);
-          popupMenu.add(remove);
-          board_table.setComponentPopupMenu(popupMenu);
+          popupMenu.add(remove);          
+          update = new JMenuItem("수정하기");
+          update.addActionListener(this);
+          popupMenu.add(update);          
+          board_table.setComponentPopupMenu(popupMenu);      
+          
+          
           
           board_table.addMouseListener(this);
 	
@@ -150,6 +156,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
           checkbox_review.setFont(Commons.getFont());
           btn_delete.setFont(Commons.getFont());
           remove.setFont(Commons.getFont());
+          update.setFont(Commons.getFont());
 	}//init
 
 	
@@ -204,8 +211,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	
 	//table에서 삭제하는 이벤트 - 리뷰 삭제 메소드
 	public void deleteReviewData() {
-		ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);
-		
+		ArrayList<BoardVO> boardlist = system.All_Myreview(main.user_name);		
 		if (rowrow == -1) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 리뷰를 선택해주세요. "));
 		} else {
@@ -250,6 +256,19 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 				ui.setVisible(true);				
 			} if(checkbox_review.isSelected()) {				
 				User_BookReviewUI review = new User_BookReviewUI(main.frame, book.getBookname(), system);
+				review.setVisible(true);				
+			}
+		} else if (menu == update) {
+			if(checkbox_board.isSelected()) {	
+				String bid = boardlist.get(board_table.getSelectedRow()).getBid();
+				String category = "수정";
+				BoardVO vo = system.board_result(bid);	
+				User_WriteUI ui = new User_WriteUI(bid, category, vo, main.main, main.frame);
+				ui.setVisible(true);				
+			} else if (checkbox_review.isSelected()) {
+				String rid = boardlist.get(board_table.getSelectedRow()).getBid();
+				String category = "수정";
+				User_ReviewWriteUI review = new User_ReviewWriteUI(rid, category, main.frame, book.getBookname(), id, system);
 				review.setVisible(true);				
 			}
 		}

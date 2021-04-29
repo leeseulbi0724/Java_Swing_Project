@@ -50,10 +50,6 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		setLayout(new BorderLayout(0, 0));
 		setResizable(false);
 		setLocationRelativeTo(null);
-		
-//		JLabel Label = new JLabel(" 내 용 확 인 ");
-//		Label.setHorizontalAlignment(SwingConstants.CENTER);
-//		add(Label, BorderLayout.NORTH);
 
 		JPanel write_panel = new JPanel();			
 		write_panel.setBackground(new Color(240, 248, 255));

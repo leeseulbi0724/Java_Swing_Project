@@ -30,22 +30,31 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 	BookSystem system;
 	JTextField title_tf;
 	JTextArea content_ta;
-	String title, content;
-	String bookname, username;
+	String title, content, bookname, username, category, rid;
 	JButton btn_write, btn_cancle;
 	JComboBox comboBox;
 	
 	//Constructor
-	public User_ReviewWriteUI(Window parent, String bookname, String user_name, BookSystem system) {
+	public User_ReviewWriteUI(String category, Window parent, String bookname, String user_name, BookSystem system) {
 		super(parent, "리뷰작성", ModalityType.APPLICATION_MODAL);
+		this.category = category;
 		this.system = system;
 		this.bookname = bookname;
 		this.username = user_name;
 		init();
 	}
+	public User_ReviewWriteUI(String rid, String category, Window parent, String bookname, String user_name, BookSystem system) {
+		super(parent, "리뷰작성", ModalityType.APPLICATION_MODAL);
+		this.category = category;
+		this.system = system;
+		this.bookname = bookname;
+		this.username = user_name;
+		this.rid = rid;
+		init();
+	}
 	
 	public void init() {
-		setBackground(new Color(211, 211, 211));
+		setBackground(new Color(240, 248, 255));
 		setBounds(133, 10, 531, 341);
 		setLayout(new BorderLayout(0, 0));
 		setResizable(false);
@@ -55,7 +64,8 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		Label.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Label, BorderLayout.NORTH);
 
-		JPanel write_panel = new JPanel();			
+		JPanel write_panel = new JPanel();	
+		write_panel.setBackground(new Color(240, 248, 255));
 		add(BorderLayout.CENTER, write_panel);
 		write_panel.setLayout(null);
 		
@@ -81,7 +91,8 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		
 		title_tf.setText(bookname); 
 		
-		JPanel btn_panel = new JPanel();		
+		JPanel btn_panel = new JPanel();	
+		btn_panel.setBackground(new Color(240, 248, 255));
 		btn_write = new JButton("등록");
 		btn_cancle = new JButton("취소");
 		btn_panel.add(btn_write);  		btn_panel.add(btn_cancle);
@@ -115,6 +126,7 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		/** 이벤트 처리 **/
 		btn_cancle.addActionListener(this);			
 		btn_write.addActionListener(this);
+		
 	}
 
 	@Override
@@ -146,12 +158,21 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		} else if (comboBox.getSelectedItem().toString().equals("★★★★★")){
 			score = 5;
 		}
-		vo.setScore(score);		
-		if (system.User_ReviewResult(vo)) {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 작성이 완료되었습니다."));
-			dispose();
-		} else {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 작성이 실패되었습니다."));
+		vo.setScore(score);
+		if (category == "등록") {
+			if (system.User_ReviewResult(vo)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 작성이 완료되었습니다."));
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 작성이 실패되었습니다."));
+			}			
+		} else if (category == "수정") {
+			if (system.User_ReviewUpdate(rid, vo)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 수정이 완료되었습니다."));
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰 수정이 실패되었습니다."));
+			}		
 		}
 	}
 }

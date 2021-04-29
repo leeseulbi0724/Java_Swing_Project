@@ -122,6 +122,10 @@ public class FindPassUI extends JDialog implements ActionListener{
 		idLabel.setFont(Commons.getFont());
 		nameLabel.setFont(Commons.getFont());
 		birthdayLabel.setFont(Commons.getFont());
+		sign_name_tf.setFont(Commons.getFont());
+		sign_birthday_tf.setFont(Commons.getFont());
+		sign_id_tf.setFont(Commons.getFont());
+		find_btn.setFont(Commons.getFont());
 
 	}
 	
