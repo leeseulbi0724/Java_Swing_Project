@@ -141,7 +141,7 @@ public class MemberDAO extends DBConn {
 				result = true;
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제할 수 없는 회원입니다."));
+			
 		} 
 		return result;
 	}
@@ -299,6 +299,25 @@ public class MemberDAO extends DBConn {
 		return result;
 		
 	}	
+	
+	public boolean getUserDelete(String name) {
+		boolean result = false;
+		try {
+			String sql = " DELETE FROM BOOK_USERS WHERE ID = ?";
+			getPreparedStatement(sql);
+			
+			pstmt.setString(1, name);
+			
+			int val = pstmt.executeUpdate();
+			if (val != 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return result;
+	}
 	
 		
 	public void close() {

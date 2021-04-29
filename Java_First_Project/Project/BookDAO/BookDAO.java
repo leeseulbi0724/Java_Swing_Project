@@ -78,7 +78,7 @@ public class BookDAO extends DBConn {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {
 			String sql = " Select BNO,BOOKNAME,AUTHOR,PBLSH,PRICE,PBLSHDATE"
-					 			+ " from BOOK_DATA" + " ORDER BY SDATE DESC";				
+					 			+ " from BOOK_DATA" + " ORDER BY BNO";				
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

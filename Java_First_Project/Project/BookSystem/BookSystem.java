@@ -203,6 +203,10 @@ public class BookSystem {
 			return bdao.getRank();
 		}
 		
+		public boolean User_delete(String name) {
+			return mdao.getUserDelete(name);
+		}
+		
 
 
 }

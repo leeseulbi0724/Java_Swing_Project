@@ -23,7 +23,7 @@ public class User_MyPageUI implements ActionListener {
 	User_MainUI main;
 	JPanel content_panel, main_panel, btn_panel;
 	JFrame frame;
-	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass;
+	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass, btn_del;
 	BookSystem system;
 	String user_name;
 	JPasswordField pass_textField;
@@ -63,6 +63,9 @@ public class User_MyPageUI implements ActionListener {
 		btn_my = new JButton("My이력");
 		btn_panel.add(btn_my);
 		
+		btn_del = new JButton("회원탈퇴");
+		btn_panel.add(btn_del);
+		
 		main_panel = new JPanel(new BorderLayout());
 		main_panel.setBackground(Color.LIGHT_GRAY);
 		main_panel.setBounds(133, 10, 531, 341);
@@ -87,6 +90,7 @@ public class User_MyPageUI implements ActionListener {
 		btn_basket.setBackground(Color.WHITE);
 		btn_order.setBackground(Color.WHITE);
 		btn_my.setBackground(Color.WHITE);
+		btn_del.setBackground(Color.WHITE);
 		
 		btn_pass = new JButton("확인");
 		btn_pass.setBounds(233, 162, 91, 23);
@@ -98,6 +102,7 @@ public class User_MyPageUI implements ActionListener {
 		btn_order.addActionListener(this);
 		btn_my.addActionListener(this);
 		btn_pass.addActionListener(this);
+		btn_del.addActionListener(this);
 		
 		/** 폰트 **/
 		btn_usermodify.setFont(Commons.getFont());
@@ -106,6 +111,7 @@ public class User_MyPageUI implements ActionListener {
 		btn_my.setFont(Commons.getFont());
 		title_label.setFont(Commons.getFont());
 		btn_pass.setFont(Commons.getFont());
+		btn_del.setFont(Commons.getFont());
 		
 		pass_textField.requestFocus();
 		
@@ -170,6 +176,21 @@ public class User_MyPageUI implements ActionListener {
 				} else {
 					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
 				}		
+			} else if (obj.equals(btn_del)) {
+				if (pass_result) {
+					int confirm = JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 탈퇴하시겠습니까?"));
+					if (confirm == 0 ) {
+						if (system.User_delete(user_name)) {
+							JOptionPane.showMessageDialog(null, Commons.getMsg("탈퇴되었습니다"));
+							main.mainPanel.setVisible(false);
+							main.topPanel.setVisible(false);
+							main.main.login_panel.setVisible(true);
+							new LoginUI();
+						}
+					}					
+				} else {
+					JOptionPane.showMessageDialog(null, Commons.getMsg("비밀번호 입력 후 이용가능한 서비스입니다."));
+				}
 			}
 		if (obj.equals(btn_pass)) {
 			if (system.CheckPass(pass_textField.getText(),main.name)) {

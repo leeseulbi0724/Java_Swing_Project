@@ -56,10 +56,11 @@ public class SignUI extends JDialog implements ActionListener {
 		this.ui = ui;
 	}
 	
-	public SignUI(Window parent) {
+	public SignUI(Window parent, BookSystem system) {
 		super(parent,"회원가입",ModalityType.APPLICATION_MODAL);
-		init();
+		this.system = system;
 		ui = new LoginUI();
+		init();
 	}
 	
 	

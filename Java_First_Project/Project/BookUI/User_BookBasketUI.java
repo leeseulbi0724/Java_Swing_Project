@@ -143,7 +143,6 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		vo.setPrice((book.getPrice()));
 		vo.setCount(Integer.parseInt(count_box.getSelectedItem().toString()));	
 		boolean result = system.Basket_check(vo, name);
-		System.out.println(result);
 		if (system.User_Basket(vo, name,result)) {
 			JOptionPane.showMessageDialog(null, Commons.getMsg("선택하신 도서를 장바구니에 담았습니다."));
 			dispose();

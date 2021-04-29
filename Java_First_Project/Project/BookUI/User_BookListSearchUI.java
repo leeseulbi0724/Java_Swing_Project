@@ -3,12 +3,10 @@ package BookUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Window;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
-public class User_BookListSearchUI implements ActionListener, MouseListener  {
+public class User_BookListSearchUI implements ActionListener, MouseListener, KeyListener  {
 
 	JFrame f;
 	JPanel bookViewPanel;
@@ -132,15 +130,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		table.addMouseListener(this);
 		
 		/** 테이블 검색 기능 **/
-		search_tf.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
-				String search = search_tf.getText();
-				TableRowSorter<TableModel> trs = new TableRowSorter<TableModel>(table.getModel());
-				table.setRowSorter(trs);
-				trs.setRowFilter(RowFilter.regexFilter(search));			
-				
-			}
-		});
+		search_tf.addKeyListener(this);
 		
 		/** 테이블 데이터 불러오기 **/
 		Object row[] = new Object[5];
@@ -181,10 +171,10 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		  //선택한 셀의 행 번호계산 
-		  int row = table.getSelectedRow();		  
+		//선택한 셀의 행 번호계산 
+		  int row = table.getSelectedRow();			
 		  //테이블의 모델객체 얻어오기
-		  TableModel data = table.getModel();		  
+		  TableModel data = table.getModel();	
 		  String name = (String)data.getValueAt(row,1);
 		  int price = (int) data.getValueAt(row,4);			  
 		  vo = new BookVO();
@@ -206,6 +196,23 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {	
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+			String search = search_tf.getText();
+			TableRowSorter<TableModel> trs = new TableRowSorter<TableModel>(table.getModel());
+			table.setRowSorter(trs);			
+			trs.setRowFilter(RowFilter.regexFilter(search));			
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

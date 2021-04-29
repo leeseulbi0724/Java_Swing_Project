@@ -95,7 +95,7 @@ public class LoginUI implements ActionListener {
 		sign_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SignUI sign = new SignUI(frame);
+				SignUI sign = new SignUI(frame, system);
 				sign.setVisible(true);
 			}
 		});

@@ -2,24 +2,23 @@ package BookUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import BookDAO.MemberDAO;
 import BookSystem.BookSystem;
 import BookVO.MemberVO;
 import Commons.Commons;
-import oracle.sql.ARRAY;
 
 public class User_MyPage_UsermodifyUI implements ActionListener {
 	User_MyPageUI main;
 	JButton btn_modify_check;
-	JTextField name_text,id_text, birthday_text, password_tf, hp_text, addr_text;
+	JTextField name_text,id_text, birthday_text, hp_text, addr_text;
+	JPasswordField password_tf;
 	BookSystem system;
 	String name;	
 	
@@ -77,7 +76,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		password_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		password_label.setBounds(145, 165, 57, 15);
 		main.content_panel.add(password_label);		
-		password_tf = new JTextField();
+		password_tf = new JPasswordField();
 		password_tf.setColumns(10);
 		password_tf.setBounds(210, 163, 153, 21);
 		main.content_panel.add(password_tf);

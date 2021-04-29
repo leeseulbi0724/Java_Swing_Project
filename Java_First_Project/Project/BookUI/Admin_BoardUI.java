@@ -62,13 +62,12 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	
 	public void board_data() {
 		blist = system.getBoardSelect();
-		String [] colNames = new String [] {"번호","제목","내용","작성자"};
+		String [] colNames = new String [] {"번호","제목","작성자"};
 		Object[][] rowDatas = new Object[blist.size()][colNames.length];
 		 for (int i = 0; i < blist.size(); i++) {
 	            rowDatas[i] = new Object[] {
 	                blist.get(i).getRownum(),
 	                blist.get(i).getTitle(),
-	                blist.get(i).getContent(),
 	                blist.get(i).getId()
 	              
 	            };
@@ -83,12 +82,10 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 		 
 		 board_table.getColumnModel().getColumn(0).setResizable(false);
 	     board_table.getColumnModel().getColumn(0).setPreferredWidth(50);
-	     board_table.getColumnModel().getColumn(1).setResizable(false);
-	     board_table.getColumnModel().getColumn(1).setPreferredWidth(90);
 	     board_table.getColumnModel().getColumn(2).setResizable(false);
-	     board_table.getColumnModel().getColumn(2).setPreferredWidth(270);
-	     board_table.getColumnModel().getColumn(3).setResizable(false);
-	     board_table.getColumnModel().getColumn(3).setPreferredWidth(50);
+	     board_table.getColumnModel().getColumn(2).setPreferredWidth(90);
+	     board_table.getColumnModel().getColumn(1).setResizable(false);
+	     board_table.getColumnModel().getColumn(1).setPreferredWidth(270);
 	     
 	     JScrollPane board_pane = new JScrollPane(board_table);
 		 board_pane.setEnabled(false);
