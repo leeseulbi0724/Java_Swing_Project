@@ -128,6 +128,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener, Key
 		btn_basket.addActionListener(this);
 		btn_review.addActionListener(this);
 		table.addMouseListener(this);
+		table.addKeyListener(this);
 		
 		/** 테이블 검색 기능 **/
 		search_tf.addKeyListener(this);
@@ -199,14 +200,23 @@ public class User_BookListSearchUI implements ActionListener, MouseListener, Key
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {	
-		
+		Object obj = e.getSource();
+		 if (obj.equals(table)) {
+			String name = (String)table.getValueAt(table.getSelectedRow(), 1);
+			int price = (int)table.getValueAt(table.getSelectedRow(), 4);
+			vo.setBookname(name);
+			vo.setPrice(price);					
+		}	
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
+		Object obj = e.getSource();
+		if (obj.equals(search_tf)) {
 			String search = search_tf.getText();
 			TableRowSorter<TableModel> trs = new TableRowSorter<TableModel>(table.getModel());
 			table.setRowSorter(trs);			
-			trs.setRowFilter(RowFilter.regexFilter(search));			
+			trs.setRowFilter(RowFilter.regexFilter(search));				
+		} 
 		
 	}
 	@Override

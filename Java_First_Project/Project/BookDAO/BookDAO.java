@@ -17,15 +17,14 @@ public class BookDAO extends DBConn {
 	public boolean getResultInsert(BookVO vo) {
 		boolean result = false;
 		try {
-			String sql = "Insert Into BOOK_DATA values(?,?,?,?,?,?,SYSDATE)";
+			String sql = "Insert Into BOOK_DATA values(SEQU_BOOK_DATA_BNO.NEXTVAL,?,?,?,?,?,SYSDATE)";
 			getPreparedStatement(sql);
 			
-			pstmt.setInt(1, vo.getBno());
-			pstmt.setString(2, vo.getBookname());
-			pstmt.setString(3, vo.getAuthor());
-			pstmt.setString(4, vo.getPblsh());
-			pstmt.setInt(5, vo.getPrice());
-			pstmt.setString(6, vo.getPblshdate());
+			pstmt.setString(1, vo.getBookname());
+			pstmt.setString(2, vo.getAuthor());
+			pstmt.setString(3, vo.getPblsh());
+			pstmt.setInt(4, vo.getPrice());
+			pstmt.setString(5, vo.getPblshdate());
 			
 			int val = pstmt.executeUpdate();
 			if (val !=0 ) {
