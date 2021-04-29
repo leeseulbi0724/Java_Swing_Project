@@ -21,9 +21,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	JButton btn_modify_check;
 	JTextField name_text,id_text, birthday_text, password_tf, hp_text, addr_text;
 	BookSystem system;
-	String name;
-	MemberDAO mdao = new MemberDAO();
-	
+	String name;	
 	
 	public User_MyPage_UsermodifyUI(User_MyPageUI main) {
 		this.main = main;
@@ -42,9 +40,9 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		name_text = new JTextField();
 		id_text = new JTextField();
 		birthday_text = new JTextField();
-		name_text.setText(mdao.MemberInfo(main.user_name).getName());
-		id_text.setText(mdao.MemberInfo(main.user_name).getId());
-		birthday_text.setText(mdao.MemberInfo(main.user_name).getBirthday());
+		name_text.setText(system.MemberInfo(main.user_name).getName());
+		id_text.setText(system.MemberInfo(main.user_name).getId());
+		birthday_text.setText(system.MemberInfo(main.user_name).getBirthday());
 		
 		JLabel name_label = new JLabel("¿Ã∏ß");
 		name_label.setHorizontalAlignment(SwingConstants.RIGHT);

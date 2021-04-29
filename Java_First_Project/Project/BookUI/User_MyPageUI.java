@@ -24,19 +24,17 @@ public class User_MyPageUI implements ActionListener {
 	JPanel content_panel, main_panel, btn_panel;
 	JFrame frame;
 	JButton btn_usermodify, btn_basket, btn_order, btn_my, btn_pass;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	String user_name;
 	JPasswordField pass_textField;
-	boolean pass_result = false;
-	MemberDAO mdao = new MemberDAO();
-	
-	
+	boolean pass_result = false;	
 	
 	
 	public User_MyPageUI(User_MainUI main) {
 		this.frame = main.f;
 		this.main = main;
 		this.user_name = main.name;
+		this.system = main.system;
 		init();
 	}
 	
@@ -59,7 +57,7 @@ public class User_MyPageUI implements ActionListener {
 		btn_basket = new JButton("장바구니");
 		btn_panel.add(btn_basket);
 		
-		btn_order = new JButton("주문조회");
+		btn_order = new JButton("주문내역");
 		btn_panel.add(btn_order);
 		
 		btn_my = new JButton("My이력");
@@ -174,7 +172,7 @@ public class User_MyPageUI implements ActionListener {
 				}		
 			}
 		if (obj.equals(btn_pass)) {
-			if (mdao.CheckPass(pass_textField.getText(),main.name)) {
+			if (system.CheckPass(pass_textField.getText(),main.name)) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("회원인증이 완료되었습니다."));
 				switching(Information);		
 				pass_result = true;
@@ -254,11 +252,11 @@ public class User_MyPageUI implements ActionListener {
 		title_label.setFont(Commons.getFont());
 		
 		/** 회원정보 **/
-		name_text.setText(mdao.MemberInfo(main.name).getName());
-		id_text.setText(mdao.MemberInfo(main.name).getId());
-		birthday_text.setText(mdao.MemberInfo(main.name).getBirthday());
-		hp_text.setText(mdao.MemberInfo(main.name).getHp());
-		addr_text.setText(mdao.MemberInfo(main.name).getAddr());
+		name_text.setText(system.MemberInfo(main.name).getName());
+		id_text.setText(system.MemberInfo(main.name).getId());
+		birthday_text.setText(system.MemberInfo(main.name).getBirthday());
+		hp_text.setText(system.MemberInfo(main.name).getHp());
+		addr_text.setText(system.MemberInfo(main.name).getAddr());
 		
 		name_text.setBackground(Color.LIGHT_GRAY);
 		id_text.setBackground(Color.LIGHT_GRAY);

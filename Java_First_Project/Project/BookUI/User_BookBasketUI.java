@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -34,15 +35,15 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	String name;
 	ArrayList<MemberVO> list;
 	
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	
 	//Constructor
-	public User_BookBasketUI(Window parent, BookVO book, String name) {
+	public User_BookBasketUI(Window parent, BookVO book, String name, BookSystem system) {
 		super(parent,"장바구니",ModalityType.APPLICATION_MODAL);
+		this.system= system;
 		this.name = name;
 		this.book = book;
-		init();
-		login = new LoginUI();	
+		init();		
 		
 	}
 	
@@ -52,7 +53,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 	public void init() {
 		
 		JPanel basketPanel = new JPanel();
-		setBounds(100, 100, 530, 540);
+		setBounds(100, 100, 530, 560);
 		getContentPane().setLayout(null);
 		basketPanel.setBackground(Color.WHITE);
 		basketPanel.setBounds(0, 0, 530, 540);
@@ -93,10 +94,23 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		buyCancel_btn.setBackground(Color.PINK);
 		basketPanel.add(buyCancel_btn);
 		
-		JLabel lblNewLabel = new JLabel("장바구니");
+		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon("images/cart.png"));
 		lblNewLabel.setBounds(126, 10, 249, 53);
+		
+		JLabel name_label = new JLabel("   장바구니");
+		name_label.setHorizontalAlignment(SwingConstants.CENTER);
+		name_label.setBounds(126, 55, 249, 53);		
+		
+		JLabel logo_label = new JLabel();
+		logo_label.setHorizontalAlignment(SwingConstants.CENTER);
+		logo_label.setIcon(new ImageIcon("images/Backlogo.png"));
+		logo_label.setBounds(126, 240, 249, 200);	
+		
 		basketPanel.add(lblNewLabel);
+		basketPanel.add(name_label);
+		basketPanel.add(logo_label);
 		
 		/** 폰트설정 **/
 		count_box.setFont(Commons.getFont());
@@ -105,6 +119,7 @@ public class User_BookBasketUI extends JDialog implements ActionListener{
 		buyIt_btn.setFont(Commons.getFont());
 		buyCancel_btn.setFont(Commons.getFont());
 		lblNewLabel.setFont(Commons.getFont());
+		name_label.setFont(Commons.getFont(14,"BOLD"));
 		
 		/** 버튼 이벤트 **/
 		buyCancel_btn.addActionListener(this);

@@ -24,9 +24,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 	
 	//Field
 	User_MainUI main;
-	LoginUI login = new LoginUI();
-	BoardVO vo = new BoardVO();
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	JTextField title_tf, comment_tf;
 	JTextArea content_ta, comment_ta;
 	String title, content;
@@ -35,8 +33,9 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 	Admin_BoardUI ui;
 	
 	//Constructor
-	public User_Board_ContentUI(BoardVO vo, String name, Window parent) {
+	public User_Board_ContentUI(BoardVO vo, String name, Window parent, BookSystem system) {
 		super(parent, "게시글 내용", ModalityType.APPLICATION_MODAL);
+		this.system = system;
 		this.title = vo.getTitle();
 		this.content = vo.getContent();
 		this.bid = vo.getBid();
@@ -57,6 +56,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 //		add(Label, BorderLayout.NORTH);
 
 		JPanel write_panel = new JPanel();			
+		write_panel.setBackground(new Color(240, 248, 255));
 		add(BorderLayout.CENTER, write_panel);
 		write_panel.setLayout(null);
 		

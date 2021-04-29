@@ -19,10 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import BookSystem.BookSystem;
 import BookVO.BookVO;
@@ -39,7 +41,7 @@ public class Admin_DeleteUI implements ActionListener{
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
 	String boxname;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	
 	Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
 	JTable book_table = new JTable();
@@ -55,7 +57,6 @@ public class Admin_DeleteUI implements ActionListener{
 	}
 	public void init() {	
 		main.switching(Admin_MainUI.Delete);
-		
 		bottom_panel = new JPanel();
 		bottom_panel.setBackground(new Color(176, 196, 222));
 		bottom_panel.setBounds(192, 439, 535, 41);
@@ -159,6 +160,13 @@ public class Admin_DeleteUI implements ActionListener{
 		book_pane.setEnabled(false);
 		scrollPane.setViewportView(book_pane);	
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
+		
+		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			TableColumnModel tcmSchedule = book_table.getColumnModel();
+			for (int i = 0; i < tcmSchedule.getColumnCount()-1; i++) {
+				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+			}
         
         /** 테이블 색 설정 **/
 		JTableHeader head = book_table.getTableHeader();

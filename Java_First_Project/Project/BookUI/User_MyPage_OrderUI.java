@@ -30,7 +30,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
 	Object[] row = new Object[7];
 	JTable board_table = new JTable(model);
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	JButton btn_review;
 	String bookname, user_name;
 	
@@ -110,7 +110,7 @@ public class User_MyPage_OrderUI implements ActionListener, MouseListener{
 		if (obj.equals(btn_review)) {
 			if (system.ReviewCheck(bookname, user_name)) {
 				if (bookname != null) {
-					User_ReviewWriteUI rw = new User_ReviewWriteUI(main.frame, bookname, user_name);
+					User_ReviewWriteUI rw = new User_ReviewWriteUI(main.frame, bookname, user_name, system);
 					rw.setVisible(true);				
 				} else {
 					JOptionPane.showMessageDialog(null, Commons.getMsg("리뷰를 작성하실 주문서를 클릭해주세요."));

@@ -1,26 +1,20 @@
 package BookUI;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Window;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import BookDAO.MemberDAO;
-import BookVO.MemberVO;
+import BookSystem.BookSystem;
 import Commons.Commons;
 
 public class FindPassUI extends JDialog implements ActionListener{
@@ -36,18 +30,22 @@ public class FindPassUI extends JDialog implements ActionListener{
 	JButton find_btn, temp_check_btn;
 	String tmp_pass;
 	JLabel temp_pass_label;
-	MemberDAO dao = new MemberDAO();
+	
+	BookSystem system;
+	
 //	ArrayList<JTextField> tf_list;
 	FindPassUIEvent eventObj = new FindPassUIEvent(this);
 	
 	//Constructor
 	public FindPassUI(LoginUI ui) {
+		this.system = ui.system;
 		this.ui = ui;
 	}
 	
-	public FindPassUI(Window parent) {
-		super(parent,"비밀번호 찾기",ModalityType.APPLICATION_MODAL);
+	public FindPassUI(Window parent, BookSystem system) {
+		super(parent,"비밀번호 찾기",ModalityType.APPLICATION_MODAL);		
 		init();
+		this.system = system;
 		ui = new LoginUI();
 	}
 	
@@ -132,7 +130,7 @@ public class FindPassUI extends JDialog implements ActionListener{
 		Object obj = e.getSource();
 		if(obj == find_btn) {
 			//이름,생년월일,아이디 인증
-			if(dao.CheckInfo(sign_name_tf.getText(), sign_birthday_tf.getText(), sign_id_tf.getText())) {
+			if(system.CheckInfo(sign_name_tf.getText(), sign_birthday_tf.getText(), sign_id_tf.getText())) {
 				
 				JOptionPane.showMessageDialog(null, Commons.getMsg("임시 비밀번호를 제공합니다."));
 				find_panel.setVisible(false);

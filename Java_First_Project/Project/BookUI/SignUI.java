@@ -44,12 +44,15 @@ public class SignUI extends JDialog implements ActionListener {
 	ArrayList<Object> list = new ArrayList<Object>();
 	Admin_MainUI main;
 	JButton check_id_btn;
-	MemberDAO dao = new MemberDAO();
+	
+	BookSystem system;
+
 	
 	boolean flag = false;
 	
 	//Constructor
 	public SignUI(LoginUI ui) {
+		this.system = ui.system;
 		this.ui = ui;
 	}
 	
@@ -212,7 +215,7 @@ public class SignUI extends JDialog implements ActionListener {
 			}
 		} else if(obj == check_id_btn) {
 			//중복확인 버튼 액션
-			if(dao.CheckID(sign_id_tf.getText())) {
+			if(system.CheckID(sign_id_tf.getText())) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("사용중인 ID입니다."));
 				sign_id_tf.setText("");
 			}else {

@@ -20,8 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import BookDAO.BoardDAO;
 import BookSystem.BookSystem;
@@ -34,13 +36,13 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	User_MainUI ui;
 	JScrollPane scrollPane;
 	ArrayList<BoardVO> blist;
-	BookSystem system = new BookSystem();
-	BoardDAO bdao = new BoardDAO();
+	BookSystem system;
 	JTable board_table;
 	String name = "관리자";
 	User_Board_ContentUI user;
 	
 	public Admin_BoardUI(Admin_MainUI main) {
+		this.system = main.system;
 		this.main = main;
 		this.frame = main.frame;
 		init();
@@ -59,7 +61,7 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	}
 	
 	public void board_data() {
-		blist = bdao.getBoardSelect();
+		blist = system.getBoardSelect();
 		String [] colNames = new String [] {"번호","제목","내용","작성자"};
 		Object[][] rowDatas = new Object[blist.size()][colNames.length];
 		 for (int i = 0; i < blist.size(); i++) {
@@ -100,6 +102,13 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 		 head.setForeground(new Color(255,255,255));		
 		 board_table.setFont(Commons.getFont());
 		 board_table.addMouseListener(this);
+		 
+		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			TableColumnModel tcmSchedule = board_table.getColumnModel();
+			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+			}
 		
 	}
 	
@@ -113,7 +122,7 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 			
 			String bid = blist.get(board_table.getSelectedRow()).getBid();
 			BoardVO vo = system.board_result(bid);	
-			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
+			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame, system);
 			ui.setVisible(true);
 		}			
 	}

@@ -33,12 +33,13 @@ public class User_BoardUI implements ActionListener, MouseListener {
 	User_MainUI main;
 	JPanel content_panel;
 	JButton btn_write;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	JTable board_table;
 	ArrayList<BoardVO> list;
 	String name;
 	
 	public User_BoardUI(User_MainUI main) {
+		this.system = main.system;
 		this.main = main;
 		this.frame = main.f;
 		this.name = main.name;
@@ -130,7 +131,7 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		if (e.getButton() == 1 ) { // 한번 클릭  
 			  String bid = list.get(board_table.getSelectedRow()).getBid();
 			  BoardVO vo = system.board_result(bid);	
-			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame);
+			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame, system);
 			ui.setVisible(true);
 		}			
 	}

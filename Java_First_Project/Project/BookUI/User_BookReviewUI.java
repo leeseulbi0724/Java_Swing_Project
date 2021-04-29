@@ -33,11 +33,12 @@ public class User_BookReviewUI extends JDialog{
 	LoginUI login;
 	String bookname;
 	JTable review_table;
-	BookSystem system = new BookSystem();	
+	BookSystem system;
 
 	//Constructor
-	public User_BookReviewUI(Window parent, String bookname) {		
+	public User_BookReviewUI(Window parent, String bookname, BookSystem system) {		
 		super(parent, "Ã¥ ¸®ºä", ModalityType.APPLICATION_MODAL);
+		this.system = system;
 		this.bookname = bookname;
 		ReviewCreate();
 	}	

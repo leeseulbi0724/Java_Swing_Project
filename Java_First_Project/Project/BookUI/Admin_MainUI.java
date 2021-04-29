@@ -17,8 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import BookSystem.BookSystem;
 import BookVO.BookVO;
@@ -35,7 +37,7 @@ public class Admin_MainUI  implements ActionListener {
 	JTable book_table;
 	Object row[];
 	ArrayList<Object> bookname_list = new ArrayList<Object>();
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	
 	public static final int home = 0;
 	public static final int Insert = 1;
@@ -45,6 +47,7 @@ public class Admin_MainUI  implements ActionListener {
 	
 	
 	public Admin_MainUI(LoginUI main) {
+		this.system = main.system;
 		this.main = main;
 		this.frame = main.frame;
 		init();
@@ -143,6 +146,13 @@ public class Admin_MainUI  implements ActionListener {
 		JTableHeader head = book_table.getTableHeader();
 		head.setBackground(new Color(173, 216, 230));
 		head.setForeground(new Color(255,255,255));		
+		
+		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			TableColumnModel tcmSchedule = book_table.getColumnModel();
+			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+			}
 		
 		
 		/** 테이블에 DB 데이터 넣기 **/

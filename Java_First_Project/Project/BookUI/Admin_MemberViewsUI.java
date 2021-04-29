@@ -20,10 +20,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import BookDAO.MemberDAO;
 import BookSystem.BookSystem;
@@ -37,7 +39,6 @@ public class Admin_MemberViewsUI implements ActionListener {
 	Admin_MainUI main;
 	LoginUI ui;
 	ArrayList<MemberVO> list;
-	ArrayList<MemberVO> slist;
 	JButton btn_search;
 	JPanel bottom_panel;
 	JComboBox comboBox;
@@ -47,7 +48,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	JScrollPane scrollPane, member_pane, search_pane;
 	JTable member_table;
 	Object row[];
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	MemberDAO mdao = new MemberDAO();
 
 	
@@ -55,7 +56,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	static final int SEARCH = 2;
 	
 	public Admin_MemberViewsUI(Admin_MainUI main) {
-		
+		this.system = main.system;
 		this.main = main;
 		this.frame = main.frame;
 		init();
@@ -105,7 +106,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 		bottom_label.setFont(Commons.getFont());
 		comboBox.setFont(Commons.getFont());
 		btn_search.setFont(Commons.getFont());
-		search_tf.setFont(Commons.getFont());
+		search_tf.setFont(Commons.getFont());	
 
 		member_data();
 		
@@ -113,8 +114,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	}
 	
 	public void member_data() {
-		
-		list = mdao.getResultSelect();
+		list = system.getResultSelect();
 		String [] colNames = new String [] {"번호","아이디","패스워드","이름","생년월일","HP","주소","삭제"};
 		Object[][] rowDatas = new Object[list.size()][colNames.length];
 		 for (int i = 0; i < list.size(); i++) {
@@ -157,27 +157,28 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(7).setResizable(false);
 	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);	   
 	     
-//		member_pane.setEnabled(false);		
-//		member_pane = new JScrollPane(member_table);
 	     member_pane.setViewportView(member_table);
 	     scrollPane.setViewportView(member_pane);	  
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		main.content_panel.setVisible(true);
-	    
+		
+			    
 		/** 테이블 색 설정 **/
 		JTableHeader head = member_table.getTableHeader();
 		head.setBackground(new Color(173, 216, 230));
 		head.setForeground(new Color(255,255,255));		
 		member_table.setFont(Commons.getFont());
+		
+		table_sort();
 
 		}
 	
 	//검색
     public void searchList() {
-        slist = mdao.search(comboBox.getSelectedItem().toString(),search_tf.getText());
+        list = system.search(comboBox.getSelectedItem().toString(),search_tf.getText());
         String [] colNames = new String [] {"번호","아이디","패스워드","이름","생년월일","HP","주소","삭제"};
-        Object[][] rowDatas = new Object[slist.size()][colNames.length];             
-        for (MemberVO member : slist) {
+        Object[][] rowDatas = new Object[list.size()][colNames.length];             
+        for (MemberVO member : list) {
             rowDatas[0] = new Object[] {            		
             		member.getRno(),
             		member.getId(),
@@ -216,13 +217,7 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(6).setPreferredWidth(140);
 	     member_table.getColumnModel().getColumn(7).setResizable(false);
 	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);	    
-	    
-//		JScrollPane search_pane = new JScrollPane(member_table);
-//		search_pane.setEnabled(false);
-//		JScrollPane scrollPane = new JScrollPane();
-//		scrollPane.setViewportView(search_pane);
-//	    member_pane.setEnabled(false);
-		
+	    		
 	    member_pane.setViewportView(member_table);
 	    scrollPane.setViewportView(member_pane);		
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
@@ -234,7 +229,19 @@ public class Admin_MemberViewsUI implements ActionListener {
 		head.setForeground(new Color(255,255,255));		
 		member_table.setFont(Commons.getFont());
 		
+		table_sort();
+		
     }    
+    
+    public void table_sort() {
+    	 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			TableColumnModel tcmSchedule = member_table.getColumnModel();
+			for (int i = 0; i < tcmSchedule.getColumnCount()-1; i++) {
+				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+			}
+    }
+    
   //검색 이벤트 처리
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -242,7 +249,6 @@ public class Admin_MemberViewsUI implements ActionListener {
     	
     	if(obj == btn_search || obj == search_tf) {
     		if(search_tf.getText().equals("")) {
-//    			init();
     			member_data();
     		}else {
     			searchList();
@@ -266,10 +272,12 @@ public class Admin_MemberViewsUI implements ActionListener {
 	            	if(name.equals("삭제")){
 	            		int confirm=JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 삭제하시겠습니까?"));
 		            	if(confirm==0) {	            		
-		            		if(option == Admin_MemberViewsUI.LIST) {
+		            		if(option == Admin_MemberViewsUI.LIST || option == Admin_MemberViewsUI.SEARCH) {
 		            			boolean result = mdao.delete(mlist.list.get(mlist.member_table.getSelectedRow()).getId());	
 		            			if (result) {
 		            				JOptionPane.showMessageDialog(null, Commons.getMsg("회원이 삭제되었습니다"));
+		            				Admin_MemberViewsUI ui = new Admin_MemberViewsUI(main);
+		            				ui.init();
 		            			}          			
 		            			
 		            		}

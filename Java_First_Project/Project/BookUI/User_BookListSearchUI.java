@@ -47,9 +47,10 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 	JButton btn_basket, btn_review;
 	BookVO vo;
 	String name;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	
 	public User_BookListSearchUI(User_MainUI main) {
+		this.system = main.system;
 		this.name = main.name;
 		this.main = main;
 		this.f=main.f;
@@ -83,7 +84,7 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		JPanel title_panel = new JPanel();
 		JLabel title_label = new JLabel("도 서 전 체 리 스 트");
 		title_panel.add(title_label);
-		top_panel.add(BorderLayout.NORTH, title_panel);				
+		top_panel.add(BorderLayout.NORTH, title_panel);			
 		
 		JPanel search_panel = new JPanel();
 		search_panel.add(lblNewLabel);		search_panel.add(search_tf);
@@ -136,7 +137,8 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 				String search = search_tf.getText();
 				TableRowSorter<TableModel> trs = new TableRowSorter<TableModel>(table.getModel());
 				table.setRowSorter(trs);
-				trs.setRowFilter(RowFilter.regexFilter(search));
+				trs.setRowFilter(RowFilter.regexFilter(search));			
+				
 			}
 		});
 		
@@ -163,14 +165,14 @@ public class User_BookListSearchUI implements ActionListener, MouseListener  {
 		Object obj = e.getSource();
 		if (obj.equals(btn_basket)) {
 			if (vo != null ) {
-				User_BookBasketUI basket = new User_BookBasketUI(f, vo, name);
+				User_BookBasketUI basket = new User_BookBasketUI(f, vo, name, system);
 				basket.setVisible(true);
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));
 			}			
 		} else if (obj.equals(btn_review)) {
 			if (vo != null) {
-				User_BookReviewUI review = new User_BookReviewUI(f, vo.getBookname());
+				User_BookReviewUI review = new User_BookReviewUI(f, vo.getBookname(), system);
 				review.setVisible(true);				
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("책을 선택해주세요"));

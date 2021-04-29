@@ -298,8 +298,7 @@ public class MemberDAO extends DBConn {
 		
 		return result;
 		
-	}
-	
+	}	
 	
 		
 	public void close() {

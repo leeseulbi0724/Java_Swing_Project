@@ -27,7 +27,7 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 	//Field
 	User_MainUI main;
 	LoginUI login;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	JTextField title_tf;
 	JTextArea content_ta;
 	String title, content;
@@ -36,8 +36,9 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 	JComboBox comboBox;
 	
 	//Constructor
-	public User_ReviewWriteUI(Window parent, String bookname, String user_name) {
+	public User_ReviewWriteUI(Window parent, String bookname, String user_name, BookSystem system) {
 		super(parent, "∏Æ∫‰¿€º∫", ModalityType.APPLICATION_MODAL);
+		this.system = system;
 		this.bookname = bookname;
 		this.username = user_name;
 		init();

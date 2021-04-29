@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import BookDAO.BookDAO;
+import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -32,6 +33,7 @@ public class User_BookRecommendUI implements ActionListener {
 		public boolean flag;
 		//User_BookReviewUI에서 book1, book2 구별
 		static boolean tag;
+		BookSystem system;
 		
 		
 		
@@ -39,6 +41,7 @@ public class User_BookRecommendUI implements ActionListener {
 		
 		public User_BookRecommendUI(User_MainUI main,boolean flag){
 			this.name = main.name;
+			this.system = main.system;
 			this.main = main;
 			this.f= main.f;
 			this.flag=flag;
@@ -80,15 +83,15 @@ public class User_BookRecommendUI implements ActionListener {
 			Object obj = e.getSource();
 			if(obj==lookReview_btn) { //리뷰버튼
 				flag = false;
-				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText());		
+				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText(),system);		
 				review.setVisible(true);
 			}else if(obj==lookReview_btn2) {
 				flag = true;
-				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText());
+				User_BookReviewUI review = new User_BookReviewUI(f, bookName_tf.getText(),system);
 				review.setVisible(true);
 			}
 			else if(obj==putIn_btn) { //장바구니버튼
-				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name);
+				User_BookBasketUI basket1 = new User_BookBasketUI(f, book, name, system);
 				basket1.setVisible(true);
 			}
 		}

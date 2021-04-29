@@ -11,7 +11,7 @@ import BookVO.MemberVO;
 
 public class BookSystem {
 		//Field
-		MemberDAO mdao = new MemberDAO();			
+		public MemberDAO mdao = new MemberDAO();			
 		BookDAO bdao = new BookDAO();
 		BoardDAO adao = new BoardDAO();
 		
@@ -22,7 +22,7 @@ public class BookSystem {
 		
 		//Method
 		/** 관리자 - 도서등록 **/
-		public boolean Admin_Insert(BookVO vo) {				
+		public boolean Admin_Insert(BookVO vo) {			
 			return bdao.getResultInsert(vo);
 		}
 		
@@ -165,5 +165,44 @@ public class BookSystem {
 		public ArrayList<BookVO> Admin_Count(ArrayList<String> list) {
 			return bdao.getCount(list);
 		}
+		
+		/** 사용자 - 회원가입 **/
+		public boolean CheckID(String name) {
+			return mdao.CheckID(name);
+		}
+		
+		/** **/
+		public boolean CheckInfo(String name, String birthday, String id) {
+			return mdao.CheckInfo(name, birthday, id);
+		}
+		
+		/** **/
+		public ArrayList<BoardVO> getBoardSelect() {
+			return adao.getBoardSelect();
+		}
+		
+		/** **/
+		public ArrayList<MemberVO> getResultSelect() {
+			return mdao.getResultSelect();
+		}
+		
+		/** **/
+		public ArrayList<MemberVO> search(String combo, String name) {
+			return mdao.search(combo, name);
+		}
+		
+		public MemberVO MemberInfo(String name) {
+			return mdao.MemberInfo(name);
+		}
+		
+		public boolean CheckPass(String pass, String name) {
+			return mdao.CheckPass(pass, name);
+		}
+		
+		public ArrayList<BookVO> getRank() {
+			return bdao.getRank();
+		}
+		
+
 
 }

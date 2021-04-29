@@ -38,7 +38,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	JTable board_table = new JTable(model);
 	Object[] row = new Object[5];
 	String id;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	int rowrow;
 	BoardVO vo;
 	ArrayList<BoardVO> boardlist;
@@ -49,6 +49,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
 		super();		
+		this.system = main.system;
 		this.main = main;
 		this.id = main.user_name;
 		init();
@@ -245,10 +246,10 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 			if(checkbox_board.isSelected()) {
 				String bid = boardlist.get(board_table.getSelectedRow()).getBid();
 				BoardVO vo = system.board_result(bid);	
-				User_Board_ContentUI ui = new User_Board_ContentUI(vo, id, main.frame);
+				User_Board_ContentUI ui = new User_Board_ContentUI(vo, id, main.frame, system);
 				ui.setVisible(true);				
 			} if(checkbox_review.isSelected()) {				
-				User_BookReviewUI review = new User_BookReviewUI(main.frame, book.getBookname());
+				User_BookReviewUI review = new User_BookReviewUI(main.frame, book.getBookname(), system);
 				review.setVisible(true);				
 			}
 		}

@@ -28,11 +28,12 @@ public class User_WriteUI implements ActionListener {
 	JTextField title_tf;
 	JTextArea content_ta;
 	String name, boxname;
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	
 	public User_WriteUI(User_MainUI main) {
 		this.main = main;
 		this.name = main.name;
+		this.system = main.system;
 		init();
 	}
 	

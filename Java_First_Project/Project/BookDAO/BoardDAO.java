@@ -380,5 +380,15 @@ public class BoardDAO extends DBConn {
 		return list;
 	}
 	
+	public void close() {
+		try {
+			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

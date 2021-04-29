@@ -40,7 +40,7 @@ public class LoginUI implements ActionListener {
 	 JLabel lblNewLabel;
 	 JPanel main_panel;
 	 BookSystem system = new BookSystem();
-	 MemberVO member = new MemberVO();
+	 
 	
 	
 	//Constructor
@@ -86,7 +86,7 @@ public class LoginUI implements ActionListener {
 		login_btn.setFocusPainted(false);
 //		login_btn.setOpaque(false);
 		
-		JButton sign_btn = new JButton("회원가입");
+		JButton sign_btn = new RoundedButton("회원가입");
 		sign_btn.setBackground(Color.WHITE);
 		sign_btn.setBorderPainted( false );
 		sign_btn.setBounds(33, 438, 125, 23);
@@ -100,7 +100,7 @@ public class LoginUI implements ActionListener {
 			}
 		});
 		
-		JButton findPassword_btn = new JButton("비밀번호 찾기");
+		JButton findPassword_btn = new RoundedButton("비밀번호 찾기");
 		findPassword_btn.setBackground(Color.WHITE);
 		findPassword_btn.setBorderPainted( false );
 		findPassword_btn.setBounds(184, 438, 125, 23);
@@ -109,7 +109,7 @@ public class LoginUI implements ActionListener {
 		findPassword_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FindPassUI find = new FindPassUI(frame);
+				FindPassUI find = new FindPassUI(frame, system);
 				find.setVisible(true);
 			}
 		});

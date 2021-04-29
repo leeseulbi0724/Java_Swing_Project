@@ -39,7 +39,7 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 	DefaultTableModel model = new DefaultTableModel(colName, 0);
 	Object[] row = new Object[3];
 	JTable board_table = new JTable(model);
-	BookSystem system = new BookSystem();
+	BookSystem system;
 	BookVO vo;
 	String bookname, userid;
 	JButton btn_order, btn_all_order;

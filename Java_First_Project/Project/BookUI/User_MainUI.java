@@ -9,8 +9,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -34,6 +32,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import BookDAO.BookDAO;
+import BookSystem.BookSystem;
 import BookVO.BookVO;
 import Commons.Commons;
 
@@ -58,6 +57,8 @@ public class User_MainUI implements ActionListener{
 	JScrollPane scrollPane;
 	public boolean flag;
 	
+	BookSystem system;
+	
 	DefaultTableModel model;
 	JTable rank_table;
 	
@@ -68,10 +69,11 @@ public class User_MainUI implements ActionListener{
 	public static final int MYPAGE = 5;
 	private static final Object[][]  Object = null;	
 	
-	BookDAO bdao = new BookDAO();
+
 	
 	//Constructor	
 	public User_MainUI(LoginUI main, String name) {
+		this.system = main.system;
 		this.main = main;
 		this.f = main.frame;
 		this.name = name;
@@ -259,7 +261,7 @@ public class User_MainUI implements ActionListener{
 		content_panel.add(Label_03);
 		JLabel Label_04 = new JLabel();
 		Label_04.setBounds(0, 0, 201, 79);
-		Label_04.setIcon(new ImageIcon("images/BOOK_S.PNG"));
+		Label_04.setIcon(new ImageIcon("images/BOOk_S.PNG"));
 		content_panel.add(Label_04);		
 		
 	
@@ -297,7 +299,7 @@ public class User_MainUI implements ActionListener{
 
 	public void user_order_rank() {
 		model.setRowCount(0);
-		ArrayList<BookVO> list = bdao.getRank();		
+		ArrayList<BookVO> list = system.getRank();		
 		Object row[];
 		for (BookVO b : list) {
 			row = new Object[3];
