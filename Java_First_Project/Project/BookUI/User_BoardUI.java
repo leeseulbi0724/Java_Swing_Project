@@ -84,6 +84,7 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		
 		/** 폰트설정 **/
 		label_board.setFont(Commons.getFont(25));
+		board_table.setFont(Commons.getFont());
 		btn_write.setFont(Commons.getFont());	
 		
 		/** 컬럼 길이조절, 가운데정렬 **/

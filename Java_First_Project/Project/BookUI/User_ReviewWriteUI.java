@@ -127,6 +127,8 @@ public class User_ReviewWriteUI extends JDialog implements ActionListener{
 		btn_cancle.addActionListener(this);			
 		btn_write.addActionListener(this);
 		
+		JOptionPane.showMessageDialog(null, Commons.getMsg("좋은 한줄평 부탁드립니다!"));
+		
 	}
 
 	@Override

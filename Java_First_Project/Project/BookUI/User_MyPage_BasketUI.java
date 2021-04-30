@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -45,6 +47,9 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 	JButton btn_order, btn_all_order;
 	int count;
 	int all_price = 0;
+	
+	JPopupMenu popupMenu;
+	JMenuItem remove;
 	
 	ArrayList<BookVO> list = new ArrayList<BookVO>();
 
@@ -107,12 +112,19 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		
 		button_panel.add(btn_order);
 		
+		 popupMenu = new JPopupMenu();		  
+		 remove = new JMenuItem("삭제하기");
+		 remove.addActionListener(this);
+         popupMenu.add(remove);         
+         board_table.setComponentPopupMenu(popupMenu);         
+		
 		
 		/** 폰트 **/
 		board_table.setFont(Commons.getFont());
 		scrollPane.setFont(Commons.getFont());
 		btn_order.setFont(Commons.getFont());
 		price_lb.setFont(Commons.getFont());
+		remove.setFont(Commons.getFont());
 		
 		/** 테이블 헤더 설정 **/
 		JTableHeader head = board_table.getTableHeader();
@@ -169,6 +181,18 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		}
 	}	
 	
+	/** 장바구니 삭제 **/
+	public void Order_remove() {
+		if (bookname != null) {
+			if (system.User_Basket_Delete(userid, vo)) {
+				JOptionPane.showMessageDialog(null, Commons.getMsg("선택한 도서의 주문이 삭제되었습니다."));	
+				new User_MyPage_BasketUI(main);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, Commons.getMsg("삭제 하실 도서를 선택해주세요."));
+		}
+	}
+	
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -195,9 +219,12 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JMenuItem menu = (JMenuItem) e.getSource();
 		Object obj = e.getSource();
 		if (obj.equals(btn_order)) {
 			Order_proc();
+		} else if (menu == remove) {
+			Order_remove();
 		}
 		
 	}			

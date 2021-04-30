@@ -100,7 +100,7 @@ public class Admin_MainUI  implements ActionListener {
 		content_panel = new JPanel();
 		content_panel.setBackground(SystemColor.activeCaption);
 		content_panel.setBounds(192, 98, 535, 331);
-		Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "판매수량"};
+		Object[] header = {"번호", "도서명", "저자", "출판사", "가격", "발행일", "수량"};
 		model = new DefaultTableModel(header, 0);
 		content_panel.setLayout(new BorderLayout(0, 0));
 		
@@ -153,6 +153,13 @@ public class Admin_MainUI  implements ActionListener {
 			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
 				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
 			}
+			book_table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			book_table.getColumnModel().getColumn(1).setPreferredWidth(150);
+			book_table.getColumnModel().getColumn(2).setPreferredWidth(30);
+			book_table.getColumnModel().getColumn(3).setPreferredWidth(30);
+			book_table.getColumnModel().getColumn(4).setPreferredWidth(30);
+			book_table.getColumnModel().getColumn(5).setPreferredWidth(40);
+			book_table.getColumnModel().getColumn(6).setPreferredWidth(20);
 		
 		
 		/** 테이블에 DB 데이터 넣기 **/

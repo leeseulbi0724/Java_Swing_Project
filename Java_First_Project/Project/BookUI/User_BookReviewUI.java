@@ -50,7 +50,7 @@ public class User_BookReviewUI extends JDialog{
 	}
 	
 	public void ReviewCreate() {
-		setBounds(0, 188, 491, 250);
+		setBounds(0, 188, 600, 250);
 		getContentPane().setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
 		setResizable(false);

@@ -43,7 +43,7 @@ public class Admin_DeleteUI implements ActionListener{
 	String boxname;
 	BookSystem system;
 	
-	Object[] header = {"도서번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
+	Object[] header = {"번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
 	JTable book_table = new JTable();
 	JScrollPane book_pane = new JScrollPane(book_table);	
 	JScrollPane scrollPane = new JScrollPane();		
@@ -157,6 +157,14 @@ public class Admin_DeleteUI implements ActionListener{
 		 book_table.getColumnModel().getColumn(4).setResizable(false);
 		 book_table.getColumnModel().getColumn(5).setResizable(false);
 		 book_table.getColumnModel().getColumn(6).setResizable(false);
+		 
+		book_table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		book_table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		book_table.getColumnModel().getColumn(2).setPreferredWidth(30);
+		book_table.getColumnModel().getColumn(3).setPreferredWidth(30);
+		book_table.getColumnModel().getColumn(4).setPreferredWidth(30);
+		book_table.getColumnModel().getColumn(5).setPreferredWidth(40);
+		book_table.getColumnModel().getColumn(6).setPreferredWidth(40);
 
 		book_table.setFont(Commons.getFont());
 		book_pane.setEnabled(false);
@@ -166,7 +174,7 @@ public class Admin_DeleteUI implements ActionListener{
 		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
 			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 			TableColumnModel tcmSchedule = book_table.getColumnModel();
-			for (int i = 0; i < tcmSchedule.getColumnCount()-1; i++) {
+			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
 				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
 			}
         

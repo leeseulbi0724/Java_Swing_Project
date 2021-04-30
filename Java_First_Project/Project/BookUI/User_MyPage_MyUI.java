@@ -20,8 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import BookSystem.BookSystem;
@@ -33,7 +36,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	User_MyPageUI main;
 	JButton btn_delete;
 	ArrayList<Object> list = new ArrayList<Object>();
-	String[] colName = {"분류", "제목", "내용", "작성날짜"};
+	String[] colName = {"분류", "제목", "작성날짜"};
 	DefaultTableModel model= new DefaultTableModel(colName, 0);
 	JTable board_table = new JTable(model);
 	Object[] row = new Object[5];
@@ -45,7 +48,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	BookVO book;
 	
 	JPopupMenu popupMenu;
-	JMenuItem remove, update;
+	JMenuItem view, update;
 	JCheckBox checkbox_review, checkbox_board;
 	
 	public User_MyPage_MyUI(User_MyPageUI main) {
@@ -84,6 +87,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 					model.setColumnIdentifiers(colName);
 					board_table.setModel(model);
 					board_table.setRowHeight(20);
+					sort();
 				}
 			}
 		});
@@ -102,6 +106,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 					model.setColumnIdentifiers(colName);
 					board_table.setModel(model);
 					board_table.setRowHeight(20);
+					sort();
 				}
 			}
 		});
@@ -138,14 +143,13 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 		head.setForeground(new Color(255,255,255));		
 		
 		  popupMenu = new JPopupMenu();		  
-		 remove = new JMenuItem("내용보기");
-		  remove.addActionListener(this);
-          popupMenu.add(remove);          
+		  view = new JMenuItem("내용보기");
+		  view.addActionListener(this);
+          popupMenu.add(view);          
           update = new JMenuItem("수정하기");
           update.addActionListener(this);
           popupMenu.add(update);          
-          board_table.setComponentPopupMenu(popupMenu);      
-          
+          board_table.setComponentPopupMenu(popupMenu);         
           
           
           board_table.addMouseListener(this);
@@ -155,9 +159,22 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
           checkbox_board.setFont(Commons.getFont());
           checkbox_review.setFont(Commons.getFont());
           btn_delete.setFont(Commons.getFont());
-          remove.setFont(Commons.getFont());
-          update.setFont(Commons.getFont());
+          view.setFont(Commons.getFont());
+          update.setFont(Commons.getFont());    
+          
+          sort();
+
+          
 	}//init
+	
+	public void sort() {
+		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcmSchedule = board_table.getColumnModel();
+		for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+			tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+		}
+	}
 
 	
 	//table에 출력되는 데이터 생성 - 일단은 게시판(카테고리, 제목, 내용, 날짜) 갖고오기
@@ -167,8 +184,7 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 		for(BoardVO board : boardlist) {
 			row[0] = board.getCategory();
 			row[1] = board.getTitle();
-			row[2] = board.getContent();
-			row[3] = board.getDate();
+			row[2] = board.getDate();
 			
 			model.addRow(row);
 		}
@@ -182,12 +198,12 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 		for(BoardVO board : boardlist) {
 			row[0] = board.getCategory();
 			row[1] = board.getTitle();
-			row[2] = board.getContent();
-			row[3] = board.getDate();
+			row[2] = board.getDate();
 			
 			model.addRow(row);
 		}
 		model.fireTableDataChanged();
+		sort();
 	}
 
 	//table에서 삭제하는 이벤트 - 게시판 글 삭제 메소드
@@ -248,7 +264,8 @@ public class User_MyPage_MyUI extends JFrame implements MouseListener, ActionLis
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JMenuItem menu = (JMenuItem) e.getSource();
-		if (menu == remove) {
+		// 내용보기
+		if (menu == view) {
 			if(checkbox_board.isSelected()) {
 				String bid = boardlist.get(board_table.getSelectedRow()).getBid();
 				BoardVO vo = system.board_result(bid);	

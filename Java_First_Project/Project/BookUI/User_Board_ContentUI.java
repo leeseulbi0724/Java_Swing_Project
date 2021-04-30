@@ -72,14 +72,14 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		write_btn = new JButton("¿€º∫");
 		title_tf.setBounds(91, 40, 388, 25);
 		content_ta.setBounds(91, 75, 388, 186);			
-		comment_ta.setBounds(91, 285, 388, 60);
+		comment_ta.setBounds(91, 285, 388, 150);
 		
 		JPanel wpanel = new JPanel(new BorderLayout());
-		wpanel.setBounds(91, 350, 388, 20);
+		wpanel.setBounds(91, 390, 388, 20);
 		wpanel.add(BorderLayout.CENTER, comment_tf);		wpanel.add(BorderLayout.EAST, write_btn);
 		
 		JScrollPane scrollPane = new JScrollPane(comment_ta);
-		scrollPane.setBounds(91, 285, 388, 60);
+		scrollPane.setBounds(91, 285, 388, 100);
 		scrollPane.setVisible(true);
 		
 		title_tf.setText(title); 		content_ta.setText(content);
@@ -99,6 +99,7 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		label_comment.setFont(Commons.getFont());
 		title_tf.setFont(Commons.getFont());
 		content_ta.setFont(Commons.getFont());
+		comment_ta.setFont(Commons.getFont());
 		comment_tf.setFont(Commons.getFont());
 		write_btn.setFont(Commons.getFont());
 		title_tf.setBackground(Color.WHITE);
@@ -119,10 +120,11 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 	}	
 	
 	public void comment_select() {
+		comment_ta.setText("");
 		ArrayList<BoardVO> list = system.board_comment_select(bid);
 		System.out.println(list.size());
 		for (BoardVO vo : list) {
-				comment_ta.append(" [ " + vo.getId()+"¥‘ ] " + vo.getContent() + " "+vo.getDate()+"\n");
+				comment_ta.append(" [ " + vo.getId()+"¥‘ ] " + vo.getContent() + " ("+vo.getDate()+") \n");
 		}
 	}
 	
