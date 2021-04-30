@@ -132,7 +132,14 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 		head.setForeground(new Color(255,255,255));		
 		
 		/** 이벤트 처리 **/
-		btn_order.addActionListener(this);
+		btn_order.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object obj = e.getSource();
+				if(obj.equals(btn_order)) {
+					Order_proc();				
+				}
+			}
+		});
 		board_table.addMouseListener(this);
 		
 		
@@ -221,9 +228,7 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		JMenuItem menu = (JMenuItem) e.getSource();
 		Object obj = e.getSource();
-		if (obj.equals(btn_order)) {
-			Order_proc();
-		} else if (menu == remove) {
+		 if (menu == remove) {
 			Order_remove();
 		}
 		
