@@ -265,8 +265,7 @@ public class BookDAO extends DBConn {
 		
 		try {
 			String sql = " select rownum, bookname, author, pblsh, price, count, orderdate from " 
-					+ "(select bookname, author, pblsh, price, count, orderdate from BOOK_USER_ORDER  where id = ?) "
-					+ "order by orderdate desc ";
+					+ "(select bookname, author, pblsh, price, count, orderdate from BOOK_USER_ORDER  where id = ? order by orderdate desc) ";
 			getPreparedStatement(sql);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();

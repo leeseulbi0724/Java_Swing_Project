@@ -11,7 +11,7 @@ public class BoardDAO extends DBConn {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
 		try {
-			String sql = " SELECT BOOKNAME, CONTENT, RDATE, RID FROM BOOK_REVIEW WHERE ID = ? ";
+			String sql = " SELECT BOOKNAME, CONTENT, RDATE, RID FROM BOOK_REVIEW WHERE ID = ? ORDER BY RDATE DESC";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);
@@ -39,7 +39,7 @@ public class BoardDAO extends DBConn {
  		ArrayList<BoardVO> writelist = new ArrayList<BoardVO>();
 		
 		try {
-			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE, BID FROM BOOK_BOARD WHERE ID = ? ";
+			String sql = " SELECT CATEGORY, TITLE, CONTENT, WDATE, BID FROM BOOK_BOARD WHERE ID = ? ORDER BY WDATE DESC";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, id);
