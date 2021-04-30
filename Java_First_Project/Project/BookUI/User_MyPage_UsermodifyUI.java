@@ -121,7 +121,6 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 		id_label.setFont(Commons.getFont());
 		id_text.setFont(Commons.getFont());
 		password_label.setFont(Commons.getFont());
-		password_tf.setFont(Commons.getFont());
 		birthday_label.setFont(Commons.getFont());
 		birthday_text.setFont(Commons.getFont());
 		hp_label.setFont(Commons.getFont());
@@ -138,7 +137,7 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj.equals(btn_modify_check)) {
-			int result = JOptionPane.showConfirmDialog(null, "수정을 완료하시겠습니까?");
+			int result = JOptionPane.showConfirmDialog(null, Commons.getMsg("수정을 완료하시겠습니까?"));
 			if(result == 0) {
 				modify_proc();
 			}
@@ -158,7 +157,11 @@ public class User_MyPage_UsermodifyUI implements ActionListener {
 			
 			if(result == 0) {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("수정이 완료되었습니다"));
-				resetTf_proc();
+				JOptionPane.showMessageDialog(null, Commons.getMsg("다시 로그인 해주세요"));
+				main.main.mainPanel.setVisible(false);
+				main.main.topPanel.setVisible(false);
+				main.main.main.login_panel.setVisible(true);
+				new LoginUI();
 			} else {
 				JOptionPane.showMessageDialog(null, Commons.getMsg("수정에 실패하였습니다"));
 			}

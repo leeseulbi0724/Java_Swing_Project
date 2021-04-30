@@ -40,8 +40,8 @@ public class Admin_DeleteUI implements ActionListener{
 //	JTable book_table;
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
-	String boxname;
 	BookSystem system;
+	String comboname;
 	
 	Object[] header = {"번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
 	JTable book_table = new JTable();
@@ -105,7 +105,7 @@ public class Admin_DeleteUI implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		String comboname = (String)comboBox.getSelectedItem();
+		comboname = (String)comboBox.getSelectedItem();
 		int i = 0;
 		if (obj.equals(search_tf) || obj.equals(btn_search)) {
 			ArrayList<BookVO> list = main.system.Book_Equals(comboname);
@@ -174,7 +174,7 @@ public class Admin_DeleteUI implements ActionListener{
 		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
 			tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 			TableColumnModel tcmSchedule = book_table.getColumnModel();
-			for (int i = 0; i < tcmSchedule.getColumnCount(); i++) {
+			for (int i = 0; i < tcmSchedule.getColumnCount()-1; i++) {
 				tcmSchedule.getColumn(i).setCellRenderer(tScheduleCellRenderer);
 			}
         
@@ -193,8 +193,7 @@ public class Admin_DeleteUI implements ActionListener{
 		    public TableUpdateCell(String name, Admin_DeleteUI mlist, BookSystem system, int option) {
 		    	this.system= system;
 		        jb = new JButton(name);
-		        jb.setFont(Commons.getFont());
-		        
+		        jb.setFont(Commons.getFont());		        
 		        jb.addActionListener(new ActionListener() {
 		            public void actionPerformed(ActionEvent e) {
 		            	String name = e.getActionCommand();            
@@ -204,7 +203,7 @@ public class Admin_DeleteUI implements ActionListener{
 		            		int confirm=JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 삭제하시겠습니까?"));
 			            	if(confirm==0) {	            		
 			            		if(option == Admin_DeleteUI.LIST) {
-			            			if (main.system.Admin_Delete(search_tf.getText())) {
+			            			if (main.system.Admin_Delete(comboname, search_tf.getText())) {
 										JOptionPane.showMessageDialog(null, Commons.getMsg("삭제가 완료되었습니다."));
 										main.switching(Admin_MainUI.home);						
 			            		}			            		

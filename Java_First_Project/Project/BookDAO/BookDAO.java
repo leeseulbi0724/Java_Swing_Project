@@ -101,11 +101,16 @@ public class BookDAO extends DBConn {
 	
 	
 	/** 관리자 - 도서삭제 **/
-	public boolean getResultDelete(String name) {
+	public boolean getResultDelete(String comboname, String name) {
 		boolean result = false;		
 		try {			
-			String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";				
-			getPreparedStatement(sql);
+			if (comboname == "도서번호") {
+				String sql = " DELETE FROM BOOK_DATA WHERE BNO = ?";				
+				getPreparedStatement(sql);				
+			} else {
+				String sql = " DELETE FROM BOOK_DATA WHERE BOOKNAME = ?";				
+				getPreparedStatement(sql);				
+			}
 			pstmt.setString(1, name);						
 			int val = pstmt.executeUpdate();
 			if (val != 0) {
