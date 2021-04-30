@@ -50,7 +50,7 @@ public class LoginUI implements ActionListener {
 
 	//init
 	public void init() {
-		frame = new JFrame("½Ö¿ë ¹®°í");
+		frame = new JFrame("½Ö¿ë BookStore");
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(100, 100, 804, 540);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
