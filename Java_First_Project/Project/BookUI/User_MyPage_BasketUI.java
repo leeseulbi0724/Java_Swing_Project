@@ -185,7 +185,7 @@ public class User_MyPage_BasketUI implements MouseListener, ActionListener{
 	public void Order_remove() {
 		if (bookname != null) {
 			if (system.User_Basket_Delete(userid, vo)) {
-				JOptionPane.showMessageDialog(null, Commons.getMsg("선택한 도서의 주문이 삭제되었습니다."));	
+				JOptionPane.showMessageDialog(null, Commons.getMsg("선택한 도서가 삭제되었습니다."));	
 				new User_MyPage_BasketUI(main);
 			}
 		} else {
