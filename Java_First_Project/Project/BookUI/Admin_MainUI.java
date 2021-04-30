@@ -213,7 +213,7 @@ public class Admin_MainUI  implements ActionListener {
 				} else if (obj.equals(btn_user_select)) {
 					new Admin_MemberViewsUI(Admin_MainUI.this); // 회원조회
 				} else if (obj.equals(btn_logout)) { 
-					int result = JOptionPane.showConfirmDialog(null, "정말로 로그아웃 하시겠습니까?"); // 로그아웃
+					int result = JOptionPane.showConfirmDialog(null, Commons.getMsg("정말로 로그아웃 하시겠습니까?")); // 로그아웃
 					if (result == 0 ) {
 						btn_panel.setVisible(false);
 						top_panel.setVisible(false);
