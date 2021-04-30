@@ -106,7 +106,7 @@ public class MemberDAO extends DBConn {
 			
 		try {
 			String sql = " SELECT ROWNUM RNO, ID, PASS, NAME, BIRTHDAY, HP, ADDR " 
-						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY ID DESC) WHERE ID != '包府磊' AND ID != 'admin'  ";
+						+ " FROM (SELECT ID,PASS,NAME,BIRTHDAY,HP,ADDR FROM BOOK_USERS ORDER BY SIGNDATE) WHERE ID != '包府磊' AND ID != 'admin'  ";
 			getPreparedStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {

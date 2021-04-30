@@ -45,8 +45,7 @@ public class Admin_DeleteUI implements ActionListener{
 	
 	Object[] header = {"번호", "도서명", "저자", "출판사", "가격", "발행일", "삭제"};		
 	JTable book_table = new JTable();
-	JScrollPane book_pane = new JScrollPane(book_table);	
-	JScrollPane scrollPane = new JScrollPane();		
+	JScrollPane scrollPane = new JScrollPane(book_table);		
 	
 	static final int LIST= 1;
 
@@ -167,8 +166,8 @@ public class Admin_DeleteUI implements ActionListener{
 		book_table.getColumnModel().getColumn(6).setPreferredWidth(40);
 
 		book_table.setFont(Commons.getFont());
-		book_pane.setEnabled(false);
-		scrollPane.setViewportView(book_pane);	
+//		book_pane.setEnabled(false);
+		scrollPane.setViewportView(book_table);	
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		
 		 DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();

@@ -58,11 +58,11 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		String[] colName = {"NO", "분야", "제목", "작성자", "작성날짜"};
 		DefaultTableModel model = new DefaultTableModel(colName, 0);		
 		
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(board_table);
 		
 		board_table = new JTable(model);
-		JScrollPane board_pane = new JScrollPane(board_table);
-		scrollPane.setViewportView(board_pane);
+//		JScrollPane board_pane = new JScrollPane(board_table);
+		scrollPane.setViewportView(board_table);
 		
 		JLabel label_board = new JLabel("게시판");
 		label_board.setHorizontalAlignment(SwingConstants.CENTER);

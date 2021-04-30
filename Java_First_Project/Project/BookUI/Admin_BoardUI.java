@@ -87,10 +87,10 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	     board_table.getColumnModel().getColumn(1).setResizable(false);
 	     board_table.getColumnModel().getColumn(1).setPreferredWidth(270);
 	     
-	     JScrollPane board_pane = new JScrollPane(board_table);
-		 board_pane.setEnabled(false);
-		 JScrollPane scrollPane = new JScrollPane();
-		 scrollPane.setViewportView(board_pane);
+//	     JScrollPane board_pane = new JScrollPane(board_table);
+//		 board_pane.setEnabled(false);
+		 JScrollPane scrollPane = new JScrollPane(board_table);
+		 scrollPane.setViewportView(board_table);
 		 main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		    
 		 /** 테이블 색 설정 **/

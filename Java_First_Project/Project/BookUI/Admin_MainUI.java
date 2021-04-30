@@ -111,12 +111,11 @@ public class Admin_MainUI  implements ActionListener {
 		name_panel.add(name_label);
 		content_panel.add(name_panel, BorderLayout.NORTH);
 				
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane(book_table);
 		book_table = new JTable(model);
-		book_pane = new JScrollPane(book_table);
-		scrollPane.setViewportView(book_pane);		
+		scrollPane.setViewportView(book_table);		
 		content_panel.add(scrollPane, BorderLayout.CENTER);		
-		book_pane.setEnabled(false);
+		scrollPane.setEnabled(false);
 		
 		content_panel.setVisible(true);
 		frame.getContentPane().add(content_panel);
@@ -139,7 +138,7 @@ public class Admin_MainUI  implements ActionListener {
 		btn_logout.setFont(Commons.getFont());
 		name_label.setFont(Commons.getFont());
 		book_table.setFont(Commons.getFont());
-		book_pane.setFont(Commons.getFont());
+//		book_pane.setFont(Commons.getFont());
 		btn_insert.setFont(Commons.getFont());
 		
 		/** 테이블 색 설정 **/
