@@ -143,7 +143,7 @@ public class User_WriteUI extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btn_reset)) {
-			new User_BoardUI(main);
+			dispose();
 		} else if (obj.equals(comboBox)) {
 			comboBox_form();
 		} else if (obj.equals(btn_write)) {
