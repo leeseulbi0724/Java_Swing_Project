@@ -31,9 +31,7 @@ public class FindPassUI extends JDialog implements ActionListener{
 	String tmp_pass;
 	JLabel temp_pass_label;
 	
-	BookSystem system;
-	
-//	ArrayList<JTextField> tf_list;
+	BookSystem system;	
 	FindPassUIEvent eventObj = new FindPassUIEvent(this);
 	
 	//Constructor

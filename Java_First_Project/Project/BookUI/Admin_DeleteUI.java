@@ -37,7 +37,6 @@ public class Admin_DeleteUI implements ActionListener{
 	JPanel bottom_panel;
 	JButton btn_search;
 	JTextField search_tf;	
-//	JTable book_table;
 	JComboBox comboBox;
 	ArrayList<BookVO> list;
 	BookSystem system;
@@ -166,7 +165,6 @@ public class Admin_DeleteUI implements ActionListener{
 		book_table.getColumnModel().getColumn(6).setPreferredWidth(40);
 
 		book_table.setFont(Commons.getFont());
-//		book_pane.setEnabled(false);
 		scrollPane.setViewportView(book_table);	
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		

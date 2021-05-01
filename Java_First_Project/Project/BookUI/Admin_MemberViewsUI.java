@@ -68,7 +68,6 @@ public class Admin_MemberViewsUI implements ActionListener {
 		main.switching(Admin_MainUI.User_select);		
 
 		scrollPane = new JScrollPane(member_table);		
-//		member_pane = new JScrollPane();
 		
 		bottom_panel = new JPanel();
 		bottom_panel.setBackground(new Color(176, 196, 222));
@@ -157,7 +156,6 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(7).setResizable(false);
 	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);	   
 	     
-//	     member_pane.setViewportView(member_table);
 	     scrollPane.setViewportView(member_table);	  
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		main.content_panel.setVisible(true);
@@ -218,7 +216,6 @@ public class Admin_MemberViewsUI implements ActionListener {
 	     member_table.getColumnModel().getColumn(7).setResizable(false);
 	     member_table.getColumnModel().getColumn(7).setPreferredWidth(140);	    
 	    		
-//	    member_pane.setViewportView(member_table);
 	    scrollPane.setViewportView(member_table);		
 		main.content_panel.add(scrollPane, BorderLayout.CENTER);
 		main.content_panel.setVisible(true);

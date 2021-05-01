@@ -180,7 +180,6 @@ public class User_MainUI implements ActionListener{
 		bookList_btn = new JButton("도 서 전 체 리 스 트");
 		bookList_btn.setBackground(new Color(255, 228, 225));
 		bookList_btn.setBounds(287, 346, 201, 20);
-//		bookList_btn.setBorder(null);
 		bookList_btn.setFocusPainted(false);
 		content_panel.add(bookList_btn);
 		
@@ -236,11 +235,7 @@ public class User_MainUI implements ActionListener{
 		ImageIcon icon01 = new ImageIcon("images/Label01.PNG");
 		int h = icon01.getIconHeight();
 		int w = icon01.getIconWidth();
-//		ImageIcon imageSetSize(icon01, w, h) {
-//			
-//		}
 		
-		//
 		Label_01 = new JButton();
 		Label_01.setBounds(607, 0, 185, 90);
 		Label_01.setIcon(icon01);

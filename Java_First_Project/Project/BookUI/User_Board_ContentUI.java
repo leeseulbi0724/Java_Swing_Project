@@ -93,7 +93,6 @@ public class User_Board_ContentUI extends JDialog implements ActionListener{
 		write_panel.add(wpanel);
 		
 		/** **/
-//		Label.setFont(Commons.getFont());
 		label_title.setFont(Commons.getFont());
 		label_content.setFont(Commons.getFont());
 		label_comment.setFont(Commons.getFont());

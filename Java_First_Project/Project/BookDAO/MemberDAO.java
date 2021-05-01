@@ -300,6 +300,7 @@ public class MemberDAO extends DBConn {
 		
 	}	
 	
+	/** 회원 삭제 **/
 	public boolean getUserDelete(String name) {
 		boolean result = false;
 		try {

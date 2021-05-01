@@ -171,38 +171,42 @@ public class BookSystem {
 			return mdao.CheckID(name);
 		}
 		
-		/** **/
+		/** 비밀번호찾기 - 회원체크 **/
 		public boolean CheckInfo(String name, String birthday, String id) {
 			return mdao.CheckInfo(name, birthday, id);
 		}
 		
-		/** **/
+		/** 사용자, 관리자 - 게시판 목록 불러오기 **/
 		public ArrayList<BoardVO> getBoardSelect() {
 			return adao.getBoardSelect();
 		}
 		
-		/** **/
+		/** 사용자 - 게시판 클릭 시 해당 게시판 내용 가져오기 **/
 		public ArrayList<MemberVO> getResultSelect() {
 			return mdao.getResultSelect();
 		}
 		
-		/** **/
+		/** 회원검색 **/
 		public ArrayList<MemberVO> search(String combo, String name) {
 			return mdao.search(combo, name);
 		}
 		
+		/** 마이페이지 - 회원정보 가져오기 **/
 		public MemberVO MemberInfo(String name) {
 			return mdao.MemberInfo(name);
 		}
 		
+		/** 마이페이지 - 비밀번호 확인 **/
 		public boolean CheckPass(String pass, String name) {
 			return mdao.CheckPass(pass, name);
 		}
 		
+		/** 도서 구매 순위 구하기 **/
 		public ArrayList<BookVO> getRank() {
 			return bdao.getRank();
 		}
 		
+		/** 회원 삭제 **/		
 		public boolean User_delete(String name) {
 			return mdao.getUserDelete(name);
 		}

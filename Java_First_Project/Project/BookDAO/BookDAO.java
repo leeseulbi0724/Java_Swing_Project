@@ -122,6 +122,7 @@ public class BookDAO extends DBConn {
 		return result;
 	}
 	
+	/** 도서 검색 시 같은 도서번호 or 도서명 조회 **/
 	public ArrayList<BookVO> getBookEquals(String comboname) {
 		ArrayList<BookVO> list = new ArrayList<BookVO>();
 		try {

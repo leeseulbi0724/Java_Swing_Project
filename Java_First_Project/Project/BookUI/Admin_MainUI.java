@@ -138,7 +138,6 @@ public class Admin_MainUI  implements ActionListener {
 		btn_logout.setFont(Commons.getFont());
 		name_label.setFont(Commons.getFont());
 		book_table.setFont(Commons.getFont());
-//		book_pane.setFont(Commons.getFont());
 		btn_insert.setFont(Commons.getFont());
 		
 		/** 테이블 색 설정 **/

@@ -39,7 +39,6 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	BookSystem system;
 	JTable board_table;
 	String name = "관리자";
-	User_Board_ContentUI user;
 	
 	public Admin_BoardUI(Admin_MainUI main) {
 		this.system = main.system;
@@ -87,8 +86,6 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	     board_table.getColumnModel().getColumn(1).setResizable(false);
 	     board_table.getColumnModel().getColumn(1).setPreferredWidth(270);
 	     
-//	     JScrollPane board_pane = new JScrollPane(board_table);
-//		 board_pane.setEnabled(false);
 		 JScrollPane scrollPane = new JScrollPane(board_table);
 		 scrollPane.setViewportView(board_table);
 		 main.content_panel.add(scrollPane, BorderLayout.CENTER);
@@ -111,12 +108,7 @@ public class Admin_BoardUI implements ActionListener, MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == 1 ) { // 한번 클릭
-			  //선택한 셀의 행 번호계산 
-//			  int row = board_table.getSelectedRow();		  
-			  //테이블의 모델객체 얻어오기
-//			  TableModel data = board_table.getModel();		
-			
+		if (e.getButton() == 1 ) {			
 			String bid = blist.get(board_table.getSelectedRow()).getBid();
 			BoardVO vo = system.board_result(bid);	
 			User_Board_ContentUI ui = new User_Board_ContentUI(vo, name, frame, system);

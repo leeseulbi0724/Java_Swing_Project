@@ -61,7 +61,6 @@ public class User_BoardUI implements ActionListener, MouseListener {
 		JScrollPane scrollPane = new JScrollPane(board_table);
 		
 		board_table = new JTable(model);
-//		JScrollPane board_pane = new JScrollPane(board_table);
 		scrollPane.setViewportView(board_table);
 		
 		JLabel label_board = new JLabel("°Ô½ÃÆÇ");
